@@ -34,6 +34,9 @@ const AlphaZoo = lazy(() =>
 const OptionsLab = lazy(() =>
   import("@/pages/OptionsLab").then((m) => ({ default: m.OptionsLab })),
 );
+const Watchlist = lazy(() =>
+  import("@/pages/Watchlist").then((m) => ({ default: m.Watchlist })),
+);
 
 function PageLoader() {
   return (
@@ -62,6 +65,7 @@ export const router = createBrowserRouter([
       { path: "/scheduled", element: wrap(Scheduled) },
       { path: "/reports", element: wrap(Reports) },
       { path: "/portfolio", element: wrap(Portfolio) },
+      { path: "/watchlist", element: wrap(Watchlist) },
       { path: "/settings", element: wrap(Settings) },
       { path: "/runs/:runId", element: wrap(RunDetail) },
       { path: "/compare", element: wrap(Compare) },

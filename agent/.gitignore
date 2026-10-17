@@ -7,3 +7,6 @@ __pycache__/
 runs/
 
 .env
+
+# F1 home pin (agent/.vibe_home): one line naming the runtime home.
+.vibe_home

@@ -181,7 +181,6 @@ app.middleware("http")(_reject_untrusted_loopback_host)
 app.middleware("http")(_spa_html_deep_link_fallback)
 app.middleware("http")(_apply_security_headers)
 
-
 # Route registration + re-exports
 
 # --- Runs ---
@@ -259,6 +258,8 @@ register_live_routes(app)
 # --- Read-only portfolio dashboard ---
 from src.api.portfolio_routes import register_portfolio_routes  # noqa: E402
 register_portfolio_routes(app)
+from src.api.watchlist_routes import register_watchlist_routes  # noqa: E402
+register_watchlist_routes(app)
 
 from src.api.connection_routes import register_connection_routes  # noqa: E402
 register_connection_routes(app)

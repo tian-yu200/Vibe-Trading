@@ -37,6 +37,13 @@ export function isAuthRequiredError(error: unknown): boolean {
   return error instanceof ApiError && (error.status === 401 || error.status === 403);
 }
 
+/** F1: the watchlist API answers HTTP 503 with the HomeMismatch message
+ * verbatim in ``detail`` when the process resolved the wrong runtime home.
+ * The UI must surface that message instead of a generic error. */
+export function isHomeMismatchError(error: unknown): error is ApiError {
+  return error instanceof ApiError && error.status === 503;
+}
+
 export interface CorrelationResponse {
   labels: string[];
   matrix: number[][];
@@ -369,6 +376,236 @@ function appendQueryParam(url: string, key: string, value: string): string {
   return `${url}${sep}${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
 }
 
+// ── Watchlist (A-share market scanner) ────────────────────────────────────────
+// Types mirror the CONTRACT §10 `get_watchlist()` view and §11 endpoints.
+
+/** Sub-scores of a pick. `flow` is null when the flow source returned nothing. */
+export interface WatchlistSubScores {
+  fundamental: number | null;
+  trend: number | null;
+  flow: number | null;
+}
+
+/** A cited reason or red flag; `cites` holds stable ids (N1/A1/R1/M:roe). */
+export interface WatchlistCited {
+  text: string;
+  cites?: string[];
+}
+
+/**
+ * One resolved citation backing an AI reason/red flag. The id matches a
+ * `cites` entry; `kind` says what kind of artifact it points at. Older runs
+ * have no `evidence`, so every field beyond `id`/`kind` is optional.
+ */
+export interface WatchlistEvidence {
+  id: string;
+  kind: "news" | "announcement" | "red_flag" | "metric";
+  date?: string | null;
+  title_or_text?: string | null;
+  source?: string | null;
+  url?: string | null;
+  name?: string | null;
+  value?: string | number | null;
+}
+
+/** AI review attached to a pick (CONTRACT §7 Pick.ai). */
+export interface WatchlistAi {
+  status: "reviewed" | "not_reviewed" | "failed";
+  verdict?: "watch" | "neutral" | "avoid" | null;
+  summary?: string | null;
+  reasons?: WatchlistCited[];
+  red_flags?: (WatchlistCited & { type?: string })[];
+  news_checked?: boolean;
+  note?: string | null;
+  confidence?: number | null;
+  evidence?: WatchlistEvidence[];
+  /** Why the review failed (CONTRACT §10 AI failure kinds). */
+  failure_kind?: "quota" | "invalid_json" | "timeout" | "error" | null;
+}
+
+/** Per-source status of the latest run (SourceStatus.to_dict()). */
+export interface WatchlistSourceStatus {
+  name: string;
+  status: "ok" | "degraded" | "failed";
+  note?: string | null;
+  /** Human-readable detail line (the API field; `note` kept for tolerance). */
+  detail?: string | null;
+  count?: number | null;
+  failed?: number | null;
+  /** When the source's data is from: a session/report date, or "intraday". Optional for older runs. */
+  as_of?: string | null;
+}
+
+/** One entry on the watchlist. */
+export interface WatchlistItem {
+  code: string;
+  name: string;
+  board?: string | null;
+  industry?: string | null;
+  origin: "auto" | "manual";
+  change: "new" | "kept" | "restored" | "manual";
+  rank?: number | null;
+  score?: number | null;
+  sub_scores?: WatchlistSubScores | null;
+  reasons?: string[];
+  flags?: string[];
+  ai?: WatchlistAi | null;
+  added_at?: string | null;
+  note?: string | null;
+  scores_available: boolean;
+  unscored_reason?: string | null;
+}
+
+/** A stock dropped since the previous successful run. */
+export interface WatchlistDropped {
+  code: string;
+  name: string;
+  prev_rank?: number | null;
+  reason?: string | null;
+  /** AI demotion verdict when the stock was dropped because the AI demoted it. */
+  ai_verdict?: string | null;
+  /** Free-text reason behind the AI demotion. */
+  ai_reason?: string | null;
+  /** Citation codes backing the AI demotion. */
+  ai_cites?: string[] | null;
+}
+
+/** A previously-removed stock that qualifies again (suppressed, restore offered). */
+export interface WatchlistRequalified {
+  code: string;
+  name: string;
+  rank?: number | null;
+  score?: number | null;
+  sub_scores?: WatchlistSubScores | null;
+  reasons?: string[];
+  removed_at?: string | null;
+  label?: string | null;
+}
+
+/**
+ * Coverage counters of a run: the pipeline coverage dict plus the kline
+ * full-history count. Absent on older runs — the UI hides the coverage
+ * line then.
+ */
+export interface WatchlistCoverage {
+  passed_exclusions?: number | null;
+  insufficient?: number | null;
+  scored?: number | null;
+  trend_scored?: number | null;
+  flow_real?: number | null;
+  flow_neutral?: number | null;
+  kline_full_history?: number | null;
+}
+
+/** One funnel stage as served by the API (contract list of objects). */
+export interface WatchlistFunnelEntry {
+  stage: string;
+  count?: number | null;
+  removed?: number | null;
+  note?: string | null;
+}
+
+/** The latest completed scan, reduced to what the summary strip renders. */
+export interface WatchlistLatestRun {
+  run_id: string;
+  trade_date?: string | null;
+  /** True when the run used intraday snapshots instead of the closing print. Optional for older runs. */
+  intraday?: boolean | null;
+  finished_at?: string | null;
+  status: "ok" | "partial" | "failed";
+  ai_status?: "reviewed" | "not_reviewed" | "partial" | null;
+  ai_note?: string | null;
+  duration_s?: number | null;
+  trigger?: string | null;
+  funnel?: WatchlistFunnelEntry[];
+  sources?: WatchlistSourceStatus[];
+  counts?: Record<string, number>;
+  coverage?: WatchlistCoverage | null;
+}
+
+/** Staleness marker: set when the latest completed trading day has no successful scan. */
+export interface WatchlistStale {
+  is_stale: boolean;
+  latest_trading_day?: string | null;
+  last_scan_trade_date?: string | null;
+  last_scan_at?: string | null;
+}
+
+/** Response of `GET /api/watchlist`. */
+export interface WatchlistView {
+  disclaimer: string;
+  stale?: WatchlistStale | null;
+  latest_run?: WatchlistLatestRun | null;
+  /** The most recent failed run, if any (same shape as latest_run). */
+  last_failed_run?: WatchlistLatestRun | null;
+  items: WatchlistItem[];
+  dropped: WatchlistDropped[];
+  requalified: WatchlistRequalified[];
+  ai_demoted: WatchlistItem[];
+}
+
+/** Response of `POST /api/watchlist/scan` (202 Accepted). */
+export interface WatchlistScanStart {
+  job_id?: string | null;
+  status?: string | null;
+}
+
+/** Response of `GET /api/watchlist/scan/status` (also tracks AI re-review jobs). */
+export interface WatchlistScanStatus {
+  running: boolean;
+  job_id?: string | null;
+  /** Which kind of job the shared state tracks: a scan or an AI re-review. */
+  kind?: "scan" | "review" | null;
+  stage?: string | null;
+  progress?: number | null;
+  started_at?: string | null;
+  finished_at?: string | null;
+  result?: Record<string, unknown> | null;
+  error?: string | null;
+}
+
+/** One entry of the run history (`GET /api/watchlist/runs`). */
+export interface WatchlistRunSummary {
+  run_id: string;
+  trade_date?: string | null;
+  /** True when the run used intraday snapshots. Optional for older runs. */
+  intraday?: boolean | null;
+  started_at?: string | null;
+  finished_at?: string | null;
+  duration_s?: number | null;
+  trigger?: string | null;
+  status: "ok" | "partial" | "failed";
+  ai_status?: "reviewed" | "not_reviewed" | "partial" | null;
+  counts?: Record<string, number>;
+}
+
+/** A single schedule slot inside settings (`get_settings()["schedule"]`). */
+export interface WatchlistScheduleSettings {
+  enabled: boolean;
+  time?: string | null;
+  timezone?: string | null;
+  catch_up?: boolean | null;
+}
+
+/** Response of `GET /api/watchlist/settings`. */
+export interface WatchlistSettings {
+  scan?: Record<string, unknown> | null;
+  schedule: WatchlistScheduleSettings;
+}
+
+/** Response of `GET /api/watchlist/schedule` (scheduler status + service staleness). */
+export interface WatchlistScheduleStatus {
+  status?: string;
+  enabled: boolean;
+  time?: string | null;
+  timezone?: string | null;
+  next_run_at?: string | null;
+  last_fired_at?: string | null;
+  last_result?: string | null;
+  running?: boolean;
+  stale?: WatchlistStale | Record<string, never>;
+}
+
 export const api = {
   uploadFile,
   getCorrelation: (codes: string, days: number, method: "pearson" | "spearman") =>
@@ -588,6 +825,52 @@ export const api = {
     if (expiration !== undefined) q.set("expiration", String(expiration));
     return request<OptionsChainResponse>(`/options/chain?${q.toString()}`);
   },
+
+  // Watchlist (A-share market scanner)
+  getWatchlist: () =>
+    request<{ status: string; watchlist: WatchlistView }>("/api/watchlist"),
+  addWatchlistItem: (code: string, note?: string | null) =>
+    request<{ status: string; item: WatchlistItem }>("/api/watchlist/items", {
+      method: "POST",
+      body: JSON.stringify(note ? { code, note } : { code }),
+    }),
+  removeWatchlistItem: (code: string) =>
+    request<{ status: string; item: WatchlistItem }>(`/api/watchlist/items/${encodeURIComponent(code)}`, {
+      method: "DELETE",
+    }),
+  restoreWatchlistItem: (code: string) =>
+    request<{ status: string; item: WatchlistItem }>(
+      `/api/watchlist/items/${encodeURIComponent(code)}/restore`,
+      { method: "POST" },
+    ),
+  startWatchlistScan: (overrides?: Record<string, unknown>) =>
+    request<WatchlistScanStart>("/api/watchlist/scan", {
+      method: "POST",
+      body: overrides ? JSON.stringify({ overrides }) : undefined,
+    }),
+  /** Re-run only the AI review (no market rescan): latest run, or `runId`. */
+  startWatchlistReview: (runId?: string) =>
+    request<WatchlistScanStart>(
+      runId ? `/api/watchlist/runs/${encodeURIComponent(runId)}/review` : "/api/watchlist/review",
+      { method: "POST" },
+    ),
+  getWatchlistScanStatus: () => request<WatchlistScanStatus>("/api/watchlist/scan/status"),
+  listWatchlistRuns: (limit?: number) =>
+    request<{ status: string; runs: WatchlistRunSummary[] }>(
+      `/api/watchlist/runs${limit !== undefined ? `?limit=${encodeURIComponent(String(limit))}` : ""}`,
+    ),
+  getWatchlistRun: (runId: string) =>
+    request<{ status: string; run: Record<string, unknown> }>(
+      `/api/watchlist/runs/${encodeURIComponent(runId)}`,
+    ),
+  getWatchlistSettings: () =>
+    request<{ status: string; settings: WatchlistSettings }>("/api/watchlist/settings"),
+  updateWatchlistSettings: (patch: Record<string, unknown>) =>
+    request<{ status: string; settings: WatchlistSettings }>("/api/watchlist/settings", {
+      method: "PUT",
+      body: JSON.stringify(patch),
+    }),
+  getWatchlistSchedule: () => request<WatchlistScheduleStatus>("/api/watchlist/schedule"),
 
   // Connector runtime channel — privileged surface actions (NOT agent tools).
   // commit is the ONLY action that writes a mandate; halt trips the kill switch.

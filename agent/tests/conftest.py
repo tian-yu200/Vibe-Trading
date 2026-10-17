@@ -56,7 +56,13 @@ if str(AGENT_DIR) not in sys.path:
 # %USERPROFILE%, so both spellings are set.
 _PRIOR_SANDBOX_ENV = {
     key: os.environ.get(key)
-    for key in ("VIBE_TRADING_HOME", "HOME", "USERPROFILE", "PYTHONPATH")
+    for key in (
+        "VIBE_TRADING_HOME",
+        "VIBE_TRADING_HOME_PIN",
+        "HOME",
+        "USERPROFILE",
+        "PYTHONPATH",
+    )
 }
 
 # Outcome guard, armed BEFORE the redirect so it reuses the app's own resolution
@@ -80,6 +86,11 @@ _REAL_LEDGERS = tuple(
 # escape attempt and refuses. Resolving here keeps one spelling everywhere.
 _SANDBOX_HOME = Path(tempfile.mkdtemp(prefix="vibe-trading-test-home-")).resolve()
 os.environ.pop("VIBE_TRADING_HOME", None)
+# F1: ``get_runtime_root()`` now falls back to the ``agent/.vibe_home`` pin
+# when the env override is absent. Point the pin lookup at a path that does not
+# exist inside the sandbox, so the repo pin (a developer's real home) can never
+# leak into a test. Tests of the pin set this explicitly and restore it.
+os.environ["VIBE_TRADING_HOME_PIN"] = str(_SANDBOX_HOME / "no-such-pin")
 os.environ["HOME"] = str(_SANDBOX_HOME)
 os.environ["USERPROFILE"] = str(_SANDBOX_HOME)
 (_SANDBOX_HOME / ".vibe-trading").mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,1505 @@
+{
+  "status": "ok",
+  "run": {
+    "run_id": "ee122cc9ef874408aab8cc8e76ad918f",
+    "trade_date": "2026-10-13",
+    "intraday": false,
+    "started_at": "2026-10-13T16:34:57.751680+08:00",
+    "finished_at": "2026-10-13T16:55:39.501501+08:00",
+    "duration_s": 1242.578,
+    "trigger": "cli",
+    "status": "ok",
+    "failure_reason": null,
+    "ai_status": "partial",
+    "ai_note": "AI review: 21 reviewed, 9 failed, 0 demoted, 0 forced",
+    "coverage": {
+      "passed_exclusions": 3676,
+      "insufficient": 0,
+      "insufficient_by_key": {},
+      "scored": 3676,
+      "trend_scored": 3676,
+      "flow_real": 3672,
+      "flow_neutral": 4,
+      "kline_full_history": 3676,
+      "trend_coverage": 1.0,
+      "fundamentals_coverage": 1.0,
+      "min_coverage": 0.9
+    },
+    "coverage_note": null,
+    "config": {
+      "top_n": 20,
+      "min_total_mv": 3000000000.0,
+      "min_avg_amount_20d": 50000000.0,
+      "min_listing_days": 365,
+      "include_star": true,
+      "include_chinext": true,
+      "weights": {
+        "fundamental": 0.4,
+        "trend": 0.35,
+        "flow": 0.25
+      },
+      "max_per_industry": 3,
+      "min_kline_bars": 120,
+      "kline_bars": 260,
+      "kline_workers": 6,
+      "ai_enabled": true,
+      "ai_review_pool": 30,
+      "ai_language": "en",
+      "ai_model": null,
+      "ai_fallback_model": null,
+      "ai_quota_wait_max_s": 300.0,
+      "ai_time_budget_s": 900.0,
+      "news_days": 30,
+      "min_coverage": 0.9
+    },
+    "funnel": [
+      {
+        "stage": "universe",
+        "count": 5573,
+        "removed": 0,
+        "note": null
+      },
+      {
+        "stage": "excluded:bse_unsupported",
+        "count": 5224,
+        "removed": 349,
+        "note": null
+      },
+      {
+        "stage": "excluded:st",
+        "count": 5026,
+        "removed": 198,
+        "note": null
+      },
+      {
+        "stage": "excluded:delisting",
+        "count": 5025,
+        "removed": 1,
+        "note": null
+      },
+      {
+        "stage": "excluded:suspended",
+        "count": 5020,
+        "removed": 5,
+        "note": null
+      },
+      {
+        "stage": "excluded:new_listing",
+        "count": 4931,
+        "removed": 89,
+        "note": null
+      },
+      {
+        "stage": "excluded:board_disabled",
+        "count": 4931,
+        "removed": 0,
+        "note": null
+      },
+      {
+        "stage": "excluded:micro_cap",
+        "count": 4224,
+        "removed": 707,
+        "note": null
+      },
+      {
+        "stage": "excluded:illiquid",
+        "count": 3676,
+        "removed": 548,
+        "note": null
+      },
+      {
+        "stage": "insufficient_data:liquidity",
+        "count": 3676,
+        "removed": 0,
+        "note": null
+      },
+      {
+        "stage": "insufficient_data:fundamentals",
+        "count": 3676,
+        "removed": 0,
+        "note": null
+      },
+      {
+        "stage": "insufficient_data:trend",
+        "count": 3676,
+        "removed": 0,
+        "note": null
+      },
+      {
+        "stage": "scored",
+        "count": 3676,
+        "removed": 0,
+        "note": null
+      },
+      {
+        "stage": "finalists",
+        "count": 20,
+        "removed": 3656,
+        "note": "top_n=20, max_per_industry=3"
+      },
+      {
+        "stage": "ai_demoted",
+        "count": 0,
+        "removed": 0,
+        "note": null
+      },
+      {
+        "stage": "watchlist",
+        "count": 20,
+        "removed": 0,
+        "note": null
+      }
+    ],
+    "sources": [
+      {
+        "name": "calendar",
+        "status": "ok",
+        "rows": 8797,
+        "latency_s": 0.0,
+        "error": null,
+        "detail": "source=cache range=1990-12-19..2026-12-31",
+        "as_of": "2026-12-31",
+        "requests": {},
+        "effective_rps": null
+      },
+      {
+        "name": "universe",
+        "status": "ok",
+        "rows": 5573,
+        "latency_s": 26.047,
+        "error": null,
+        "detail": "nodes hs_a+hs_bjs; BSE rows=349",
+        "as_of": "2026-10-13",
+        "requests": {},
+        "effective_rps": null
+      },
+      {
+        "name": "listing",
+        "status": "ok",
+        "rows": 5574,
+        "latency_s": 13.719,
+        "error": null,
+        "detail": "sources: sh+star/sz/bj akshare name lists; per-list sh=2320, sz=2905, bj=349; hs_a_coverage 100.00% (5225/5225, uncovered 0)",
+        "as_of": "2026-10-13",
+        "requests": {},
+        "effective_rps": null
+      },
+      {
+        "name": "fundamentals",
+        "status": "ok",
+        "rows": 11521,
+        "latency_s": 6.672,
+        "error": null,
+        "detail": "EM datacenter yjbb+zcfz+xjll; per-stock latest published period; periods=20260630,20260331,20251231,20250930",
+        "as_of": "2026-06-30 (11630), 2026-03-31 (6126), 2025-12-31 (11698), 2025-09-30 (6061)",
+        "requests": {},
+        "effective_rps": null
+      },
+      {
+        "name": "kline",
+        "status": "ok",
+        "rows": 4224,
+        "latency_s": 78.469,
+        "error": null,
+        "detail": "cache_hit=4207 appended_from_snapshot=3650 refetched=17 missing=0 failed=0 known_missing=0 breaker_trips=0 throttled=no budget_exhausted=no amount estimated from close*volume*100; source=tencent fqkline qfq",
+        "as_of": "2026-10-13",
+        "requests": {},
+        "effective_rps": null
+      },
+      {
+        "name": "benchmark",
+        "status": "ok",
+        "rows": 261,
+        "latency_s": 0.282,
+        "error": null,
+        "detail": "symbol=sh000300 bars=260 source=tencent fqkline",
+        "as_of": "2026-10-13",
+        "requests": {},
+        "effective_rps": null
+      },
+      {
+        "name": "fund_flow",
+        "status": "ok",
+        "rows": 5212,
+        "latency_s": 74.484,
+        "error": null,
+        "detail": "THS net flow, not Eastmoney main-force (push2 blocked on this network)",
+        "as_of": "2026-10-12",
+        "requests": {},
+        "effective_rps": null
+      },
+      {
+        "name": "dragon_tiger",
+        "status": "ok",
+        "rows": 467,
+        "latency_s": 12.625,
+        "error": null,
+        "detail": "window 2026-09-13..2026-10-13 source=EM datacenter LHB",
+        "as_of": "2026-10-13 (today's list not out yet, before ~17:30)",
+        "requests": {},
+        "effective_rps": null
+      },
+      {
+        "name": "northbound",
+        "status": "ok",
+        "rows": 500,
+        "latency_s": 0.39,
+        "error": null,
+        "detail": "semi-annual report 2026-06-30; info only, never scored",
+        "as_of": "2026-06-30",
+        "requests": {},
+        "effective_rps": null
+      },
+      {
+        "name": "news",
+        "status": "ok",
+        "rows": 265,
+        "latency_s": 0.719,
+        "error": null,
+        "detail": null,
+        "as_of": "2026-10-13",
+        "requests": {},
+        "effective_rps": null
+      },
+      {
+        "name": "announcements",
+        "status": "ok",
+        "rows": 121,
+        "latency_s": 0.922,
+        "error": null,
+        "detail": null,
+        "as_of": "2026-10-14",
+        "requests": {},
+        "effective_rps": null
+      },
+      {
+        "name": "red_flags",
+        "status": "ok",
+        "rows": 0,
+        "latency_s": 37.719,
+        "error": null,
+        "detail": "codes=30 stocks_with_partial_failure=0 pledge=ok",
+        "as_of": null,
+        "requests": {},
+        "effective_rps": null
+      }
+    ],
+    "picks": [
+      {
+        "code": "301087",
+        "name": "可孚医疗",
+        "board": "chinext",
+        "industry": "医疗器械",
+        "rank": 1,
+        "rule_rank": 1,
+        "score": 95.471,
+        "sub_scores": {
+          "fundamental": 94.7211,
+          "trend": 99.4558,
+          "flow": 91.0923
+        },
+        "metrics": {
+          "code": "301087",
+          "industry": "医疗器械",
+          "price": 56.0,
+          "pct_chg": -1.84,
+          "turnover_rate": 2.07385,
+          "total_mv": 13210232000.0,
+          "float_mv": 10863511120.0,
+          "pe": 30.601,
+          "pb": 2.39,
+          "report_period": "2026Q2",
+          "roe": 4.0,
+          "roe_ttm": null,
+          "roe_annualised": 8.0,
+          "eps": 0.95,
+          "eps_annualised": 1.9,
+          "bps": 23.428533737182,
+          "revenue_yoy": 38.5143639768,
+          "profit_yoy": 20.84,
+          "deduct_profit_yoy": 16.464080399673,
+          "profit_growth_input": 16.464080399673,
+          "gross_margin": 55.8878631902,
+          "ocf_per_share": null,
+          "debt_ratio": 25.4072706138,
+          "bars": 261,
+          "close": 56.0,
+          "ma20": 53.31199999999999,
+          "ma60": 51.318833333333345,
+          "ma120": 49.91608333333333,
+          "dist_to_high_250": 0.8997429305912596,
+          "ret_20d": 8.154042257329364,
+          "ret_60d": 20.409391932570742,
+          "ret_120d": 5.505105693507661,
+          "bench_ret_60d": -8.938573661769656,
+          "bench_ret_120d": -9.052853690909702,
+          "rel_60d": 29.347965594340398,
+          "rel_120d": 14.557959384417362,
+          "vol_expansion": 1.124763019217521,
+          "vol60_std": 3.0240475069903137,
+          "flow_1d": -18945200.0,
+          "flow_3d": 71004700.0,
+          "flow_5d": 60301200.0,
+          "flow_ratio_1d": -0.0017439297286787332,
+          "flow_ratio_3d": 0.006536072841981866,
+          "flow_ratio_5d": 0.005550802068861877,
+          "lhb_count": null,
+          "lhb_net_buy": null,
+          "lhb_last_date": null,
+          "northbound_hold_ratio": null,
+          "northbound_hold_mv": null,
+          "northbound_report_date": null,
+          "components": {
+            "quality": 76.6642,
+            "growth": 72.2177,
+            "valuation": 61.9991,
+            "leverage": 78.4218,
+            "fundamental_raw": 72.1499,
+            "valuation_industry_fallback": 0.0,
+            "roe_basis": "annualised",
+            "profit_growth_basis": "recurring",
+            "late_filer": 0.0
+          }
+        },
+        "reasons": [
+          "ROE 4.0% (top 23%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 55.9%",
+          "revenue YoY +38.5%",
+          "recurring (扣非) profit YoY +16.5% (reported +20.8%)",
+          "PE 30.6 (valuation 62/100)",
+          "debt ratio 25.4% (low-leverage score)",
+          "close +9.1% vs MA60",
+          "120d return +5.5% vs CSI300 -9.1%",
+          "distance to 250d high -10.0%",
+          "20d volume 1.12x the 60d average",
+          "5-day THS net inflow +6030万 (0.56% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "Composite score 95.5 with very strong fundamentals (94.7) and trend (99.5). Revenue +38.5% YoY, recurring profit +16.5%, gross margin 55.9%, low debt ratio 25.4%, and strong relative price momentum (120d +5.5% vs CSI300 -9.1%; near historical highs). Recent THS 5-day net inflow +60.3M yuan. Insider/buyback support is clear: controlling shareholder bought ~HK$115M H-shares (1.37% of total shares) and the company has active A-share buybacks. The main caveat is a controlling-shareholder pledge (cumulative 18.12% of holding) and short-term 1-day flow turned negative; no severe regulatory, audit, penalty or delisting flags.",
+          "reasons": [
+            {
+              "text": "Robust growth and profitability: revenue +38.5% YoY, recurring profit +16.5%, gross margin 55.9%, annualised ROE 8.0%, and low debt ratio 25.4% underpin the high fundamental sub-score.",
+              "cites": [
+                "M:revenue_yoy",
+                "M:deduct_profit_yoy",
+                "M:gross_margin",
+                "M:roe_annualised",
+                "M:debt_ratio"
+              ]
+            },
+            {
+              "text": "Strong momentum and relative strength: 120d return +5.5% versus CSI300 -9.1%; close ~9.1% above MA60, after setting a historical high in early October (N3), with price ~10% below the 250-day high.",
+              "cites": [
+                "M:ret_120d",
+                "M:bench_ret_120d",
+                "M:close",
+                "M:ma60",
+                "M:dist_to_high_250",
+                "N3"
+              ]
+            },
+            {
+              "text": "Positive recent THS net fund flow: 3-day and 5-day inflows are +71.0M and +60.3M yuan respectively (0.65% and 0.56% of float cap), alongside 20d volume expansion to 1.12x the 60d average.",
+              "cites": [
+                "M:flow_3d",
+                "M:flow_ratio_3d",
+                "M:flow_5d",
+                "M:flow_ratio_5d",
+                "M:vol_expansion"
+              ]
+            },
+            {
+              "text": "Insider and buyback support: controlling shareholder increased H-shares by 3.24M for ~HK$115M (1.37% of total share capital) during Jul–Sep; company continues A-share buybacks and adjusted its restricted stock incentive plan.",
+              "cites": [
+                "N7",
+                "A7",
+                "A4",
+                "A1"
+              ]
+            },
+            {
+              "text": "Valuation is not stretched for the growth profile, with PE 30.6 and valuation component score 62/100.",
+              "cites": [
+                "M:pe"
+              ]
+            }
+          ],
+          "red_flags": [
+            {
+              "text": "Controlling shareholder pledged 8.0M shares on 23 Sep (9.06% of its holding and 3.39% of total shares); cumulative pledged shares now 16.0M or 18.12% of its holding. This is mitigated by the recent controlling-shareholder H-share purchase and ongoing company buyback, so it is monitored rather than disqualifying.",
+              "cites": [
+                "N9",
+                "A8"
+              ],
+              "type": "share_pledge"
+            },
+            {
+              "text": "Latest close fell 1.84% and 1-day THS net flow was negative (-18.9M yuan), indicating near-term volatility after a strong run; heavy feature in speculative concept baskets (recombinant protein, monkeypox, influenza) can amplify drawdowns.",
+              "cites": [
+                "M:pct_chg",
+                "M:flow_1d",
+                "N1",
+                "N6",
+                "N10"
+              ],
+              "type": "short_term_weakness"
+            }
+          ],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A1",
+              "kind": "announcement",
+              "date": "2026-10-08",
+              "title_or_text": "可孚医疗:关于调整2024年限制性股票激励计划相关事项的公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/301087/AN202610081830210210.html"
+            },
+            {
+              "id": "A4",
+              "kind": "announcement",
+              "date": "2026-10-08",
+              "title_or_text": "可孚医疗:关于回购公司A股股份的进展公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/301087/AN202610081830210154.html"
+            },
+            {
+              "id": "A7",
+              "kind": "announcement",
+              "date": "2026-09-28",
+              "title_or_text": "可孚医疗:关于控股股东增持公司H股股份计划进展暨实施期限过半的公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/301087/AN202609281829959920.html"
+            },
+            {
+              "id": "A8",
+              "kind": "announcement",
+              "date": "2026-09-23",
+              "title_or_text": "可孚医疗:关于控股股东部分股份质押的公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/301087/AN202609231829804035.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:close",
+              "kind": "metric",
+              "name": "close",
+              "value": 56.0
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 25.4072706138
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 16.464080399673
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.8997429305912596
+            },
+            {
+              "id": "M:flow_1d",
+              "kind": "metric",
+              "name": "flow_1d",
+              "value": -18945200.0
+            },
+            {
+              "id": "M:flow_3d",
+              "kind": "metric",
+              "name": "flow_3d",
+              "value": 71004700.0
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 60301200.0
+            },
+            {
+              "id": "M:flow_ratio_3d",
+              "kind": "metric",
+              "name": "flow_ratio_3d",
+              "value": 0.006536072841981866
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.005550802068861877
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 55.8878631902
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 51.318833333333345
+            },
+            {
+              "id": "M:pct_chg",
+              "kind": "metric",
+              "name": "pct_chg",
+              "value": -1.84
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 30.601
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": 5.505105693507661
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": 38.5143639768
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 8.0
+            },
+            {
+              "id": "M:vol_expansion",
+              "kind": "metric",
+              "name": "vol_expansion",
+              "value": 1.124763019217521
+            },
+            {
+              "id": "N1",
+              "kind": "news",
+              "date": "2026-10-13",
+              "title_or_text": "重组蛋白概念下跌1.89%，主力资金净流出45股",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202610133894182553.html"
+            },
+            {
+              "id": "N10",
+              "kind": "news",
+              "date": "2026-09-21",
+              "title_or_text": "流感概念涨4.13%，主力资金净流入99股",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202609213880098585.html"
+            },
+            {
+              "id": "N3",
+              "kind": "news",
+              "date": "2026-10-09",
+              "title_or_text": "收盘价创历史新高股一览",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202610093891355945.html"
+            },
+            {
+              "id": "N6",
+              "kind": "news",
+              "date": "2026-09-30",
+              "title_or_text": "11.07亿主力资金净流入，重组蛋白概念涨3.78%",
+              "source": "证券时报网",
+              "url": "http://stock.eastmoney.com/a/202609303887737398.html"
+            },
+            {
+              "id": "N7",
+              "kind": "news",
+              "date": "2026-09-28",
+              "title_or_text": "可孚医疗：控股股东增持324万股H股 金额1.15亿港元",
+              "source": "财中社",
+              "url": "http://finance.eastmoney.com/a/202609283885275518.html"
+            },
+            {
+              "id": "N9",
+              "kind": "news",
+              "date": "2026-09-23",
+              "title_or_text": "可孚医疗：控股股东械字号投资质押9.06%持股",
+              "source": "财中社",
+              "url": "http://finance.eastmoney.com/a/202609233882514676.html"
+            }
+          ]
+        }
+      },
+      {
+        "code": "600177",
+        "name": "雅戈尔",
+        "board": "main_sh",
+        "industry": "服装家纺",
+        "rank": 2,
+        "rule_rank": 2,
+        "score": 94.7465,
+        "sub_scores": {
+          "fundamental": 94.7483,
+          "trend": 99.1837,
+          "flow": 88.5317
+        },
+        "metrics": {
+          "code": "600177",
+          "industry": "服装家纺",
+          "price": 8.57,
+          "pct_chg": 1.3,
+          "turnover_rate": 0.99917,
+          "total_mv": 39622897100.14,
+          "float_mv": 38594497365.81,
+          "pe": 16.17,
+          "pb": 0.939,
+          "report_period": "2026Q2",
+          "roe": 5.0,
+          "roe_ttm": null,
+          "roe_annualised": 10.0,
+          "eps": 0.47,
+          "eps_annualised": 0.94,
+          "bps": 9.12196311102,
+          "revenue_yoy": 0.7326059783,
+          "profit_yoy": 23.79,
+          "deduct_profit_yoy": 34.919257323667,
+          "profit_growth_input": 34.919257323667,
+          "gross_margin": 51.7455466047,
+          "ocf_per_share": null,
+          "debt_ratio": 39.2477370941,
+          "bars": 261,
+          "close": 8.57,
+          "ma20": 8.239,
+          "ma60": 7.856999999999999,
+          "ma120": 7.541583333333333,
+          "dist_to_high_250": 0.9930475086906141,
+          "ret_20d": 7.259073842302888,
+          "ret_60d": 14.266666666666673,
+          "ret_120d": 26.40117994100295,
+          "bench_ret_60d": -8.938573661769656,
+          "bench_ret_120d": -9.052853690909702,
+          "rel_60d": 23.20524032843633,
+          "rel_120d": 35.45403363191265,
+          "vol_expansion": 0.8742591189623754,
+          "vol60_std": 0.9882038148886262,
+          "flow_1d": 71717500.0,
+          "flow_3d": 118000000.0,
+          "flow_5d": 154000000.0,
+          "flow_ratio_1d": 0.0018582312219340607,
+          "flow_ratio_3d": 0.0030574306715685736,
+          "flow_ratio_5d": 0.003990206130691189,
+          "lhb_count": null,
+          "lhb_net_buy": null,
+          "lhb_last_date": null,
+          "northbound_hold_ratio": null,
+          "northbound_hold_mv": null,
+          "northbound_report_date": null,
+          "components": {
+            "quality": 80.3219,
+            "growth": 50.3946,
+            "valuation": 92.1348,
+            "leverage": 56.1361,
+            "fundamental_raw": 72.1654,
+            "valuation_industry_fallback": 0.0,
+            "roe_basis": "annualised",
+            "profit_growth_basis": "recurring",
+            "late_filer": 0.0
+          }
+        },
+        "reasons": [
+          "ROE 5.0% (top 20%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 51.7%",
+          "revenue YoY +0.7%",
+          "recurring (扣非) profit YoY +34.9% (reported +23.8%)",
+          "PE 16.2 (valuation 92/100)",
+          "debt ratio 39.2% (low-leverage score)",
+          "close +9.1% vs MA60",
+          "120d return +26.4% vs CSI300 -9.1%",
+          "distance to 250d high -0.7%",
+          "20d volume 0.87x the 60d average",
+          "5-day THS net inflow +1.54亿 (0.40% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "Youngor (600177) is a textile/apparel company trading near its 250-day high with strong momentum and solid fundamentals. Recurring profit growth is robust (+34.9% YoY), gross margin is high (51.7%), and leverage is moderate (debt ratio 39.2%), though revenue growth is muted (+0.7% YoY). Shares have strongly outperformed the CSI300 over 120 days (+26.4% vs -9.1%) and are only 0.7% below the 250-day high. Valuation is undemanding with PE ~16.2 and PB ~0.94. Recent 5-day THS (同花顺) net fund flow is positive at +¥154M (0.40% of float cap; this is THS net fund flow, not Eastmoney main-force, not northbound/institutional). No material red flags are present in the pack.",
+          "reasons": [
+            {
+              "text": "Strong profitability and balance-sheet quality: gross margin 51.7%, recurring profit YoY +34.9%, annualised ROE ~10.0%, and debt ratio 39.2%.",
+              "cites": [
+                "M:gross_margin",
+                "M:deduct_profit_yoy",
+                "M:roe_annualised",
+                "M:debt_ratio"
+              ]
+            },
+            {
+              "text": "Powerful relative price momentum: close 8.57 is 9.1% above MA60 and only 0.7% from the 250-day high; 120-day return +26.4% versus CSI300 -9.1%.",
+              "cites": [
+                "M:close",
+                "M:ma60",
+                "M:dist_to_high_250",
+                "M:ret_120d",
+                "M:bench_ret_120d"
+              ]
+            },
+            {
+              "text": "Reasonable valuation: PE 16.2 (valuation score 92/100) and PB 0.94, below book value.",
+              "cites": [
+                "M:pe",
+                "M:pb"
+              ]
+            },
+            {
+              "text": "Positive recent THS (同花顺) net fund flow: 5-day net inflow +¥154M, equal to 0.40% of float market cap. This is THS net fund flow — not Eastmoney main-force, not northbound/institutional money.",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d"
+              ]
+            },
+            {
+              "text": "High market visibility and investor engagement: repeatedly named in historical-new-high lists (N2, N3, N5) and institutional research round-ups (N4, N6, N7); management conducted investor-relations sessions on 17 and 22 Sep 2026 (A10, A8) and announced a ¥2.2亿元 venture fund commitment (N8, A5).",
+              "cites": [
+                "N2",
+                "N3",
+                "N5",
+                "N4",
+                "N6",
+                "N7",
+                "A10",
+                "A8",
+                "N8",
+                "A5"
+              ]
+            }
+          ],
+          "red_flags": [],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A10",
+              "kind": "announcement",
+              "date": "2026-09-18",
+              "title_or_text": "雅戈尔:2026年9月17日投资者关系活动记录表",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/600177/AN202609181829614441.html"
+            },
+            {
+              "id": "A5",
+              "kind": "announcement",
+              "date": "2026-09-25",
+              "title_or_text": "雅戈尔:雅戈尔时尚股份有限公司与私募基金合作投资公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/600177/AN202609241829868538.html"
+            },
+            {
+              "id": "A8",
+              "kind": "announcement",
+              "date": "2026-09-22",
+              "title_or_text": "雅戈尔:2026年9月22日投资者关系活动记录表",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/600177/AN202609221829759665.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:close",
+              "kind": "metric",
+              "name": "close",
+              "value": 8.57
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 39.2477370941
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 34.919257323667
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.9930475086906141
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 154000000.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.003990206130691189
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 51.7455466047
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 7.856999999999999
+            },
+            {
+              "id": "M:pb",
+              "kind": "metric",
+              "name": "pb",
+              "value": 0.939
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 16.17
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": 26.40117994100295
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 10.0
+            },
+            {
+              "id": "N2",
+              "kind": "news",
+              "date": "2026-10-12",
+              "title_or_text": "11只股收盘价创历史新高",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202610123892808621.html"
+            },
+            {
+              "id": "N3",
+              "kind": "news",
+              "date": "2026-10-08",
+              "title_or_text": "12只股收盘价创历史新高",
+              "source": "证券时报网",
+              "url": "http://stock.eastmoney.com/a/202610083889734749.html"
+            },
+            {
+              "id": "N4",
+              "kind": "news",
+              "date": "2026-09-30",
+              "title_or_text": "170家公司获机构调研（附名单）",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202609303887471223.html"
+            },
+            {
+              "id": "N5",
+              "kind": "news",
+              "date": "2026-09-29",
+              "title_or_text": "收盘价创历史新高股一览",
+              "source": "证券时报网",
+              "url": "http://stock.eastmoney.com/a/202609293886563232.html"
+            },
+            {
+              "id": "N6",
+              "kind": "news",
+              "date": "2026-09-29",
+              "title_or_text": "184家公司获机构调研（附名单）",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202609293886118278.html"
+            },
+            {
+              "id": "N7",
+              "kind": "news",
+              "date": "2026-09-28",
+              "title_or_text": "218家公司获机构调研（附名单）",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202609283884597576.html"
+            },
+            {
+              "id": "N8",
+              "kind": "news",
+              "date": "2026-09-24",
+              "title_or_text": "雅戈尔：投资2.2亿元参投横店创业基金",
+              "source": "财中社",
+              "url": "http://finance.eastmoney.com/a/202609243883832890.html"
+            }
+          ]
+        }
+      },
+      {
+        "code": "600351",
+        "name": "亚宝药业",
+        "board": "main_sh",
+        "industry": "中药Ⅱ",
+        "rank": 3,
+        "rule_rank": 3,
+        "score": 94.7066,
+        "sub_scores": {
+          "fundamental": 97.0884,
+          "trend": 97.5238,
+          "flow": 86.9518
+        },
+        "metrics": {
+          "code": "600351",
+          "industry": "中药Ⅱ",
+          "price": 6.9,
+          "pct_chg": -0.289,
+          "turnover_rate": 2.88314,
+          "total_mv": 4774800317.4,
+          "float_mv": 4774800317.4,
+          "pe": 15.079,
+          "pb": 1.693,
+          "report_period": "2026Q2",
+          "roe": 6.25,
+          "roe_ttm": null,
+          "roe_annualised": 12.5,
+          "eps": 0.2566,
+          "eps_annualised": 0.5132,
+          "bps": 4.076594253044,
+          "revenue_yoy": 0.486045041,
+          "profit_yoy": 1.83,
+          "deduct_profit_yoy": 15.021923877259,
+          "profit_growth_input": 15.021923877259,
+          "gross_margin": 53.9852018867,
+          "ocf_per_share": null,
+          "debt_ratio": 15.0326327225,
+          "bars": 261,
+          "close": 6.9,
+          "ma20": 6.786999999999999,
+          "ma60": 6.682166666666666,
+          "ma120": 6.381,
+          "dist_to_high_250": 0.9517241379310345,
+          "ret_20d": 3.1390134529148073,
+          "ret_60d": 11.290322580645174,
+          "ret_120d": 11.47011308562198,
+          "bench_ret_60d": -8.938573661769656,
+          "bench_ret_120d": -9.052853690909702,
+          "rel_60d": 20.22889624241483,
+          "rel_120d": 20.522966776531682,
+          "vol_expansion": 0.8296221339544021,
+          "vol60_std": 2.229957171553848,
+          "flow_1d": -12288599.999999998,
+          "flow_3d": 18844000.0,
+          "flow_5d": 20491100.0,
+          "flow_ratio_1d": -0.002573636421028692,
+          "flow_ratio_3d": 0.003946552472850014,
+          "flow_ratio_5d": 0.0042915093067510575,
+          "lhb_count": null,
+          "lhb_net_buy": null,
+          "lhb_last_date": null,
+          "northbound_hold_ratio": null,
+          "northbound_hold_mv": null,
+          "northbound_report_date": null,
+          "components": {
+            "quality": 85.0584,
+            "growth": 45.6871,
+            "valuation": 79.1429,
+            "leverage": 91.1837,
+            "fundamental_raw": 74.6555,
+            "valuation_industry_fallback": 0.0,
+            "roe_basis": "annualised",
+            "profit_growth_basis": "recurring",
+            "late_filer": 0.0
+          }
+        },
+        "reasons": [
+          "ROE 6.2% (top 15%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 54.0%",
+          "revenue YoY +0.5%",
+          "recurring (扣非) profit YoY +15.0% (reported +1.8%)",
+          "PE 15.1 (valuation 79/100)",
+          "debt ratio 15.0% (low-leverage score)",
+          "close +3.3% vs MA60",
+          "120d return +11.5% vs CSI300 -9.1%",
+          "distance to 250d high -4.8%",
+          "20d volume 0.83x the 60d average",
+          "5-day THS net inflow +2049万 (0.43% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "failed",
+          "verdict": null,
+          "summary": null,
+          "reasons": [],
+          "red_flags": [],
+          "news_checked": false,
+          "note": "AI review failed: TimeoutError: LLM call timed out after 90s | TimeoutError: ",
+          "failure_kind": "timeout"
+        }
+      }
+    ],
+    "ai_demoted": [],
+    "requalified": [],
+    "pinned": [],
+    "scores": [
+      {
+        "code": "301087",
+        "name": "可孚医疗",
+        "board": "chinext",
+        "industry": "医疗器械",
+        "score": 95.471,
+        "fundamental": 94.7211,
+        "trend": 99.4558,
+        "flow": 91.0923,
+        "exclusion_reason": null
+      },
+      {
+        "code": "600177",
+        "name": "雅戈尔",
+        "board": "main_sh",
+        "industry": "服装家纺",
+        "score": 94.7465,
+        "fundamental": 94.7483,
+        "trend": 99.1837,
+        "flow": 88.5317,
+        "exclusion_reason": null
+      },
+      {
+        "code": "600351",
+        "name": "亚宝药业",
+        "board": "main_sh",
+        "industry": "中药Ⅱ",
+        "score": 94.7066,
+        "fundamental": 97.0884,
+        "trend": 97.5238,
+        "flow": 86.9518,
+        "exclusion_reason": null
+      },
+      {
+        "code": "920000",
+        "name": "安徽凤凰",
+        "board": "bse",
+        "industry": null,
+        "score": null,
+        "fundamental": null,
+        "trend": null,
+        "flow": null,
+        "exclusion_reason": "excluded:bse_unsupported: BSE (北交所) listing not supported yet"
+      },
+      {
+        "code": "920001",
+        "name": "纬达光电",
+        "board": "bse",
+        "industry": null,
+        "score": null,
+        "fundamental": null,
+        "trend": null,
+        "flow": null,
+        "exclusion_reason": "excluded:bse_unsupported: BSE (北交所) listing not supported yet"
+      }
+    ],
+    "timings": {
+      "universe": 26.047,
+      "listing": 14.203,
+      "fundamentals": 6.688,
+      "klines": 79.265,
+      "flows": 87.515,
+      "exclusions": 3.188,
+      "scoring": 8.64,
+      "news_red_flags": 70.328,
+      "ai_review": 944.375,
+      "total": 1242.578
+    },
+    "requests": {
+      "sina": {
+        "count": 62,
+        "errors": 0,
+        "elapsed_s": 26.03,
+        "busy_s": 9.77,
+        "effective_rps": 2.38
+      },
+      "eastmoney": {
+        "count": 11,
+        "errors": 4,
+        "elapsed_s": 207.91,
+        "busy_s": 32.28,
+        "effective_rps": 0.05
+      },
+      "tencent": {
+        "count": 17,
+        "errors": 0,
+        "elapsed_s": 16.73,
+        "busy_s": 84.8,
+        "effective_rps": 1.02
+      },
+      "ths": {
+        "count": 3,
+        "errors": 0,
+        "elapsed_s": 74.28,
+        "busy_s": 74.27,
+        "effective_rps": 0.04
+      },
+      "datacenter-eastmoney": {
+        "count": 1,
+        "errors": 0,
+        "elapsed_s": 0.39,
+        "busy_s": 0.39,
+        "effective_rps": 2.56
+      },
+      "datacenter-web.eastmoney.com": {
+        "count": 30,
+        "errors": 0,
+        "elapsed_s": 29.53,
+        "busy_s": 4.77,
+        "effective_rps": 1.02
+      },
+      "np-anotice-stock.eastmoney.com": {
+        "count": 60,
+        "errors": 0,
+        "elapsed_s": 62.55,
+        "busy_s": 11.34,
+        "effective_rps": 0.96
+      },
+      "search-api-web.eastmoney.com": {
+        "count": 30,
+        "errors": 0,
+        "elapsed_s": 31.42,
+        "busy_s": 2.55,
+        "effective_rps": 0.95
+      },
+      "llm-host": {
+        "count": 30,
+        "errors": 0,
+        "elapsed_s": 944.36,
+        "busy_s": 2568.92,
+        "effective_rps": 0.03
+      },
+      "_totals": {
+        "count": 244,
+        "errors": 4,
+        "elapsed_s": 1242.58,
+        "busy_s": 2789.09,
+        "effective_rps": 0.2
+      }
+    },
+    "ai_pool": [
+      {
+        "code": "301087",
+        "name": "可孚医疗",
+        "board": "chinext",
+        "industry": "医疗器械",
+        "rank": null,
+        "rule_rank": 1,
+        "score": 95.471,
+        "sub_scores": {
+          "fundamental": 94.7211,
+          "trend": 99.4558,
+          "flow": 91.0923
+        },
+        "metrics": {
+          "code": "301087",
+          "industry": "医疗器械",
+          "price": 56.0,
+          "pct_chg": -1.84,
+          "turnover_rate": 2.07385,
+          "total_mv": 13210232000.0,
+          "float_mv": 10863511120.0,
+          "pe": 30.601,
+          "pb": 2.39,
+          "report_period": "2026Q2",
+          "roe": 4.0,
+          "roe_ttm": null,
+          "roe_annualised": 8.0,
+          "eps": 0.95,
+          "eps_annualised": 1.9,
+          "bps": 23.428533737182,
+          "revenue_yoy": 38.5143639768,
+          "profit_yoy": 20.84,
+          "deduct_profit_yoy": 16.464080399673,
+          "profit_growth_input": 16.464080399673,
+          "gross_margin": 55.8878631902,
+          "ocf_per_share": null,
+          "debt_ratio": 25.4072706138,
+          "bars": 261,
+          "close": 56.0,
+          "ma20": 53.31199999999999,
+          "ma60": 51.318833333333345,
+          "ma120": 49.91608333333333,
+          "dist_to_high_250": 0.8997429305912596,
+          "ret_20d": 8.154042257329364,
+          "ret_60d": 20.409391932570742,
+          "ret_120d": 5.505105693507661,
+          "bench_ret_60d": -8.938573661769656,
+          "bench_ret_120d": -9.052853690909702,
+          "rel_60d": 29.347965594340398,
+          "rel_120d": 14.557959384417362,
+          "vol_expansion": 1.124763019217521,
+          "vol60_std": 3.0240475069903137,
+          "flow_1d": -18945200.0,
+          "flow_3d": 71004700.0,
+          "flow_5d": 60301200.0,
+          "flow_ratio_1d": -0.0017439297286787332,
+          "flow_ratio_3d": 0.006536072841981866,
+          "flow_ratio_5d": 0.005550802068861877,
+          "lhb_count": null,
+          "lhb_net_buy": null,
+          "lhb_last_date": null,
+          "northbound_hold_ratio": null,
+          "northbound_hold_mv": null,
+          "northbound_report_date": null,
+          "components": {
+            "quality": 76.6642,
+            "growth": 72.2177,
+            "valuation": 61.9991,
+            "leverage": 78.4218,
+            "fundamental_raw": 72.1499,
+            "valuation_industry_fallback": 0.0,
+            "roe_basis": "annualised",
+            "profit_growth_basis": "recurring",
+            "late_filer": 0.0
+          }
+        },
+        "reasons": [
+          "ROE 4.0% (top 23%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 55.9%",
+          "revenue YoY +38.5%",
+          "recurring (扣非) profit YoY +16.5% (reported +20.8%)",
+          "PE 30.6 (valuation 62/100)",
+          "debt ratio 25.4% (low-leverage score)",
+          "close +9.1% vs MA60",
+          "120d return +5.5% vs CSI300 -9.1%",
+          "distance to 250d high -10.0%",
+          "20d volume 1.12x the 60d average",
+          "5-day THS net inflow +6030万 (0.56% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "not_reviewed",
+          "verdict": null,
+          "summary": null,
+          "reasons": [],
+          "red_flags": [],
+          "news_checked": false,
+          "note": "AI review not implemented yet"
+        }
+      },
+      {
+        "code": "600177",
+        "name": "雅戈尔",
+        "board": "main_sh",
+        "industry": "服装家纺",
+        "rank": null,
+        "rule_rank": 2,
+        "score": 94.7465,
+        "sub_scores": {
+          "fundamental": 94.7483,
+          "trend": 99.1837,
+          "flow": 88.5317
+        },
+        "metrics": {
+          "code": "600177",
+          "industry": "服装家纺",
+          "price": 8.57,
+          "pct_chg": 1.3,
+          "turnover_rate": 0.99917,
+          "total_mv": 39622897100.14,
+          "float_mv": 38594497365.81,
+          "pe": 16.17,
+          "pb": 0.939,
+          "report_period": "2026Q2",
+          "roe": 5.0,
+          "roe_ttm": null,
+          "roe_annualised": 10.0,
+          "eps": 0.47,
+          "eps_annualised": 0.94,
+          "bps": 9.12196311102,
+          "revenue_yoy": 0.7326059783,
+          "profit_yoy": 23.79,
+          "deduct_profit_yoy": 34.919257323667,
+          "profit_growth_input": 34.919257323667,
+          "gross_margin": 51.7455466047,
+          "ocf_per_share": null,
+          "debt_ratio": 39.2477370941,
+          "bars": 261,
+          "close": 8.57,
+          "ma20": 8.239,
+          "ma60": 7.856999999999999,
+          "ma120": 7.541583333333333,
+          "dist_to_high_250": 0.9930475086906141,
+          "ret_20d": 7.259073842302888,
+          "ret_60d": 14.266666666666673,
+          "ret_120d": 26.40117994100295,
+          "bench_ret_60d": -8.938573661769656,
+          "bench_ret_120d": -9.052853690909702,
+          "rel_60d": 23.20524032843633,
+          "rel_120d": 35.45403363191265,
+          "vol_expansion": 0.8742591189623754,
+          "vol60_std": 0.9882038148886262,
+          "flow_1d": 71717500.0,
+          "flow_3d": 118000000.0,
+          "flow_5d": 154000000.0,
+          "flow_ratio_1d": 0.0018582312219340607,
+          "flow_ratio_3d": 0.0030574306715685736,
+          "flow_ratio_5d": 0.003990206130691189,
+          "lhb_count": null,
+          "lhb_net_buy": null,
+          "lhb_last_date": null,
+          "northbound_hold_ratio": null,
+          "northbound_hold_mv": null,
+          "northbound_report_date": null,
+          "components": {
+            "quality": 80.3219,
+            "growth": 50.3946,
+            "valuation": 92.1348,
+            "leverage": 56.1361,
+            "fundamental_raw": 72.1654,
+            "valuation_industry_fallback": 0.0,
+            "roe_basis": "annualised",
+            "profit_growth_basis": "recurring",
+            "late_filer": 0.0
+          }
+        },
+        "reasons": [
+          "ROE 5.0% (top 20%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 51.7%",
+          "revenue YoY +0.7%",
+          "recurring (扣非) profit YoY +34.9% (reported +23.8%)",
+          "PE 16.2 (valuation 92/100)",
+          "debt ratio 39.2% (low-leverage score)",
+          "close +9.1% vs MA60",
+          "120d return +26.4% vs CSI300 -9.1%",
+          "distance to 250d high -0.7%",
+          "20d volume 0.87x the 60d average",
+          "5-day THS net inflow +1.54亿 (0.40% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "not_reviewed",
+          "verdict": null,
+          "summary": null,
+          "reasons": [],
+          "red_flags": [],
+          "news_checked": false,
+          "note": "AI review not implemented yet"
+        }
+      },
+      {
+        "code": "600351",
+        "name": "亚宝药业",
+        "board": "main_sh",
+        "industry": "中药Ⅱ",
+        "rank": null,
+        "rule_rank": 3,
+        "score": 94.7066,
+        "sub_scores": {
+          "fundamental": 97.0884,
+          "trend": 97.5238,
+          "flow": 86.9518
+        },
+        "metrics": {
+          "code": "600351",
+          "industry": "中药Ⅱ",
+          "price": 6.9,
+          "pct_chg": -0.289,
+          "turnover_rate": 2.88314,
+          "total_mv": 4774800317.4,
+          "float_mv": 4774800317.4,
+          "pe": 15.079,
+          "pb": 1.693,
+          "report_period": "2026Q2",
+          "roe": 6.25,
+          "roe_ttm": null,
+          "roe_annualised": 12.5,
+          "eps": 0.2566,
+          "eps_annualised": 0.5132,
+          "bps": 4.076594253044,
+          "revenue_yoy": 0.486045041,
+          "profit_yoy": 1.83,
+          "deduct_profit_yoy": 15.021923877259,
+          "profit_growth_input": 15.021923877259,
+          "gross_margin": 53.9852018867,
+          "ocf_per_share": null,
+          "debt_ratio": 15.0326327225,
+          "bars": 261,
+          "close": 6.9,
+          "ma20": 6.786999999999999,
+          "ma60": 6.682166666666666,
+          "ma120": 6.381,
+          "dist_to_high_250": 0.9517241379310345,
+          "ret_20d": 3.1390134529148073,
+          "ret_60d": 11.290322580645174,
+          "ret_120d": 11.47011308562198,
+          "bench_ret_60d": -8.938573661769656,
+          "bench_ret_120d": -9.052853690909702,
+          "rel_60d": 20.22889624241483,
+          "rel_120d": 20.522966776531682,
+          "vol_expansion": 0.8296221339544021,
+          "vol60_std": 2.229957171553848,
+          "flow_1d": -12288599.999999998,
+          "flow_3d": 18844000.0,
+          "flow_5d": 20491100.0,
+          "flow_ratio_1d": -0.002573636421028692,
+          "flow_ratio_3d": 0.003946552472850014,
+          "flow_ratio_5d": 0.0042915093067510575,
+          "lhb_count": null,
+          "lhb_net_buy": null,
+          "lhb_last_date": null,
+          "northbound_hold_ratio": null,
+          "northbound_hold_mv": null,
+          "northbound_report_date": null,
+          "components": {
+            "quality": 85.0584,
+            "growth": 45.6871,
+            "valuation": 79.1429,
+            "leverage": 91.1837,
+            "fundamental_raw": 74.6555,
+            "valuation_industry_fallback": 0.0,
+            "roe_basis": "annualised",
+            "profit_growth_basis": "recurring",
+            "late_filer": 0.0
+          }
+        },
+        "reasons": [
+          "ROE 6.2% (top 15%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 54.0%",
+          "revenue YoY +0.5%",
+          "recurring (扣非) profit YoY +15.0% (reported +1.8%)",
+          "PE 15.1 (valuation 79/100)",
+          "debt ratio 15.0% (low-leverage score)",
+          "close +3.3% vs MA60",
+          "120d return +11.5% vs CSI300 -9.1%",
+          "distance to 250d high -4.8%",
+          "20d volume 0.83x the 60d average",
+          "5-day THS net inflow +2049万 (0.43% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "not_reviewed",
+          "verdict": null,
+          "summary": null,
+          "reasons": [],
+          "red_flags": [],
+          "news_checked": false,
+          "note": "AI review not implemented yet"
+        }
+      }
+    ],
+    "review_revision": 0,
+    "reviewed_at": null
+  }
+}

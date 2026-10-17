@@ -455,6 +455,21 @@ class AgentTuningConfig(_EnvBase):
     vibe_trading_enable_scheduler: EnvBool = Field(
         alias="VIBE_TRADING_ENABLE_SCHEDULER", default=False,
     )
+    vibe_trading_watchlist_schedule: EnvBool | None = Field(
+        alias="VIBE_TRADING_WATCHLIST_SCHEDULE", default=None,
+    )
+    vibe_trading_kline_rate_per_sec: float = Field(
+        alias="VIBE_TRADING_KLINE_RATE_PER_SEC", default=1.0,
+    )
+    vibe_trading_sina_rate_per_sec: float = Field(
+        alias="VIBE_TRADING_SINA_RATE_PER_SEC", default=5.0,
+    )
+    vibe_trading_eastmoney_rate_per_sec: float = Field(
+        alias="VIBE_TRADING_EASTMONEY_RATE_PER_SEC", default=3.0,
+    )
+    vibe_trading_ths_rate_per_sec: float = Field(
+        alias="VIBE_TRADING_THS_RATE_PER_SEC", default=5.0,
+    )
     vibe_contextual_identity_constraints: EnvBool = Field(
         alias="VIBE_CONTEXTUAL_IDENTITY_CONSTRAINTS", default=True,
     )

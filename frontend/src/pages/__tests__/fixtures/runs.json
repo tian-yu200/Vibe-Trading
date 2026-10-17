@@ -1,0 +1,1335 @@
+{
+  "status": "ok",
+  "runs": [
+    {
+      "run_id": "ee122cc9ef874408aab8cc8e76ad918f",
+      "trade_date": "2026-10-13",
+      "started_at": "2026-10-13T16:34:57.751680+08:00",
+      "finished_at": "2026-10-13T16:55:39.501501+08:00",
+      "status": "ok",
+      "trigger": "cli",
+      "duration_s": 1242.578,
+      "intraday": false,
+      "ai_status": "partial",
+      "ai_note": "AI review: 21 reviewed, 9 failed, 0 demoted, 0 forced",
+      "failure_reason": null,
+      "config": {
+        "top_n": 20,
+        "min_total_mv": 3000000000.0,
+        "min_avg_amount_20d": 50000000.0,
+        "min_listing_days": 365,
+        "include_star": true,
+        "include_chinext": true,
+        "weights": {
+          "fundamental": 0.4,
+          "trend": 0.35,
+          "flow": 0.25
+        },
+        "max_per_industry": 3,
+        "min_kline_bars": 120,
+        "kline_bars": 260,
+        "kline_workers": 6,
+        "ai_enabled": true,
+        "ai_review_pool": 30,
+        "ai_language": "en",
+        "ai_model": null,
+        "ai_fallback_model": null,
+        "ai_quota_wait_max_s": 300.0,
+        "ai_time_budget_s": 900.0,
+        "news_days": 30,
+        "min_coverage": 0.9
+      },
+      "funnel": [
+        {
+          "stage": "universe",
+          "count": 5573,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "excluded:bse_unsupported",
+          "count": 5224,
+          "removed": 349,
+          "note": null
+        },
+        {
+          "stage": "excluded:st",
+          "count": 5026,
+          "removed": 198,
+          "note": null
+        },
+        {
+          "stage": "excluded:delisting",
+          "count": 5025,
+          "removed": 1,
+          "note": null
+        },
+        {
+          "stage": "excluded:suspended",
+          "count": 5020,
+          "removed": 5,
+          "note": null
+        },
+        {
+          "stage": "excluded:new_listing",
+          "count": 4931,
+          "removed": 89,
+          "note": null
+        },
+        {
+          "stage": "excluded:board_disabled",
+          "count": 4931,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "excluded:micro_cap",
+          "count": 4224,
+          "removed": 707,
+          "note": null
+        },
+        {
+          "stage": "excluded:illiquid",
+          "count": 3676,
+          "removed": 548,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:liquidity",
+          "count": 3676,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:fundamentals",
+          "count": 3676,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:trend",
+          "count": 3676,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "scored",
+          "count": 3676,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "finalists",
+          "count": 20,
+          "removed": 3656,
+          "note": "top_n=20, max_per_industry=3"
+        },
+        {
+          "stage": "ai_demoted",
+          "count": 0,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "watchlist",
+          "count": 20,
+          "removed": 0,
+          "note": null
+        }
+      ],
+      "sources": [
+        {
+          "name": "calendar",
+          "status": "ok",
+          "rows": 8797,
+          "latency_s": 0.0,
+          "error": null,
+          "detail": "source=cache range=1990-12-19..2026-12-31",
+          "as_of": "2026-12-31",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "universe",
+          "status": "ok",
+          "rows": 5573,
+          "latency_s": 26.047,
+          "error": null,
+          "detail": "nodes hs_a+hs_bjs; BSE rows=349",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "listing",
+          "status": "ok",
+          "rows": 5574,
+          "latency_s": 13.719,
+          "error": null,
+          "detail": "sources: sh+star/sz/bj akshare name lists; per-list sh=2320, sz=2905, bj=349; hs_a_coverage 100.00% (5225/5225, uncovered 0)",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "fundamentals",
+          "status": "ok",
+          "rows": 11521,
+          "latency_s": 6.672,
+          "error": null,
+          "detail": "EM datacenter yjbb+zcfz+xjll; per-stock latest published period; periods=20260630,20260331,20251231,20250930",
+          "as_of": "2026-06-30 (11630), 2026-03-31 (6126), 2025-12-31 (11698), 2025-09-30 (6061)",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "kline",
+          "status": "ok",
+          "rows": 4224,
+          "latency_s": 78.469,
+          "error": null,
+          "detail": "cache_hit=4207 appended_from_snapshot=3650 refetched=17 missing=0 failed=0 known_missing=0 breaker_trips=0 throttled=no budget_exhausted=no amount estimated from close*volume*100; source=tencent fqkline qfq",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "benchmark",
+          "status": "ok",
+          "rows": 261,
+          "latency_s": 0.282,
+          "error": null,
+          "detail": "symbol=sh000300 bars=260 source=tencent fqkline",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "fund_flow",
+          "status": "ok",
+          "rows": 5212,
+          "latency_s": 74.484,
+          "error": null,
+          "detail": "THS net flow, not Eastmoney main-force (push2 blocked on this network)",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "dragon_tiger",
+          "status": "ok",
+          "rows": 467,
+          "latency_s": 12.625,
+          "error": null,
+          "detail": "window 2026-09-13..2026-10-13 source=EM datacenter LHB",
+          "as_of": "2026-10-13 (today's list not out yet, before ~17:30)",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "northbound",
+          "status": "ok",
+          "rows": 500,
+          "latency_s": 0.39,
+          "error": null,
+          "detail": "semi-annual report 2026-06-30; info only, never scored",
+          "as_of": "2026-06-30",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "news",
+          "status": "ok",
+          "rows": 265,
+          "latency_s": 0.719,
+          "error": null,
+          "detail": null,
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "announcements",
+          "status": "ok",
+          "rows": 121,
+          "latency_s": 0.922,
+          "error": null,
+          "detail": null,
+          "as_of": "2026-10-14",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "red_flags",
+          "status": "ok",
+          "rows": 0,
+          "latency_s": 37.719,
+          "error": null,
+          "detail": "codes=30 stocks_with_partial_failure=0 pledge=ok",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        }
+      ],
+      "ai_demoted": [],
+      "requalified": [],
+      "pinned": []
+    },
+    {
+      "run_id": "5816aab8e99f45e4a11ed142735e5df3",
+      "trade_date": "2026-10-13",
+      "started_at": "2026-10-13T15:03:49.186794+08:00",
+      "finished_at": "2026-10-13T15:18:30.801518+08:00",
+      "status": "failed",
+      "trigger": "cli",
+      "duration_s": 882.484,
+      "intraday": false,
+      "ai_status": "partial",
+      "ai_note": "AI review: 16 reviewed, 14 failed, 14 quota, 0 demoted, 0 forced",
+      "failure_reason": "insufficient coverage (trend 12.0% < 90%)",
+      "config": {
+        "top_n": 20,
+        "min_total_mv": 3000000000.0,
+        "min_avg_amount_20d": 50000000.0,
+        "min_listing_days": 365,
+        "include_star": true,
+        "include_chinext": true,
+        "weights": {
+          "fundamental": 0.4,
+          "trend": 0.35,
+          "flow": 0.25
+        },
+        "max_per_industry": 3,
+        "min_kline_bars": 120,
+        "kline_bars": 260,
+        "kline_workers": 6,
+        "ai_enabled": true,
+        "ai_review_pool": 30,
+        "ai_language": "en",
+        "ai_model": null,
+        "ai_fallback_model": null,
+        "ai_quota_wait_max_s": 300.0,
+        "ai_time_budget_s": 900.0,
+        "news_days": 30
+      },
+      "funnel": [
+        {
+          "stage": "universe",
+          "count": 5573,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "excluded:bse_unsupported",
+          "count": 5224,
+          "removed": 349,
+          "note": null
+        },
+        {
+          "stage": "excluded:st",
+          "count": 5026,
+          "removed": 198,
+          "note": null
+        },
+        {
+          "stage": "excluded:delisting",
+          "count": 5025,
+          "removed": 1,
+          "note": null
+        },
+        {
+          "stage": "excluded:suspended",
+          "count": 5020,
+          "removed": 5,
+          "note": null
+        },
+        {
+          "stage": "excluded:new_listing",
+          "count": 4931,
+          "removed": 89,
+          "note": null
+        },
+        {
+          "stage": "excluded:board_disabled",
+          "count": 4931,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "excluded:micro_cap",
+          "count": 4224,
+          "removed": 707,
+          "note": null
+        },
+        {
+          "stage": "excluded:illiquid",
+          "count": 4166,
+          "removed": 58,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:fundamentals",
+          "count": 4166,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:trend",
+          "count": 501,
+          "removed": 3665,
+          "note": null
+        },
+        {
+          "stage": "scored",
+          "count": 501,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "finalists",
+          "count": 20,
+          "removed": 481,
+          "note": "top_n=20, max_per_industry=3"
+        },
+        {
+          "stage": "ai_demoted",
+          "count": 0,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "watchlist",
+          "count": 20,
+          "removed": 0,
+          "note": null
+        }
+      ],
+      "sources": [
+        {
+          "name": "calendar",
+          "status": "ok",
+          "rows": 8797,
+          "latency_s": 0.0,
+          "error": null,
+          "detail": "source=cache range=1990-12-19..2026-12-31",
+          "as_of": "2026-12-31",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "universe",
+          "status": "ok",
+          "rows": 5573,
+          "latency_s": 51.516,
+          "error": null,
+          "detail": "nodes hs_a+hs_bjs; BSE rows=349",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "listing",
+          "status": "ok",
+          "rows": 5574,
+          "latency_s": 16.125,
+          "error": null,
+          "detail": "sources: sh+star/sz/bj akshare name lists; per-list sh=2320, sz=2905, bj=349; hs_a_coverage 100.00% (5225/5225, uncovered 0)",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "fundamentals",
+          "status": "ok",
+          "rows": 11521,
+          "latency_s": 11.687,
+          "error": null,
+          "detail": "EM datacenter yjbb+zcfz+xjll; per-stock latest published period; periods=20260630,20260331,20251231,20250930",
+          "as_of": "2026-06-30 (11630), 2026-03-31 (6126), 2025-12-31 (11698), 2025-09-30 (6061)",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "kline",
+          "status": "degraded",
+          "rows": 559,
+          "latency_s": 606.36,
+          "error": "3663 symbols failed: ReadTimeout: HTTPSConnectionPool(host='ifzq.gtimg.cn', port=443): Read timed out. (read timeout=15)",
+          "detail": "cache_hit=0 appended_from_snapshot=0 refetched=559 missing=3663 failed=3663 known_missing=0 breaker_trips=0 throttled=no budget_exhausted=yes amount estimated from close*volume*100; source=tencent fqkline qfq",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "benchmark",
+          "status": "ok",
+          "rows": 261,
+          "latency_s": 0.656,
+          "error": null,
+          "detail": "symbol=sh000300 bars=260 source=tencent fqkline",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "fund_flow",
+          "status": "ok",
+          "rows": 5211,
+          "latency_s": 68.265,
+          "error": null,
+          "detail": "THS net flow, not Eastmoney main-force (push2 blocked on this network)",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "dragon_tiger",
+          "status": "ok",
+          "rows": 457,
+          "latency_s": 2.407,
+          "error": null,
+          "detail": "window 2026-09-13..2026-10-13 source=EM datacenter LHB",
+          "as_of": "2026-10-12 (today's list not out yet, before ~17:30)",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "northbound",
+          "status": "ok",
+          "rows": 500,
+          "latency_s": 0.39,
+          "error": null,
+          "detail": "semi-annual report 2026-06-30; info only, never scored",
+          "as_of": "2026-06-30",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "news",
+          "status": "ok",
+          "rows": 286,
+          "latency_s": 0.813,
+          "error": null,
+          "detail": null,
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "announcements",
+          "status": "ok",
+          "rows": 98,
+          "latency_s": 1.297,
+          "error": null,
+          "detail": null,
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "red_flags",
+          "status": "ok",
+          "rows": 3,
+          "latency_s": 41.671,
+          "error": null,
+          "detail": "codes=30 stocks_with_partial_failure=0 pledge=ok",
+          "as_of": "2026-09-22",
+          "requests": {},
+          "effective_rps": null
+        }
+      ],
+      "ai_demoted": [],
+      "requalified": [],
+      "pinned": []
+    },
+    {
+      "run_id": "c9916e3612bb4ba2bec7e59f5d241c4c",
+      "trade_date": "2026-10-12",
+      "started_at": "2026-10-13T08:57:31.680758+08:00",
+      "finished_at": "2026-10-13T09:02:45.672094+08:00",
+      "status": "ok",
+      "trigger": "cli",
+      "duration_s": 314.734,
+      "intraday": true,
+      "ai_status": "reviewed",
+      "ai_note": "AI review: 30 reviewed, 0 failed, 0 demoted, 0 forced",
+      "failure_reason": null,
+      "config": {
+        "top_n": 20,
+        "min_total_mv": 3000000000.0,
+        "min_avg_amount_20d": 50000000.0,
+        "min_listing_days": 365,
+        "include_star": true,
+        "include_chinext": true,
+        "weights": {
+          "fundamental": 0.4,
+          "trend": 0.35,
+          "flow": 0.25
+        },
+        "max_per_industry": 3,
+        "min_kline_bars": 120,
+        "kline_bars": 260,
+        "kline_workers": 6,
+        "ai_enabled": true,
+        "ai_review_pool": 30,
+        "ai_language": "en",
+        "news_days": 30
+      },
+      "funnel": [
+        {
+          "stage": "universe",
+          "count": 5573,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "excluded:bse_unsupported",
+          "count": 5224,
+          "removed": 349,
+          "note": null
+        },
+        {
+          "stage": "excluded:st",
+          "count": 5026,
+          "removed": 198,
+          "note": null
+        },
+        {
+          "stage": "excluded:delisting",
+          "count": 5025,
+          "removed": 1,
+          "note": null
+        },
+        {
+          "stage": "excluded:suspended",
+          "count": 5018,
+          "removed": 7,
+          "note": null
+        },
+        {
+          "stage": "excluded:new_listing",
+          "count": 4930,
+          "removed": 88,
+          "note": null
+        },
+        {
+          "stage": "excluded:board_disabled",
+          "count": 4930,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "excluded:micro_cap",
+          "count": 4202,
+          "removed": 728,
+          "note": null
+        },
+        {
+          "stage": "excluded:illiquid",
+          "count": 3657,
+          "removed": 545,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:fundamentals",
+          "count": 3657,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:trend",
+          "count": 3657,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "scored",
+          "count": 3657,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "finalists",
+          "count": 20,
+          "removed": 3637,
+          "note": "top_n=20, max_per_industry=3"
+        },
+        {
+          "stage": "ai_demoted",
+          "count": 0,
+          "removed": 20,
+          "note": null
+        },
+        {
+          "stage": "watchlist",
+          "count": 20,
+          "removed": 0,
+          "note": null
+        }
+      ],
+      "sources": [
+        {
+          "name": "calendar",
+          "status": "ok",
+          "rows": 8797,
+          "latency_s": 0.0,
+          "error": null,
+          "detail": "source=cache range=1990-12-19..2026-12-31",
+          "as_of": "2026-12-31",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "universe",
+          "status": "ok",
+          "rows": 5573,
+          "latency_s": 26.484,
+          "error": null,
+          "detail": "nodes hs_a+hs_bjs; BSE rows=349",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "listing",
+          "status": "ok",
+          "rows": 5574,
+          "latency_s": 13.922,
+          "error": null,
+          "detail": "sources: sh+star/sz/bj akshare name lists; per-list sh=2320, sz=2905, bj=349; hs_a_coverage 100.00% (5225/5225, uncovered 0)",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "fundamentals",
+          "status": "ok",
+          "rows": 11521,
+          "latency_s": 5.813,
+          "error": null,
+          "detail": "EM datacenter yjbb+zcfz+xjll; per-stock latest published period; periods=20260630,20260331,20251231,20250930",
+          "as_of": "2026-06-30 (11448), 2026-03-31 (5932), 2025-12-31 (11537), 2025-09-30 (5905)",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "kline",
+          "status": "ok",
+          "rows": 4202,
+          "latency_s": 17.562,
+          "error": null,
+          "detail": "cache_hit=4199 appended_from_snapshot=0 refetched=3 missing=0 failed=0 breaker_trips=0 throttled=no budget_exhausted=no amount estimated from close*volume*100; source=tencent fqkline qfq",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "benchmark",
+          "status": "ok",
+          "rows": 260,
+          "latency_s": 0.265,
+          "error": null,
+          "detail": "symbol=sh000300 bars=260 source=tencent fqkline",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "fund_flow",
+          "status": "ok",
+          "rows": 5212,
+          "latency_s": 68.406,
+          "error": null,
+          "detail": "THS net flow, not Eastmoney main-force (push2 blocked on this network)",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "dragon_tiger",
+          "status": "ok",
+          "rows": 457,
+          "latency_s": 1.906,
+          "error": null,
+          "detail": "window 2026-09-12..2026-10-12 source=EM datacenter LHB",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "northbound",
+          "status": "ok",
+          "rows": 500,
+          "latency_s": 0.344,
+          "error": null,
+          "detail": "semi-annual report 2026-06-30; info only, never scored",
+          "as_of": "2026-06-30",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "news",
+          "status": "ok",
+          "rows": 275,
+          "latency_s": 0.531,
+          "error": null,
+          "detail": null,
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "announcements",
+          "status": "ok",
+          "rows": 121,
+          "latency_s": 1.016,
+          "error": null,
+          "detail": null,
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "red_flags",
+          "status": "ok",
+          "rows": 1,
+          "latency_s": 24.109,
+          "error": null,
+          "detail": "codes=30 stocks_with_partial_failure=0 pledge=ok",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        }
+      ],
+      "ai_demoted": [],
+      "requalified": [],
+      "pinned": []
+    },
+    {
+      "run_id": "d4ce97141b524b2bba563e5dafb32d2c",
+      "trade_date": "2026-10-12",
+      "started_at": "2026-10-13T08:42:47.602062+08:00",
+      "finished_at": "2026-10-13T08:46:15.378917+08:00",
+      "status": "ok",
+      "trigger": "cli",
+      "duration_s": 208.547,
+      "intraday": true,
+      "ai_status": "not_reviewed",
+      "ai_note": "AI review: 0 reviewed, 30 failed, 0 demoted, 0 forced",
+      "failure_reason": null,
+      "config": {
+        "top_n": 20,
+        "min_total_mv": 3000000000.0,
+        "min_avg_amount_20d": 50000000.0,
+        "min_listing_days": 365,
+        "include_star": true,
+        "include_chinext": true,
+        "weights": {
+          "fundamental": 0.4,
+          "trend": 0.35,
+          "flow": 0.25
+        },
+        "max_per_industry": 3,
+        "min_kline_bars": 120,
+        "kline_bars": 260,
+        "kline_workers": 6,
+        "ai_enabled": true,
+        "ai_review_pool": 30,
+        "ai_language": "en",
+        "news_days": 30
+      },
+      "funnel": [
+        {
+          "stage": "universe",
+          "count": 5573,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "excluded:bse_unsupported",
+          "count": 5224,
+          "removed": 349,
+          "note": null
+        },
+        {
+          "stage": "excluded:st",
+          "count": 5026,
+          "removed": 198,
+          "note": null
+        },
+        {
+          "stage": "excluded:delisting",
+          "count": 5025,
+          "removed": 1,
+          "note": null
+        },
+        {
+          "stage": "excluded:suspended",
+          "count": 5018,
+          "removed": 7,
+          "note": null
+        },
+        {
+          "stage": "excluded:new_listing",
+          "count": 4930,
+          "removed": 88,
+          "note": null
+        },
+        {
+          "stage": "excluded:board_disabled",
+          "count": 4930,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "excluded:micro_cap",
+          "count": 4202,
+          "removed": 728,
+          "note": null
+        },
+        {
+          "stage": "excluded:illiquid",
+          "count": 3657,
+          "removed": 545,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:fundamentals",
+          "count": 3657,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:trend",
+          "count": 3657,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "scored",
+          "count": 3657,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "finalists",
+          "count": 20,
+          "removed": 3637,
+          "note": "top_n=20, max_per_industry=3"
+        },
+        {
+          "stage": "ai_demoted",
+          "count": 0,
+          "removed": 20,
+          "note": null
+        },
+        {
+          "stage": "watchlist",
+          "count": 20,
+          "removed": 0,
+          "note": null
+        }
+      ],
+      "sources": [
+        {
+          "name": "calendar",
+          "status": "ok",
+          "rows": 8797,
+          "latency_s": 0.0,
+          "error": null,
+          "detail": "source=cache range=1990-12-19..2026-12-31",
+          "as_of": "2026-12-31",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "universe",
+          "status": "ok",
+          "rows": 5573,
+          "latency_s": 25.937,
+          "error": null,
+          "detail": "nodes hs_a+hs_bjs; BSE rows=349",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "listing",
+          "status": "ok",
+          "rows": 5574,
+          "latency_s": 15.718,
+          "error": null,
+          "detail": "sources: sh+star/sz/bj akshare name lists; per-list sh=2320, sz=2905, bj=349; hs_a_coverage 100.00% (5225/5225, uncovered 0)",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "fundamentals",
+          "status": "ok",
+          "rows": 11521,
+          "latency_s": 5.844,
+          "error": null,
+          "detail": "EM datacenter yjbb+zcfz+xjll; per-stock latest published period; periods=20260630,20260331,20251231,20250930",
+          "as_of": "2026-06-30 (11448), 2026-03-31 (5932), 2025-12-31 (11537), 2025-09-30 (5905)",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "kline",
+          "status": "ok",
+          "rows": 4202,
+          "latency_s": 18.703,
+          "error": null,
+          "detail": "cache_hit=4198 appended_from_snapshot=0 refetched=4 missing=0 failed=0 breaker_trips=0 throttled=no budget_exhausted=no amount estimated from close*volume*100; source=tencent fqkline qfq",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "benchmark",
+          "status": "ok",
+          "rows": 260,
+          "latency_s": 0.266,
+          "error": null,
+          "detail": "symbol=sh000300 bars=260 source=tencent fqkline",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "fund_flow",
+          "status": "ok",
+          "rows": 5212,
+          "latency_s": 69.687,
+          "error": null,
+          "detail": "THS net flow, not Eastmoney main-force (push2 blocked on this network)",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "dragon_tiger",
+          "status": "ok",
+          "rows": 457,
+          "latency_s": 2.516,
+          "error": null,
+          "detail": "window 2026-09-12..2026-10-12 source=EM datacenter LHB",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "northbound",
+          "status": "ok",
+          "rows": 500,
+          "latency_s": 0.375,
+          "error": null,
+          "detail": "semi-annual report 2026-06-30; info only, never scored",
+          "as_of": "2026-06-30",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "news",
+          "status": "ok",
+          "rows": 275,
+          "latency_s": 0.578,
+          "error": null,
+          "detail": null,
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "announcements",
+          "status": "ok",
+          "rows": 121,
+          "latency_s": 0.781,
+          "error": null,
+          "detail": null,
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "red_flags",
+          "status": "ok",
+          "rows": 1,
+          "latency_s": 22.187,
+          "error": null,
+          "detail": "codes=30 stocks_with_partial_failure=0 pledge=ok",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        }
+      ],
+      "ai_demoted": [],
+      "requalified": [],
+      "pinned": []
+    },
+    {
+      "run_id": "246483edc82948ae972e6af28281acfd",
+      "trade_date": "2026-10-12",
+      "started_at": "2026-10-13T07:58:11.049340+08:00",
+      "finished_at": "2026-10-13T08:01:22.896422+08:00",
+      "status": "partial",
+      "trigger": "cli",
+      "duration_s": 192.516,
+      "intraday": true,
+      "ai_status": "not_reviewed",
+      "ai_note": "AI review: 0 reviewed, 30 failed, 0 demoted, 0 forced",
+      "failure_reason": null,
+      "config": {
+        "top_n": 20,
+        "min_total_mv": 3000000000.0,
+        "min_avg_amount_20d": 50000000.0,
+        "min_listing_days": 365,
+        "include_star": true,
+        "include_chinext": true,
+        "weights": {
+          "fundamental": 0.4,
+          "trend": 0.35,
+          "flow": 0.25
+        },
+        "max_per_industry": 3,
+        "min_kline_bars": 120,
+        "kline_bars": 260,
+        "kline_workers": 6,
+        "ai_enabled": true,
+        "ai_review_pool": 30,
+        "ai_language": "en",
+        "news_days": 30
+      },
+      "funnel": [
+        {
+          "stage": "universe",
+          "count": 5572,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "excluded:bse_unsupported",
+          "count": 5223,
+          "removed": 349,
+          "note": null
+        },
+        {
+          "stage": "excluded:st",
+          "count": 5025,
+          "removed": 198,
+          "note": null
+        },
+        {
+          "stage": "excluded:delisting",
+          "count": 5024,
+          "removed": 1,
+          "note": null
+        },
+        {
+          "stage": "excluded:suspended",
+          "count": 5018,
+          "removed": 6,
+          "note": null
+        },
+        {
+          "stage": "excluded:new_listing",
+          "count": 3785,
+          "removed": 1233,
+          "note": null
+        },
+        {
+          "stage": "excluded:board_disabled",
+          "count": 3785,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "excluded:micro_cap",
+          "count": 3216,
+          "removed": 569,
+          "note": null
+        },
+        {
+          "stage": "excluded:illiquid",
+          "count": 2800,
+          "removed": 416,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:fundamentals",
+          "count": 2800,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:trend",
+          "count": 2800,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "scored",
+          "count": 2800,
+          "removed": 2772,
+          "note": null
+        },
+        {
+          "stage": "finalists",
+          "count": 20,
+          "removed": 2780,
+          "note": "top_n=20, max_per_industry=3"
+        },
+        {
+          "stage": "ai_demoted",
+          "count": 0,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "watchlist",
+          "count": 20,
+          "removed": 0,
+          "note": null
+        }
+      ],
+      "sources": [
+        {
+          "name": "calendar",
+          "status": "degraded",
+          "rows": 8797,
+          "latency_s": 0.0,
+          "error": null,
+          "detail": "source=cache range=1990-12-19..2026-12-31",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "universe",
+          "status": "ok",
+          "rows": 5572,
+          "latency_s": 27.015,
+          "error": null,
+          "detail": "nodes hs_a+hs_bjs; BSE rows=349",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "listing",
+          "status": "ok",
+          "rows": 4359,
+          "latency_s": 15.14,
+          "error": null,
+          "detail": "sources: sh+star/sz/bj akshare name lists",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "fundamentals",
+          "status": "ok",
+          "rows": 11521,
+          "latency_s": 5.781,
+          "error": null,
+          "detail": "EM datacenter yjbb+zcfz+xjll; per-stock latest published period; periods=20260630,20260331,20251231,20250930",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "kline",
+          "status": "ok",
+          "rows": 3216,
+          "latency_s": 14.422,
+          "error": null,
+          "detail": "cache_hit=3213 appended_from_snapshot=0 refetched=3 missing=0 failed=0 breaker_trips=0 throttled=no budget_exhausted=no amount estimated from close*volume*100; source=tencent fqkline qfq",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "benchmark",
+          "status": "ok",
+          "rows": 260,
+          "latency_s": 0.516,
+          "error": null,
+          "detail": "symbol=sh000300 bars=260 source=tencent fqkline",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "fund_flow",
+          "status": "ok",
+          "rows": 5212,
+          "latency_s": 77.297,
+          "error": null,
+          "detail": "THS net flow, not Eastmoney main-force (push2 blocked on this network)",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "dragon_tiger",
+          "status": "ok",
+          "rows": 457,
+          "latency_s": 2.0,
+          "error": null,
+          "detail": "window 2026-09-12..2026-10-12 source=EM datacenter LHB",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "northbound",
+          "status": "ok",
+          "rows": 500,
+          "latency_s": 0.39,
+          "error": null,
+          "detail": "semi-annual report 2026-06-30; info only, never scored",
+          "as_of": "2026-06-30",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "news",
+          "status": "ok",
+          "rows": 285,
+          "latency_s": 0.969,
+          "error": null,
+          "detail": null,
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "announcements",
+          "status": "ok",
+          "rows": 123,
+          "latency_s": 0.422,
+          "error": null,
+          "detail": null,
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "red_flags",
+          "status": "ok",
+          "rows": 1,
+          "latency_s": 23.906,
+          "error": null,
+          "detail": "codes=30 stocks_with_partial_failure=0 pledge=ok",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        }
+      ],
+      "ai_demoted": [],
+      "requalified": [],
+      "pinned": []
+    }
+  ]
+}

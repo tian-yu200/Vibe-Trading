@@ -5671,6 +5671,10 @@ def _build_parser() -> argparse.ArgumentParser:
     from cli.commands.strategy_evidence import add_subparser as _add_strategy_evidence_subparser
     _add_strategy_evidence_subparser(subparsers)
 
+    # A-share watchlist (scan / list / manage) — CONTRACT section 11
+    from cli.commands.watchlist import add_subparser as _add_watchlist_subparser
+    _add_watchlist_subparser(subparsers)
+
     return parser
 
 
@@ -6576,6 +6580,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "strategy-evidence":
         from cli.commands.strategy_evidence import dispatch as _strategy_evidence_dispatch
         return _coerce_exit_code(_strategy_evidence_dispatch(args))
+    if args.command == "watchlist":
+        from cli.commands.watchlist import dispatch as _watchlist_dispatch
+        return _coerce_exit_code(_watchlist_dispatch(args))
     if args.command == "portfolio":
         return _coerce_exit_code(_dispatch_portfolio(args))
     if args.command == "connector":

@@ -1,0 +1,3766 @@
+{
+  "status": "ok",
+  "watchlist": {
+    "disclaimer": "Research only, not investment advice.",
+    "stale": {
+      "is_stale": false,
+      "latest_trading_day": "2026-10-13",
+      "last_scan_trade_date": "2026-10-13",
+      "last_scan_at": "2026-10-13T16:55:39.501501+08:00"
+    },
+    "latest_run": {
+      "run_id": "ee122cc9ef874408aab8cc8e76ad918f",
+      "trade_date": "2026-10-13",
+      "intraday": false,
+      "finished_at": "2026-10-13T16:55:39.501501+08:00",
+      "status": "ok",
+      "ai_status": "partial",
+      "ai_note": "AI review: 21 reviewed, 9 failed, 0 demoted, 0 forced",
+      "duration_s": 1242.578,
+      "trigger": "cli",
+      "funnel": [
+        {
+          "stage": "universe",
+          "count": 5573,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "excluded:bse_unsupported",
+          "count": 5224,
+          "removed": 349,
+          "note": null
+        },
+        {
+          "stage": "excluded:st",
+          "count": 5026,
+          "removed": 198,
+          "note": null
+        },
+        {
+          "stage": "excluded:delisting",
+          "count": 5025,
+          "removed": 1,
+          "note": null
+        },
+        {
+          "stage": "excluded:suspended",
+          "count": 5020,
+          "removed": 5,
+          "note": null
+        },
+        {
+          "stage": "excluded:new_listing",
+          "count": 4931,
+          "removed": 89,
+          "note": null
+        },
+        {
+          "stage": "excluded:board_disabled",
+          "count": 4931,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "excluded:micro_cap",
+          "count": 4224,
+          "removed": 707,
+          "note": null
+        },
+        {
+          "stage": "excluded:illiquid",
+          "count": 3676,
+          "removed": 548,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:liquidity",
+          "count": 3676,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:fundamentals",
+          "count": 3676,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "insufficient_data:trend",
+          "count": 3676,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "scored",
+          "count": 3676,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "finalists",
+          "count": 20,
+          "removed": 3656,
+          "note": "top_n=20, max_per_industry=3"
+        },
+        {
+          "stage": "ai_demoted",
+          "count": 0,
+          "removed": 0,
+          "note": null
+        },
+        {
+          "stage": "watchlist",
+          "count": 20,
+          "removed": 0,
+          "note": null
+        }
+      ],
+      "sources": [
+        {
+          "name": "calendar",
+          "status": "ok",
+          "rows": 8797,
+          "latency_s": 0.0,
+          "error": null,
+          "detail": "source=cache range=1990-12-19..2026-12-31",
+          "as_of": "2026-12-31",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "universe",
+          "status": "ok",
+          "rows": 5573,
+          "latency_s": 26.047,
+          "error": null,
+          "detail": "nodes hs_a+hs_bjs; BSE rows=349",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "listing",
+          "status": "ok",
+          "rows": 5574,
+          "latency_s": 13.719,
+          "error": null,
+          "detail": "sources: sh+star/sz/bj akshare name lists; per-list sh=2320, sz=2905, bj=349; hs_a_coverage 100.00% (5225/5225, uncovered 0)",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "fundamentals",
+          "status": "ok",
+          "rows": 11521,
+          "latency_s": 6.672,
+          "error": null,
+          "detail": "EM datacenter yjbb+zcfz+xjll; per-stock latest published period; periods=20260630,20260331,20251231,20250930",
+          "as_of": "2026-06-30 (11630), 2026-03-31 (6126), 2025-12-31 (11698), 2025-09-30 (6061)",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "kline",
+          "status": "ok",
+          "rows": 4224,
+          "latency_s": 78.469,
+          "error": null,
+          "detail": "cache_hit=4207 appended_from_snapshot=3650 refetched=17 missing=0 failed=0 known_missing=0 breaker_trips=0 throttled=no budget_exhausted=no amount estimated from close*volume*100; source=tencent fqkline qfq",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "benchmark",
+          "status": "ok",
+          "rows": 261,
+          "latency_s": 0.282,
+          "error": null,
+          "detail": "symbol=sh000300 bars=260 source=tencent fqkline",
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "fund_flow",
+          "status": "ok",
+          "rows": 5212,
+          "latency_s": 74.484,
+          "error": null,
+          "detail": "THS net flow, not Eastmoney main-force (push2 blocked on this network)",
+          "as_of": "2026-10-12",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "dragon_tiger",
+          "status": "ok",
+          "rows": 467,
+          "latency_s": 12.625,
+          "error": null,
+          "detail": "window 2026-09-13..2026-10-13 source=EM datacenter LHB",
+          "as_of": "2026-10-13 (today's list not out yet, before ~17:30)",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "northbound",
+          "status": "ok",
+          "rows": 500,
+          "latency_s": 0.39,
+          "error": null,
+          "detail": "semi-annual report 2026-06-30; info only, never scored",
+          "as_of": "2026-06-30",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "news",
+          "status": "ok",
+          "rows": 265,
+          "latency_s": 0.719,
+          "error": null,
+          "detail": null,
+          "as_of": "2026-10-13",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "announcements",
+          "status": "ok",
+          "rows": 121,
+          "latency_s": 0.922,
+          "error": null,
+          "detail": null,
+          "as_of": "2026-10-14",
+          "requests": {},
+          "effective_rps": null
+        },
+        {
+          "name": "red_flags",
+          "status": "ok",
+          "rows": 0,
+          "latency_s": 37.719,
+          "error": null,
+          "detail": "codes=30 stocks_with_partial_failure=0 pledge=ok",
+          "as_of": null,
+          "requests": {},
+          "effective_rps": null
+        }
+      ],
+      "coverage": {
+        "passed_exclusions": 3676,
+        "insufficient": 0,
+        "insufficient_by_key": {},
+        "scored": 3676,
+        "trend_scored": 3676,
+        "flow_real": 3672,
+        "flow_neutral": 4,
+        "kline_full_history": 3676,
+        "trend_coverage": 1.0,
+        "fundamentals_coverage": 1.0,
+        "min_coverage": 0.9
+      }
+    },
+    "last_failed_run": null,
+    "items": [
+      {
+        "code": "301087",
+        "name": "可孚医疗",
+        "board": "chinext",
+        "industry": "医疗器械",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 1,
+        "score": 95.471,
+        "sub_scores": {
+          "fundamental": 94.7211,
+          "trend": 99.4558,
+          "flow": 91.0923
+        },
+        "reasons": [
+          "ROE 4.0% (top 23%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 55.9%",
+          "revenue YoY +38.5%",
+          "recurring (扣非) profit YoY +16.5% (reported +20.8%)",
+          "PE 30.6 (valuation 62/100)",
+          "debt ratio 25.4% (low-leverage score)",
+          "close +9.1% vs MA60",
+          "120d return +5.5% vs CSI300 -9.1%",
+          "distance to 250d high -10.0%",
+          "20d volume 1.12x the 60d average",
+          "5-day THS net inflow +6030万 (0.56% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "Composite score 95.5 with very strong fundamentals (94.7) and trend (99.5). Revenue +38.5% YoY, recurring profit +16.5%, gross margin 55.9%, low debt ratio 25.4%, and strong relative price momentum (120d +5.5% vs CSI300 -9.1%; near historical highs). Recent THS 5-day net inflow +60.3M yuan. Insider/buyback support is clear: controlling shareholder bought ~HK$115M H-shares (1.37% of total shares) and the company has active A-share buybacks. The main caveat is a controlling-shareholder pledge (cumulative 18.12% of holding) and short-term 1-day flow turned negative; no severe regulatory, audit, penalty or delisting flags.",
+          "reasons": [
+            {
+              "text": "Robust growth and profitability: revenue +38.5% YoY, recurring profit +16.5%, gross margin 55.9%, annualised ROE 8.0%, and low debt ratio 25.4% underpin the high fundamental sub-score.",
+              "cites": [
+                "M:revenue_yoy",
+                "M:deduct_profit_yoy",
+                "M:gross_margin",
+                "M:roe_annualised",
+                "M:debt_ratio"
+              ]
+            },
+            {
+              "text": "Strong momentum and relative strength: 120d return +5.5% versus CSI300 -9.1%; close ~9.1% above MA60, after setting a historical high in early October (N3), with price ~10% below the 250-day high.",
+              "cites": [
+                "M:ret_120d",
+                "M:bench_ret_120d",
+                "M:close",
+                "M:ma60",
+                "M:dist_to_high_250",
+                "N3"
+              ]
+            },
+            {
+              "text": "Positive recent THS net fund flow: 3-day and 5-day inflows are +71.0M and +60.3M yuan respectively (0.65% and 0.56% of float cap), alongside 20d volume expansion to 1.12x the 60d average.",
+              "cites": [
+                "M:flow_3d",
+                "M:flow_ratio_3d",
+                "M:flow_5d",
+                "M:flow_ratio_5d",
+                "M:vol_expansion"
+              ]
+            },
+            {
+              "text": "Insider and buyback support: controlling shareholder increased H-shares by 3.24M for ~HK$115M (1.37% of total share capital) during Jul–Sep; company continues A-share buybacks and adjusted its restricted stock incentive plan.",
+              "cites": [
+                "N7",
+                "A7",
+                "A4",
+                "A1"
+              ]
+            },
+            {
+              "text": "Valuation is not stretched for the growth profile, with PE 30.6 and valuation component score 62/100.",
+              "cites": [
+                "M:pe"
+              ]
+            }
+          ],
+          "red_flags": [
+            {
+              "text": "Controlling shareholder pledged 8.0M shares on 23 Sep (9.06% of its holding and 3.39% of total shares); cumulative pledged shares now 16.0M or 18.12% of its holding. This is mitigated by the recent controlling-shareholder H-share purchase and ongoing company buyback, so it is monitored rather than disqualifying.",
+              "cites": [
+                "N9",
+                "A8"
+              ],
+              "type": "share_pledge"
+            },
+            {
+              "text": "Latest close fell 1.84% and 1-day THS net flow was negative (-18.9M yuan), indicating near-term volatility after a strong run; heavy feature in speculative concept baskets (recombinant protein, monkeypox, influenza) can amplify drawdowns.",
+              "cites": [
+                "M:pct_chg",
+                "M:flow_1d",
+                "N1",
+                "N6",
+                "N10"
+              ],
+              "type": "short_term_weakness"
+            }
+          ],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A1",
+              "kind": "announcement",
+              "date": "2026-10-08",
+              "title_or_text": "可孚医疗:关于调整2024年限制性股票激励计划相关事项的公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/301087/AN202610081830210210.html"
+            },
+            {
+              "id": "A4",
+              "kind": "announcement",
+              "date": "2026-10-08",
+              "title_or_text": "可孚医疗:关于回购公司A股股份的进展公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/301087/AN202610081830210154.html"
+            },
+            {
+              "id": "A7",
+              "kind": "announcement",
+              "date": "2026-09-28",
+              "title_or_text": "可孚医疗:关于控股股东增持公司H股股份计划进展暨实施期限过半的公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/301087/AN202609281829959920.html"
+            },
+            {
+              "id": "A8",
+              "kind": "announcement",
+              "date": "2026-09-23",
+              "title_or_text": "可孚医疗:关于控股股东部分股份质押的公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/301087/AN202609231829804035.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:close",
+              "kind": "metric",
+              "name": "close",
+              "value": 56.0
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 25.4072706138
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 16.464080399673
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.8997429305912596
+            },
+            {
+              "id": "M:flow_1d",
+              "kind": "metric",
+              "name": "flow_1d",
+              "value": -18945200.0
+            },
+            {
+              "id": "M:flow_3d",
+              "kind": "metric",
+              "name": "flow_3d",
+              "value": 71004700.0
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 60301200.0
+            },
+            {
+              "id": "M:flow_ratio_3d",
+              "kind": "metric",
+              "name": "flow_ratio_3d",
+              "value": 0.006536072841981866
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.005550802068861877
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 55.8878631902
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 51.318833333333345
+            },
+            {
+              "id": "M:pct_chg",
+              "kind": "metric",
+              "name": "pct_chg",
+              "value": -1.84
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 30.601
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": 5.505105693507661
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": 38.5143639768
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 8.0
+            },
+            {
+              "id": "M:vol_expansion",
+              "kind": "metric",
+              "name": "vol_expansion",
+              "value": 1.124763019217521
+            },
+            {
+              "id": "N1",
+              "kind": "news",
+              "date": "2026-10-13",
+              "title_or_text": "重组蛋白概念下跌1.89%，主力资金净流出45股",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202610133894182553.html"
+            },
+            {
+              "id": "N10",
+              "kind": "news",
+              "date": "2026-09-21",
+              "title_or_text": "流感概念涨4.13%，主力资金净流入99股",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202609213880098585.html"
+            },
+            {
+              "id": "N3",
+              "kind": "news",
+              "date": "2026-10-09",
+              "title_or_text": "收盘价创历史新高股一览",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202610093891355945.html"
+            },
+            {
+              "id": "N6",
+              "kind": "news",
+              "date": "2026-09-30",
+              "title_or_text": "11.07亿主力资金净流入，重组蛋白概念涨3.78%",
+              "source": "证券时报网",
+              "url": "http://stock.eastmoney.com/a/202609303887737398.html"
+            },
+            {
+              "id": "N7",
+              "kind": "news",
+              "date": "2026-09-28",
+              "title_or_text": "可孚医疗：控股股东增持324万股H股 金额1.15亿港元",
+              "source": "财中社",
+              "url": "http://finance.eastmoney.com/a/202609283885275518.html"
+            },
+            {
+              "id": "N9",
+              "kind": "news",
+              "date": "2026-09-23",
+              "title_or_text": "可孚医疗：控股股东械字号投资质押9.06%持股",
+              "source": "财中社",
+              "url": "http://finance.eastmoney.com/a/202609233882514676.html"
+            }
+          ]
+        },
+        "added_at": "2026-10-13T15:53:59",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "600177",
+        "name": "雅戈尔",
+        "board": "main_sh",
+        "industry": "服装家纺",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 2,
+        "score": 94.7465,
+        "sub_scores": {
+          "fundamental": 94.7483,
+          "trend": 99.1837,
+          "flow": 88.5317
+        },
+        "reasons": [
+          "ROE 5.0% (top 20%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 51.7%",
+          "revenue YoY +0.7%",
+          "recurring (扣非) profit YoY +34.9% (reported +23.8%)",
+          "PE 16.2 (valuation 92/100)",
+          "debt ratio 39.2% (low-leverage score)",
+          "close +9.1% vs MA60",
+          "120d return +26.4% vs CSI300 -9.1%",
+          "distance to 250d high -0.7%",
+          "20d volume 0.87x the 60d average",
+          "5-day THS net inflow +1.54亿 (0.40% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "Youngor (600177) is a textile/apparel company trading near its 250-day high with strong momentum and solid fundamentals. Recurring profit growth is robust (+34.9% YoY), gross margin is high (51.7%), and leverage is moderate (debt ratio 39.2%), though revenue growth is muted (+0.7% YoY). Shares have strongly outperformed the CSI300 over 120 days (+26.4% vs -9.1%) and are only 0.7% below the 250-day high. Valuation is undemanding with PE ~16.2 and PB ~0.94. Recent 5-day THS (同花顺) net fund flow is positive at +¥154M (0.40% of float cap; this is THS net fund flow, not Eastmoney main-force, not northbound/institutional). No material red flags are present in the pack.",
+          "reasons": [
+            {
+              "text": "Strong profitability and balance-sheet quality: gross margin 51.7%, recurring profit YoY +34.9%, annualised ROE ~10.0%, and debt ratio 39.2%.",
+              "cites": [
+                "M:gross_margin",
+                "M:deduct_profit_yoy",
+                "M:roe_annualised",
+                "M:debt_ratio"
+              ]
+            },
+            {
+              "text": "Powerful relative price momentum: close 8.57 is 9.1% above MA60 and only 0.7% from the 250-day high; 120-day return +26.4% versus CSI300 -9.1%.",
+              "cites": [
+                "M:close",
+                "M:ma60",
+                "M:dist_to_high_250",
+                "M:ret_120d",
+                "M:bench_ret_120d"
+              ]
+            },
+            {
+              "text": "Reasonable valuation: PE 16.2 (valuation score 92/100) and PB 0.94, below book value.",
+              "cites": [
+                "M:pe",
+                "M:pb"
+              ]
+            },
+            {
+              "text": "Positive recent THS (同花顺) net fund flow: 5-day net inflow +¥154M, equal to 0.40% of float market cap. This is THS net fund flow — not Eastmoney main-force, not northbound/institutional money.",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d"
+              ]
+            },
+            {
+              "text": "High market visibility and investor engagement: repeatedly named in historical-new-high lists (N2, N3, N5) and institutional research round-ups (N4, N6, N7); management conducted investor-relations sessions on 17 and 22 Sep 2026 (A10, A8) and announced a ¥2.2亿元 venture fund commitment (N8, A5).",
+              "cites": [
+                "N2",
+                "N3",
+                "N5",
+                "N4",
+                "N6",
+                "N7",
+                "A10",
+                "A8",
+                "N8",
+                "A5"
+              ]
+            }
+          ],
+          "red_flags": [],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A10",
+              "kind": "announcement",
+              "date": "2026-09-18",
+              "title_or_text": "雅戈尔:2026年9月17日投资者关系活动记录表",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/600177/AN202609181829614441.html"
+            },
+            {
+              "id": "A5",
+              "kind": "announcement",
+              "date": "2026-09-25",
+              "title_or_text": "雅戈尔:雅戈尔时尚股份有限公司与私募基金合作投资公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/600177/AN202609241829868538.html"
+            },
+            {
+              "id": "A8",
+              "kind": "announcement",
+              "date": "2026-09-22",
+              "title_or_text": "雅戈尔:2026年9月22日投资者关系活动记录表",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/600177/AN202609221829759665.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:close",
+              "kind": "metric",
+              "name": "close",
+              "value": 8.57
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 39.2477370941
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 34.919257323667
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.9930475086906141
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 154000000.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.003990206130691189
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 51.7455466047
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 7.856999999999999
+            },
+            {
+              "id": "M:pb",
+              "kind": "metric",
+              "name": "pb",
+              "value": 0.939
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 16.17
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": 26.40117994100295
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 10.0
+            },
+            {
+              "id": "N2",
+              "kind": "news",
+              "date": "2026-10-12",
+              "title_or_text": "11只股收盘价创历史新高",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202610123892808621.html"
+            },
+            {
+              "id": "N3",
+              "kind": "news",
+              "date": "2026-10-08",
+              "title_or_text": "12只股收盘价创历史新高",
+              "source": "证券时报网",
+              "url": "http://stock.eastmoney.com/a/202610083889734749.html"
+            },
+            {
+              "id": "N4",
+              "kind": "news",
+              "date": "2026-09-30",
+              "title_or_text": "170家公司获机构调研（附名单）",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202609303887471223.html"
+            },
+            {
+              "id": "N5",
+              "kind": "news",
+              "date": "2026-09-29",
+              "title_or_text": "收盘价创历史新高股一览",
+              "source": "证券时报网",
+              "url": "http://stock.eastmoney.com/a/202609293886563232.html"
+            },
+            {
+              "id": "N6",
+              "kind": "news",
+              "date": "2026-09-29",
+              "title_or_text": "184家公司获机构调研（附名单）",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202609293886118278.html"
+            },
+            {
+              "id": "N7",
+              "kind": "news",
+              "date": "2026-09-28",
+              "title_or_text": "218家公司获机构调研（附名单）",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202609283884597576.html"
+            },
+            {
+              "id": "N8",
+              "kind": "news",
+              "date": "2026-09-24",
+              "title_or_text": "雅戈尔：投资2.2亿元参投横店创业基金",
+              "source": "财中社",
+              "url": "http://finance.eastmoney.com/a/202609243883832890.html"
+            }
+          ]
+        },
+        "added_at": "2026-10-13T08:46:16",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "600351",
+        "name": "亚宝药业",
+        "board": "main_sh",
+        "industry": "中药Ⅱ",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 3,
+        "score": 94.7066,
+        "sub_scores": {
+          "fundamental": 97.0884,
+          "trend": 97.5238,
+          "flow": 86.9518
+        },
+        "reasons": [
+          "ROE 6.2% (top 15%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 54.0%",
+          "revenue YoY +0.5%",
+          "recurring (扣非) profit YoY +15.0% (reported +1.8%)",
+          "PE 15.1 (valuation 79/100)",
+          "debt ratio 15.0% (low-leverage score)",
+          "close +3.3% vs MA60",
+          "120d return +11.5% vs CSI300 -9.1%",
+          "distance to 250d high -4.8%",
+          "20d volume 0.83x the 60d average",
+          "5-day THS net inflow +2049万 (0.43% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "failed",
+          "verdict": null,
+          "summary": null,
+          "reasons": [],
+          "red_flags": [],
+          "news_checked": false,
+          "note": "AI review failed: TimeoutError: LLM call timed out after 90s | TimeoutError: ",
+          "failure_kind": "timeout"
+        },
+        "added_at": "2026-10-13T08:46:16",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "600033",
+        "name": "福建高速",
+        "board": "main_sh",
+        "industry": "铁路公路",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 4,
+        "score": 94.2963,
+        "sub_scores": {
+          "fundamental": 94.9932,
+          "trend": 97.3061,
+          "flow": 88.9676
+        },
+        "reasons": [
+          "ROE 4.1% (top 23%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 55.8%",
+          "revenue YoY -2.9%",
+          "recurring (扣非) profit YoY -17.2% (reported -6.8%)",
+          "PE 10.9 (valuation 95/100)",
+          "debt ratio 15.3% (low-leverage score)",
+          "close +4.7% vs MA60",
+          "120d return +5.6% vs CSI300 -9.1%",
+          "distance to 250d high -23.1%",
+          "20d volume 1.17x the 60d average",
+          "5-day THS net inflow +4643万 (0.45% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "福建高速 remains watchable: low leverage, high gross margin, cheap valuation, improving relative trend and positive THS net fund flow are offset by weak current earnings momentum. No material red flags appear in the supplied pack.",
+          "reasons": [
+            {
+              "text": "Fundamental quality is supportive: ROE is 4.09% for the period and 8.18% annualised, gross margin is 55.8%, debt ratio is only 15.3%, and PB is 0.826 with price at 3.76.",
+              "cites": [
+                "M:roe",
+                "M:roe_annualised",
+                "M:gross_margin",
+                "M:debt_ratio",
+                "M:pb",
+                "M:close"
+              ]
+            },
+            {
+              "text": "Price trend and relative strength are strong: close is above MA60 and MA120, 120d return is +5.65% versus benchmark return -9.05%, and 20d volume is 1.17x the 60d average.",
+              "cites": [
+                "M:close",
+                "M:ma60",
+                "M:ma120",
+                "M:ret_120d",
+                "M:bench_ret_120d",
+                "M:vol_expansion"
+              ]
+            },
+            {
+              "text": "THS (同花顺) net fund flow - not Eastmoney main-force, not northbound/institutional - is positive: 5-day net inflow 46.43m yuan, equal to 0.45% of float cap; 1-day and 3-day flows are also positive.",
+              "cites": [
+                "M:flow_1d",
+                "M:flow_3d",
+                "M:flow_5d",
+                "M:flow_ratio_5d"
+              ]
+            },
+            {
+              "text": "Controlling shareholder plans a 130m-230m yuan share increase within 12 months, capped at 2% of total shares, using special loan and own funds.",
+              "cites": [
+                "A4",
+                "N6",
+                "N8"
+              ]
+            },
+            {
+              "text": "Balance-sheet credibility and business diversification are positive: an independent report ranks its debt index below 0.005 and first nationally, while company news describes new-energy and roadside-economy expansion alongside H1 2026 revenue of 1.441bn yuan and net profit of 509m yuan.",
+              "cites": [
+                "N3",
+                "N1"
+              ]
+            },
+            {
+              "text": "Caution on earnings momentum: revenue YoY is -2.94%, recurring profit YoY is -17.19%, and price remains about 23.1% below the 250d high, so follow-up profit recovery matters.",
+              "cites": [
+                "M:revenue_yoy",
+                "M:deduct_profit_yoy",
+                "M:dist_to_high_250"
+              ]
+            }
+          ],
+          "red_flags": [],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A4",
+              "kind": "announcement",
+              "date": "2026-09-18",
+              "title_or_text": "福建高速:关于控股股东以专项贷款和自有资金增持公司股份计划公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/600033/AN202609171829507964.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:close",
+              "kind": "metric",
+              "name": "close",
+              "value": 3.76
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 15.3124639135
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": -17.1860614167
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.7690734301493147
+            },
+            {
+              "id": "M:flow_1d",
+              "kind": "metric",
+              "name": "flow_1d",
+              "value": 12155800.0
+            },
+            {
+              "id": "M:flow_3d",
+              "kind": "metric",
+              "name": "flow_3d",
+              "value": 30657100.0
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 46431899.99999999
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.0044996755481956285
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 55.8009688329
+            },
+            {
+              "id": "M:ma120",
+              "kind": "metric",
+              "name": "ma120",
+              "value": 3.5254416666666666
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 3.590216666666667
+            },
+            {
+              "id": "M:pb",
+              "kind": "metric",
+              "name": "pb",
+              "value": 0.826
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": 5.647653835347
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": -2.9357168739
+            },
+            {
+              "id": "M:roe",
+              "kind": "metric",
+              "name": "roe",
+              "value": 4.09
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 8.18
+            },
+            {
+              "id": "M:vol_expansion",
+              "kind": "metric",
+              "name": "vol_expansion",
+              "value": 1.167588027678941
+            },
+            {
+              "id": "N1",
+              "kind": "news",
+              "date": "2026-10-12",
+              "title_or_text": "绿色、智能路衍经济打开新空间，福建高速稳健经营厚植股东回报",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202610123892679747.html"
+            },
+            {
+              "id": "N3",
+              "kind": "news",
+              "date": "2026-09-23",
+              "title_or_text": "全国上市公司债务指数研究报告发布 这100家企业“最健康”",
+              "source": "中国经营报",
+              "url": "http://finance.eastmoney.com/a/202609233882731244.html"
+            },
+            {
+              "id": "N6",
+              "kind": "news",
+              "date": "2026-09-18",
+              "title_or_text": "上证早知道｜603257，签近5亿美元大单；600033，大股东拟增持不低于1.3亿元",
+              "source": "上海证券报",
+              "url": "http://finance.eastmoney.com/a/202609183877713284.html"
+            },
+            {
+              "id": "N8",
+              "kind": "news",
+              "date": "2026-09-17",
+              "title_or_text": "福建高速：控股股东拟增持1.3亿至2.3亿元股份",
+              "source": "财联社",
+              "url": "http://finance.eastmoney.com/a/202609173877288714.html"
+            }
+          ]
+        },
+        "added_at": "2026-10-13T08:46:16",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "002832",
+        "name": "比音勒芬",
+        "board": "main_sz",
+        "industry": "服装家纺",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 5,
+        "score": 94.0799,
+        "sub_scores": {
+          "fundamental": 97.5238,
+          "trend": 97.551,
+          "flow": 83.7102
+        },
+        "reasons": [
+          "ROE 8.9% (top 6%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 75.9%",
+          "revenue YoY +23.7%",
+          "recurring (扣非) profit YoY +36.4% (reported +18.4%)",
+          "PE 27.5 (valuation 55/100)",
+          "debt ratio 28.7% (low-leverage score)",
+          "close +5.9% vs MA60",
+          "120d return +63.7% vs CSI300 -9.1%",
+          "distance to 250d high -5.6%",
+          "20d volume 0.52x the 60d average",
+          "5-day THS net inflow +4258万 (0.42% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "比音勒芬 shows exceptional fundamental quality combined with a powerful uptrend and supportive ownership signals. Profitability, growth and balance-sheet metrics are all strong, while price has massively outperformed the benchmark and sits near 250-day highs. THS net fund flow over the past 5 days is positive. There are no red flags in the pack.",
+          "reasons": [
+            {
+              "text": "Fundamental quality is excellent: annualised ROE 17.7%, gross margin 75.9%, recurring (扣非) profit growth +36.4%, revenue growth +23.7%, and low debt ratio 28.7% indicating leverage is manageable.",
+              "cites": [
+                "M:roe_annualised",
+                "M:gross_margin",
+                "M:deduct_profit_yoy",
+                "M:revenue_yoy",
+                "M:debt_ratio"
+              ]
+            },
+            {
+              "text": "Relative trend strength is outstanding: 120-day return +63.7% versus CSI300 -9.1%, 60-day return +27.1%, and price is only -5.6% from its 250-day high while trading above key moving averages (close above MA60/MA120).",
+              "cites": [
+                "M:ret_120d",
+                "M:bench_ret_120d",
+                "M:ret_60d",
+                "M:dist_to_high_250",
+                "M:ma60",
+                "M:ma120"
+              ]
+            },
+            {
+              "text": "5-day THS (同花顺) net fund flow is positive at +4258万 (0.42% of float cap), supporting the recent run even though 1-day and 3-day THS net flows are slightly negative.",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d",
+                "M:flow_1d",
+                "M:flow_3d"
+              ]
+            },
+            {
+              "text": "Insider and governance signals are constructive: the announcement details completion of a director's share purchase increase plan, and news coverage from 证券时报网 lists the company among 14 companies where major shareholders have recently raised stakes. Investor-relations engagement was also recorded. Seperate idle-funds cash management progress suggests treasury/organised liquidity.",
+              "cites": [
+                "A3",
+                "N1",
+                "A2",
+                "A1"
+              ]
+            }
+          ],
+          "red_flags": [],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A1",
+              "kind": "announcement",
+              "date": "2026-10-13",
+              "title_or_text": "比音勒芬:关于使用闲置自有资金进行现金管理的进展公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/002832/AN202610121830370722.html"
+            },
+            {
+              "id": "A2",
+              "kind": "announcement",
+              "date": "2026-09-15",
+              "title_or_text": "比音勒芬:2026年9月15日投资者关系活动记录表",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/002832/AN202609151829423423.html"
+            },
+            {
+              "id": "A3",
+              "kind": "announcement",
+              "date": "2026-09-15",
+              "title_or_text": "比音勒芬:关于公司董事增持公司股份计划实施完成的公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/002832/AN202609141829374190.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 28.6833900272
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 36.354800074303
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.9442857142857143
+            },
+            {
+              "id": "M:flow_1d",
+              "kind": "metric",
+              "name": "flow_1d",
+              "value": -2113400.0
+            },
+            {
+              "id": "M:flow_3d",
+              "kind": "metric",
+              "name": "flow_3d",
+              "value": -117000.0
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 42578000.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.004161817935718432
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 75.8792991144
+            },
+            {
+              "id": "M:ma120",
+              "kind": "metric",
+              "name": "ma120",
+              "value": 22.31875
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 24.97166666666667
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": 63.7151702786378
+            },
+            {
+              "id": "M:ret_60d",
+              "kind": "metric",
+              "name": "ret_60d",
+              "value": 27.054300816914957
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": 23.6555357308
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 17.74
+            },
+            {
+              "id": "N1",
+              "kind": "news",
+              "date": "2026-09-21",
+              "title_or_text": "14家公司重要股东开启增持模式 累计增持3.26亿元（附股）",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202609213879556230.html"
+            }
+          ]
+        },
+        "added_at": "2026-10-13T15:53:59",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "000848",
+        "name": "承德露露",
+        "board": "main_sz",
+        "industry": "饮料乳品",
+        "origin": "auto",
+        "change": "new",
+        "rank": 6,
+        "score": 93.3013,
+        "sub_scores": {
+          "fundamental": 96.8163,
+          "trend": 89.9864,
+          "flow": 92.3182
+        },
+        "reasons": [
+          "ROE 8.4% (top 13%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 47.9%",
+          "revenue YoY +11.3%",
+          "recurring (扣非) profit YoY +14.5% (reported +15.3%)",
+          "PE 14.1 (valuation 73/100)",
+          "debt ratio 28.9% (low-leverage score)",
+          "close +0.4% vs MA60",
+          "120d return +10.3% vs CSI300 -9.1%",
+          "distance to 250d high -9.9%",
+          "20d volume 0.68x the 60d average",
+          "5-day THS net inflow +5995万 (0.70% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "承德露露 shows strong fundamentals, positive momentum, and low leverage, with 2026 H1 revenue and recurring profit both growing double digits. The pack contains no regulatory, audit, penalty, delisting, sell-down, or pledging red flag. Key concerns are a sharp deterioration in operating cash flow and a reported collapse in almond-milk sales, so the position warrants monitoring rather than unconditional conviction.",
+          "reasons": [
+            {
+              "text": "2026 H1 revenue and profit growth are solid: total revenue 1.54 billion yuan, +11.3% YoY; net profit attributable to shareholders +15.3%; recurring net profit +14.5%.",
+              "cites": [
+                "N11",
+                "M:revenue_yoy",
+                "M:profit_yoy",
+                "M:deduct_profit_yoy"
+              ]
+            },
+            {
+              "text": "Profitability and balance sheet remain healthy: period ROE 8.4%, annualised ROE 16.9%, gross margin 47.9%, and debt ratio 28.9%.",
+              "cites": [
+                "M:roe",
+                "M:roe_annualised",
+                "M:gross_margin",
+                "M:debt_ratio"
+              ]
+            },
+            {
+              "text": "Valuation is moderate for the profile: PE 14.1 and PB 2.7, with quality components scoring well.",
+              "cites": [
+                "M:pe",
+                "M:pb"
+              ]
+            },
+            {
+              "text": "Price trend is constructive: close 8.45 is slightly above MA60 and above MA20/MA120; 120-day return is +10.3% versus benchmark -9.1%, though the stock remains 9.9% below its 250-day high.",
+              "cites": [
+                "M:close",
+                "M:ma60",
+                "M:ma20",
+                "M:ma120",
+                "M:ret_120d",
+                "M:bench_ret_120d",
+                "M:rel_120d",
+                "M:dist_to_high_250"
+              ]
+            },
+            {
+              "text": "Recent THS (同花顺) net fund flow is positive, with a 5-day net inflow of about RMB 59.95 million, equal to about 0.70% of float cap; this is not Eastmoney main-force data and not northbound/institutional flow.",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d"
+              ]
+            },
+            {
+              "text": "There is a medium-term capacity catalyst: the Chun’an project phase one, with 7万吨 capacity, is disclosed as progressing and expected to enter formal production in October 2026.",
+              "cites": [
+                "N12",
+                "A1"
+              ]
+            }
+          ],
+          "red_flags": [
+            {
+              "text": "Operating cash flow deteriorated materially: 2026 H1 net operating cash flow was -RMB 186 million versus -RMB 29.7 million in the prior-year period, creating a significant mismatch with reported profit growth.",
+              "cites": [
+                "N11"
+              ],
+              "type": "cash_flow_deterioration"
+            },
+            {
+              "text": "The report describes a cliff-like decline in almond-milk sales, a material demand concern despite the reported revenue/profit increases.",
+              "cites": [
+                "N11"
+              ],
+              "type": "product_demand_weakness"
+            }
+          ],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A1",
+              "kind": "announcement",
+              "date": "2026-09-16",
+              "title_or_text": "承德露露:投资者关系活动记录表",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/000848/AN202609161829466610.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:close",
+              "kind": "metric",
+              "name": "close",
+              "value": 8.45
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 28.86941144
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 14.542114377244
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.9008528784648187
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 59945300.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.007019611665526109
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 47.8597804865
+            },
+            {
+              "id": "M:ma120",
+              "kind": "metric",
+              "name": "ma120",
+              "value": 8.2075
+            },
+            {
+              "id": "M:ma20",
+              "kind": "metric",
+              "name": "ma20",
+              "value": 8.185999999999998
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 8.413
+            },
+            {
+              "id": "M:pb",
+              "kind": "metric",
+              "name": "pb",
+              "value": 2.673
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 14.083
+            },
+            {
+              "id": "M:profit_yoy",
+              "kind": "metric",
+              "name": "profit_yoy",
+              "value": 15.28
+            },
+            {
+              "id": "M:rel_120d",
+              "kind": "metric",
+              "name": "rel_120d",
+              "value": 19.366169617802633
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": 10.31331592689293
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": 11.2931890696
+            },
+            {
+              "id": "M:roe",
+              "kind": "metric",
+              "name": "roe",
+              "value": 8.43
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 16.86
+            },
+            {
+              "id": "N11",
+              "kind": "news",
+              "date": "2026-09-17",
+              "title_or_text": "承德露露半年报“喜忧参半”，营利双增背后杏仁奶销量断崖式下跌，多名投资者关注淳安项目进展",
+              "source": "深圳商报·读创",
+              "url": "http://finance.eastmoney.com/a/202609173877165261.html"
+            },
+            {
+              "id": "N12",
+              "kind": "news",
+              "date": "2026-09-16",
+              "title_or_text": "承德露露淳安基地一期预计10月投产，产能7万吨",
+              "source": "北京商报",
+              "url": "http://finance.eastmoney.com/a/202609163876360110.html"
+            }
+          ]
+        },
+        "added_at": "2026-10-13T16:55:40",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "601326",
+        "name": "秦港股份",
+        "board": "main_sh",
+        "industry": "航运港口",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 7,
+        "score": 93.2346,
+        "sub_scores": {
+          "fundamental": 96.0272,
+          "trend": 98.0136,
+          "flow": 82.0757
+        },
+        "reasons": [
+          "ROE 4.8% (top 23%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 43.3%",
+          "revenue YoY +5.4%",
+          "recurring (扣非) profit YoY +4.3% (reported +2.9%)",
+          "PE 12.6 (valuation 89/100)",
+          "debt ratio 22.7% (low-leverage score)",
+          "close +5.3% vs MA60",
+          "120d return +5.0% vs CSI300 -9.1%",
+          "distance to 250d high -9.5%",
+          "20d volume 0.92x the 60d average",
+          "5-day THS net inflow +4336万 (0.25% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "failed",
+          "verdict": null,
+          "summary": null,
+          "reasons": [],
+          "red_flags": [],
+          "news_checked": false,
+          "note": "AI review failed: TimeoutError: LLM call timed out after 90s | TimeoutError: ",
+          "failure_kind": "timeout"
+        },
+        "added_at": "2026-10-13T15:53:59",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "601577",
+        "name": "长沙银行",
+        "board": "main_sh",
+        "industry": "银行Ⅱ",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 8,
+        "score": 93.1936,
+        "sub_scores": {
+          "fundamental": 93.2245,
+          "trend": 97.8503,
+          "flow": 86.6249
+        },
+        "reasons": [
+          "ROE 6.2% (top 20%) (period ROE ×2.00 to annualise — period-level metric)",
+          "revenue YoY +4.0%",
+          "recurring (扣非) profit YoY +5.0% (reported +5.1%)",
+          "PE 5.0 (valuation 95/100)",
+          "debt ratio 93.6% — financial firm, leverage not penalised (info)",
+          "close +3.4% vs MA60",
+          "120d return +8.3% vs CSI300 -9.1%",
+          "distance to 250d high -3.0%",
+          "20d volume 1.02x the 60d average",
+          "5-day THS net inflow +1.79亿 (0.46% of float cap)",
+          "northbound holding 2.61% (info only, not scored)"
+        ],
+        "flags": [
+          "leverage_neutral_financial"
+        ],
+        "ai": {
+          "status": "failed",
+          "verdict": null,
+          "summary": null,
+          "reasons": [],
+          "red_flags": [],
+          "news_checked": false,
+          "note": "AI review failed: TimeoutError: LLM call timed out after 90s | TimeoutError: ",
+          "failure_kind": "timeout"
+        },
+        "added_at": "2026-10-13T15:53:59",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "600901",
+        "name": "江苏金租",
+        "board": "main_sh",
+        "industry": "多元金融",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 9,
+        "score": 93.0762,
+        "sub_scores": {
+          "fundamental": 93.1156,
+          "trend": 98.6122,
+          "flow": 85.2629
+        },
+        "reasons": [
+          "ROE 6.6% (top 18%) (period ROE ×2.00 to annualise — period-level metric)",
+          "revenue YoY +16.9%",
+          "recurring (扣非) profit YoY +12.2% (reported +9.3%)",
+          "PE 13.0 (valuation 77/100)",
+          "debt ratio 85.8% — financial firm, leverage not penalised (info)",
+          "close +9.6% vs MA60",
+          "120d return +9.5% vs CSI300 -9.1%",
+          "distance to 250d high -0.5%",
+          "20d volume 0.80x the 60d average",
+          "5-day THS net inflow +1.21亿 (0.29% of float cap)"
+        ],
+        "flags": [
+          "leverage_neutral_financial"
+        ],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "江苏金租 (600901) is a diversified-financial (leasing) name with strong profitability, solid growth, reasonable valuation, powerful relative price momentum, and positive THS net fund inflows. It is trading near its 250-day high with no material red flags in the supplied pack.",
+          "reasons": [
+            {
+              "text": "Profitability is strong with annualised ROE of 13.28% and period ROE of 6.64%, placing the stock in the top 18%.",
+              "cites": [
+                "M:roe",
+                "M:roe_annualised"
+              ]
+            },
+            {
+              "text": "Revenue grew 16.9% YoY while recurring net profit rose 12.2% YoY, exceeding the 9.3% reported profit growth.",
+              "cites": [
+                "M:revenue_yoy",
+                "M:deduct_profit_yoy",
+                "M:profit_yoy"
+              ]
+            },
+            {
+              "text": "Valuation remains reasonable at PE 12.96 and PB 1.63, supported by a valuation sub-score of 77.5/100.",
+              "cites": [
+                "M:pe",
+                "M:pb"
+              ]
+            },
+            {
+              "text": "Momentum is very strong: 60-day return +19.4% versus CSI300 -8.9% and 120-day return +9.5% versus -9.1%, while price sits only 0.5% below the 250-day high.",
+              "cites": [
+                "M:ret_60d",
+                "M:bench_ret_60d",
+                "M:ret_120d",
+                "M:bench_ret_120d",
+                "M:dist_to_high_250"
+              ]
+            },
+            {
+              "text": "THS (同花顺) net fund flow is positive, with a 5-day inflow of CNY 121 million equal to 0.29% of float market cap.",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d"
+              ]
+            },
+            {
+              "text": "Recent market coverage notes the stock’s closing price hitting historical highs.",
+              "cites": [
+                "N1",
+                "N2"
+              ]
+            }
+          ],
+          "red_flags": [],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:bench_ret_60d",
+              "kind": "metric",
+              "name": "bench_ret_60d",
+              "value": -8.938573661769656
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 12.173941396817
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.9945205479452055
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 121000000.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.0028783012839271984
+            },
+            {
+              "id": "M:pb",
+              "kind": "metric",
+              "name": "pb",
+              "value": 1.631
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 12.964
+            },
+            {
+              "id": "M:profit_yoy",
+              "kind": "metric",
+              "name": "profit_yoy",
+              "value": 9.27
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": 9.502262443438902
+            },
+            {
+              "id": "M:ret_60d",
+              "kind": "metric",
+              "name": "ret_60d",
+              "value": 19.407894736842103
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": 16.9079065611
+            },
+            {
+              "id": "M:roe",
+              "kind": "metric",
+              "name": "roe",
+              "value": 6.64
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 13.28
+            },
+            {
+              "id": "N1",
+              "kind": "news",
+              "date": "2026-10-12",
+              "title_or_text": "11只股收盘价创历史新高",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202610123892808621.html"
+            },
+            {
+              "id": "N2",
+              "kind": "news",
+              "date": "2026-10-09",
+              "title_or_text": "收盘价创历史新高股一览",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202610093891355945.html"
+            }
+          ]
+        },
+        "added_at": "2026-10-13T15:53:59",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "600566",
+        "name": "济川药业",
+        "board": "main_sh",
+        "industry": "中药Ⅱ",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 10,
+        "score": 92.4904,
+        "sub_scores": {
+          "fundamental": 93.8776,
+          "trend": 94.8027,
+          "flow": 87.0335
+        },
+        "reasons": [
+          "ROE 5.3% (top 13%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 79.5%",
+          "revenue YoY -15.3%",
+          "recurring (扣非) profit YoY +4.6% (reported +8.3%)",
+          "PE 14.1 (valuation 81/100)",
+          "debt ratio 18.8% (low-leverage score)",
+          "close +6.1% vs MA60",
+          "120d return +16.8% vs CSI300 -9.1%",
+          "distance to 250d high -3.8%",
+          "20d volume 0.79x the 60d average",
+          "5-day THS net inflow +1.01亿 (0.40% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "济川药业 combines high gross margin, a low debt ratio and recurring profit growth with an ongoing share buyback; revenue is declining but earnings have stayed positive, valuation is moderate, and the stock is strongly outperforming benchmarks with recent THS net fund inflows.",
+          "reasons": [
+            {
+              "text": "Profitability and balance-sheet quality: gross margin 79.5%, debt ratio 18.8%, and annualised ROE 10.66% from period ROE 5.33%.",
+              "cites": [
+                "M:gross_margin",
+                "M:debt_ratio",
+                "M:roe",
+                "M:roe_annualised"
+              ]
+            },
+            {
+              "text": "Earnings resilience: recurring (扣非) profit YoY +4.6% and reported profit YoY +8.3% despite revenue YoY -15.3%.",
+              "cites": [
+                "M:deduct_profit_yoy",
+                "M:profit_yoy",
+                "M:revenue_yoy"
+              ]
+            },
+            {
+              "text": "Valuation support: PE 14.1 and PB 1.8 alongside high margins and low leverage.",
+              "cites": [
+                "M:pe",
+                "M:pb"
+              ]
+            },
+            {
+              "text": "Trend strength: 120-day return +16.8% versus CSI300 -9.1%, price +6.1% above MA60, and only 3.8% below the 250-day high.",
+              "cites": [
+                "M:ret_120d",
+                "M:bench_ret_120d",
+                "M:ma60",
+                "M:dist_to_high_250"
+              ]
+            },
+            {
+              "text": "Management action: buyback of 0.93 million shares for ¥25 million, with a published buyback progress announcement.",
+              "cites": [
+                "N1",
+                "A3"
+              ]
+            },
+            {
+              "text": "THS (同花顺) net fund flow: 5-day inflow +1.01亿元, representing 0.40% of float capitalisation; 3-day flow was also positive.",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d",
+                "M:flow_3d"
+              ]
+            }
+          ],
+          "red_flags": [
+            {
+              "text": "Revenue contracted -15.3% YoY, so top-line pressure could undermine future earnings if margin or cost benefits reverse.",
+              "cites": [
+                "M:revenue_yoy"
+              ],
+              "type": "growth_pressure"
+            }
+          ],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A3",
+              "kind": "announcement",
+              "date": "2026-10-09",
+              "title_or_text": "济川药业:湖北济川药业股份有限公司关于以集中竞价交易方式回购股份的进展公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/600566/AN202610081830214409.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 18.7778228787
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 4.630386511521
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.9622308506883164
+            },
+            {
+              "id": "M:flow_3d",
+              "kind": "metric",
+              "name": "flow_3d",
+              "value": 60982200.0
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 101000000.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.004026588607511281
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 79.4777654808
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 25.695833333333333
+            },
+            {
+              "id": "M:pb",
+              "kind": "metric",
+              "name": "pb",
+              "value": 1.822
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 14.124
+            },
+            {
+              "id": "M:profit_yoy",
+              "kind": "metric",
+              "name": "profit_yoy",
+              "value": 8.26
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": 16.79520137103685
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": -15.2944862346
+            },
+            {
+              "id": "M:roe",
+              "kind": "metric",
+              "name": "roe",
+              "value": 5.33
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 10.66
+            },
+            {
+              "id": "N1",
+              "kind": "news",
+              "date": "2026-10-08",
+              "title_or_text": "济川药业已回购93万股 金额2500万元",
+              "source": "财中社",
+              "url": "http://finance.eastmoney.com/a/202610083889775237.html"
+            }
+          ]
+        },
+        "added_at": "2026-10-13T08:46:16",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "300770",
+        "name": "新媒股份",
+        "board": "chinext",
+        "industry": "电视广播Ⅱ",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 11,
+        "score": 92.4222,
+        "sub_scores": {
+          "fundamental": 91.3741,
+          "trend": 94.2585,
+          "flow": 91.5282
+        },
+        "reasons": [
+          "ROE 8.1% (top 14%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 45.3%",
+          "revenue YoY -8.4%",
+          "recurring (扣非) profit YoY -16.7% (reported -13.5%)",
+          "PE 12.6 (valuation 81/100)",
+          "debt ratio 24.1% (low-leverage score)",
+          "close +8.5% vs MA60",
+          "120d return -4.7% vs CSI300 -9.1%",
+          "distance to 250d high -26.8%",
+          "20d volume 1.31x the 60d average",
+          "5-day THS net inflow +4961万 (0.60% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "failed",
+          "verdict": null,
+          "summary": null,
+          "reasons": [],
+          "red_flags": [],
+          "news_checked": false,
+          "note": "AI review failed: TimeoutError: LLM call timed out after 90s | TimeoutError: ",
+          "failure_kind": "timeout"
+        },
+        "added_at": "2026-10-13T15:53:59",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "301507",
+        "name": "民生健康",
+        "board": "chinext",
+        "industry": "化学制药",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 12,
+        "score": 92.3214,
+        "sub_scores": {
+          "fundamental": 92.6803,
+          "trend": 92.9252,
+          "flow": 90.9017
+        },
+        "reasons": [
+          "ROE 5.1% (top 18%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 55.2%",
+          "revenue YoY +15.8%",
+          "recurring (扣非) profit YoY +8.1% (reported +1.2%)",
+          "PE 41.6 (valuation 55/100)",
+          "debt ratio 17.7% (low-leverage score)",
+          "close +9.0% vs MA60",
+          "120d return -1.3% vs CSI300 -9.1%",
+          "distance to 250d high -28.1%",
+          "20d volume 1.03x the 60d average",
+          "5-day THS net inflow +2844万 (0.58% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "民生健康 remains watch-worthy: fundamentals are solid, relative momentum is strong, and the pack shows a product-approval catalyst plus positive THS net fund flow. Caveats are a mid-range PE against only modest reported profit growth and a disclosed fundraising-project delay.",
+          "reasons": [
+            {
+              "text": "Fundamental profile is strong: revenue YoY +15.8%, gross margin 55.2%, debt ratio 17.7%, and recurring profit YoY +8.1%.",
+              "cites": [
+                "M:revenue_yoy",
+                "M:gross_margin",
+                "M:debt_ratio",
+                "M:deduct_profit_yoy"
+              ]
+            },
+            {
+              "text": "Price and relative strength improved sharply: 20d return +9.5%, 60d return +13.5% versus CSI300 -8.9%, and 120d return -1.3% versus CSI300 -9.1%.",
+              "cites": [
+                "M:ret_20d",
+                "M:ret_60d",
+                "M:bench_ret_60d",
+                "M:ret_120d",
+                "M:bench_ret_120d"
+              ]
+            },
+            {
+              "text": "Stock appeared in the list of shares breaking the annual line, adding a technical confirmation signal to the positive MA60/MA120 stance.",
+              "cites": [
+                "N1",
+                "M:ma60",
+                "M:ma120"
+              ]
+            },
+            {
+              "text": "Flow is constructive on a 5-day view: THS net fund flow +28.44 million, equal to 0.58% of float cap; this is THS net fund flow data, not Eastmoney main-force and not northbound/institutional money.",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d"
+              ]
+            },
+            {
+              "text": "Product catalyst: the company received approval notice for a supplemental application for glucosamine sulfate capsules, which may broaden its osteoarthritis-related product portfolio.",
+              "cites": [
+                "N2",
+                "N3",
+                "A1"
+              ]
+            }
+          ],
+          "red_flags": [
+            {
+              "text": "The pack discloses a fundraising investment project delay with sponsor verification opinion; this is not a severe regulatory or earnings red flag, but it signals project-timeline slippage worth monitoring.",
+              "cites": [
+                "A4",
+                "A2"
+              ],
+              "type": "project_delay"
+            },
+            {
+              "text": "Valuation is not cheap at PE 41.6 while reported profit YoY is only +1.2%; the stock also remains 28.1% below its 250-day high, so further upside likely depends on execution and growth delivery.",
+              "cites": [
+                "M:pe",
+                "M:profit_yoy",
+                "M:dist_to_high_250"
+              ],
+              "type": "valuation_growth_pressure"
+            }
+          ],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A1",
+              "kind": "announcement",
+              "date": "2026-09-30",
+              "title_or_text": "民生健康:关于公司取得硫酸氨基葡萄糖胶囊药品批文的公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/301507/AN202609301830051323.html"
+            },
+            {
+              "id": "A2",
+              "kind": "announcement",
+              "date": "2026-09-30",
+              "title_or_text": "民生健康:财通证券股份有限公司关于杭州民生健康药业股份有限公司募集资金投资项目延期的核查意见",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/301507/AN202609301830051321.html"
+            },
+            {
+              "id": "A4",
+              "kind": "announcement",
+              "date": "2026-09-30",
+              "title_or_text": "民生健康:关于募集资金投资项目延期的公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/301507/AN202609301830051329.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:bench_ret_60d",
+              "kind": "metric",
+              "name": "bench_ret_60d",
+              "value": -8.938573661769656
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 17.677711633
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 8.128945760515
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.7193340662792524
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 28435800.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.0058273209922662245
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 55.1650852813
+            },
+            {
+              "id": "M:ma120",
+              "kind": "metric",
+              "name": "ma120",
+              "value": 12.896716666666668
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 12.601166666666666
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 41.636
+            },
+            {
+              "id": "M:profit_yoy",
+              "kind": "metric",
+              "name": "profit_yoy",
+              "value": 1.2
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": -1.3001939515839278
+            },
+            {
+              "id": "M:ret_20d",
+              "kind": "metric",
+              "name": "ret_20d",
+              "value": 9.48207171314741
+            },
+            {
+              "id": "M:ret_60d",
+              "kind": "metric",
+              "name": "ret_60d",
+              "value": 13.459950454170123
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": 15.7572746968
+            },
+            {
+              "id": "N1",
+              "kind": "news",
+              "date": "2026-10-12",
+              "title_or_text": "今日48只个股突破年线",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202610123892550472.html"
+            },
+            {
+              "id": "N2",
+              "kind": "news",
+              "date": "2026-09-30",
+              "title_or_text": "民生健康：硫酸氨基葡萄糖胶囊获药品补充申请批准通知书",
+              "source": "财中社",
+              "url": "http://finance.eastmoney.com/a/202609303887865916.html"
+            },
+            {
+              "id": "N3",
+              "kind": "news",
+              "date": "2026-09-30",
+              "title_or_text": "民生健康：取得硫酸氨基葡萄糖胶囊药品批文",
+              "source": "财联社",
+              "url": "http://finance.eastmoney.com/a/202609303887800036.html"
+            }
+          ]
+        },
+        "added_at": "2026-10-13T15:53:59",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "002332",
+        "name": "仙琚制药",
+        "board": "main_sz",
+        "industry": "化学制药",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 13,
+        "score": 92.2939,
+        "sub_scores": {
+          "fundamental": 97.3605,
+          "trend": 95.1837,
+          "flow": 80.1417
+        },
+        "reasons": [
+          "ROE 4.0% (top 22%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 62.2%",
+          "revenue YoY +4.8%",
+          "recurring (扣非) profit YoY +23.8% (reported -20.7%)",
+          "PE 19.3 (valuation 83/100)",
+          "debt ratio 15.2% (low-leverage score)",
+          "close +2.0% vs MA60",
+          "120d return +0.4% vs CSI300 -9.1%",
+          "distance to 250d high -10.9%",
+          "20d volume 0.79x the 60d average",
+          "5-day THS net inflow +2362万 (0.28% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "Stock 002332 screens as a high-quality chemical-pharma name with low leverage, recurring-profit growth, constructive relative price strength, and positive multi-day THS net fund flow. The pack contains no recorded regulatory, audit, penalty, sell-down, or pledging red flags.",
+          "reasons": [
+            {
+              "text": "Fundamental quality is strong: ROE 4.02% for the period, 8.04% annualised, gross margin 62.15%, and recurring profit +23.82% YoY, alongside a low debt ratio of 15.23%.",
+              "cites": [
+                "M:roe",
+                "M:roe_annualised",
+                "M:gross_margin",
+                "M:deduct_profit_yoy",
+                "M:debt_ratio"
+              ]
+            },
+            {
+              "text": "Reported profit YoY is negative at -20.67%, so the positive recurring-profit YoY of +23.82% is the more useful earnings-quality signal; revenue growth is positive but modest at +4.78%.",
+              "cites": [
+                "M:profit_yoy",
+                "M:deduct_profit_yoy",
+                "M:revenue_yoy"
+              ]
+            },
+            {
+              "text": "Valuation inputs look undemanding in the pack: PE 19.31 and PB 1.44, with valuation component 83.05 and leverage component 90.88.",
+              "cites": [
+                "M:pe",
+                "M:pb",
+                "M:components"
+              ]
+            },
+            {
+              "text": "Trend is constructive: close 8.69 is above MA20 8.63, MA60 8.52 and MA120 8.43; 60d relative return is +14.50 versus CSI300 benchmark return of -8.94, and the stock is 10.9% below its 250d high.",
+              "cites": [
+                "M:close",
+                "M:ma20",
+                "M:ma60",
+                "M:ma120",
+                "M:rel_60d",
+                "M:bench_ret_60d",
+                "M:dist_to_high_250"
+              ]
+            },
+            {
+              "text": "THS net fund flow is positive over the multi-day window: 5-day inflow +2361.68万元, 0.276% of float cap, and 3-day inflow +1559.99万元; however, the 1-day flow is negative at -2098.93万元, so daily inflow is not yet persistent.",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d",
+                "M:flow_3d",
+                "M:flow_1d"
+              ]
+            },
+            {
+              "text": "Volume confirmation is mixed because 20-day volume is only 0.79x the 60-day average, which tempers conviction but does not contradict the overall price trend.",
+              "cites": [
+                "M:vol_expansion"
+              ]
+            }
+          ],
+          "red_flags": [],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "M:bench_ret_60d",
+              "kind": "metric",
+              "name": "bench_ret_60d",
+              "value": -8.938573661769656
+            },
+            {
+              "id": "M:close",
+              "kind": "metric",
+              "name": "close",
+              "value": 8.69
+            },
+            {
+              "id": "M:components",
+              "kind": "metric",
+              "name": "components",
+              "value": {
+                "quality": 78.2203,
+                "growth": 52.9252,
+                "valuation": 83.0482,
+                "leverage": 90.8844,
+                "fundamental_raw": 75.0031,
+                "valuation_industry_fallback": 0.0,
+                "roe_basis": "annualised",
+                "profit_growth_basis": "recurring",
+                "late_filer": 0.0
+              }
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 15.2337420095
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 23.815616609791
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.8910992616899096
+            },
+            {
+              "id": "M:flow_1d",
+              "kind": "metric",
+              "name": "flow_1d",
+              "value": -20989300.0
+            },
+            {
+              "id": "M:flow_3d",
+              "kind": "metric",
+              "name": "flow_3d",
+              "value": 15599900.0
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 23616800.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.002757085703788572
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 62.1505477219
+            },
+            {
+              "id": "M:ma120",
+              "kind": "metric",
+              "name": "ma120",
+              "value": 8.434433333333335
+            },
+            {
+              "id": "M:ma20",
+              "kind": "metric",
+              "name": "ma20",
+              "value": 8.634099999999998
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 8.5217
+            },
+            {
+              "id": "M:pb",
+              "kind": "metric",
+              "name": "pb",
+              "value": 1.442
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 19.311
+            },
+            {
+              "id": "M:profit_yoy",
+              "kind": "metric",
+              "name": "profit_yoy",
+              "value": -20.67
+            },
+            {
+              "id": "M:rel_60d",
+              "kind": "metric",
+              "name": "rel_60d",
+              "value": 14.502227694811454
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": 4.7830718643
+            },
+            {
+              "id": "M:roe",
+              "kind": "metric",
+              "name": "roe",
+              "value": 4.02
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 8.04
+            },
+            {
+              "id": "M:vol_expansion",
+              "kind": "metric",
+              "name": "vol_expansion",
+              "value": 0.7921203697347685
+            }
+          ]
+        },
+        "added_at": "2026-10-13T15:53:59",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "601000",
+        "name": "唐山港",
+        "board": "main_sh",
+        "industry": "航运港口",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 14,
+        "score": 92.2551,
+        "sub_scores": {
+          "fundamental": 97.9048,
+          "trend": 96.2993,
+          "flow": 77.5538
+        },
+        "reasons": [
+          "ROE 4.6% (top 22%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 49.8%",
+          "revenue YoY +15.2%",
+          "recurring (扣非) profit YoY +8.7% (reported +14.0%)",
+          "PE 14.3 (valuation 77/100)",
+          "debt ratio 8.9% (low-leverage score)",
+          "close +4.9% vs MA60",
+          "120d return +6.4% vs CSI300 -9.1%",
+          "distance to 250d high -4.2%",
+          "20d volume 0.97x the 60d average",
+          "5-day THS net inflow +5447万 (0.19% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "唐山港 presents a well-rounded profile with strong profitability (ROE 4.63%, gross margin 49.75%), solid revenue and recurring-profit growth (+15.2% / +8.7%), and minimal leverage (debt ratio 8.88%). Valuation is moderate (PE 14.29, PB 1.34), price trades above key moving averages with clear 120-day relative outperformance versus CSI300, and 5-day THS (同花顺) net fund flow is positive. No red flags or material adverse announcements appear in the pack.",
+          "reasons": [
+            {
+              "text": "Fundamental quality is high: ROE 4.63% (annualised 9.26%), gross margin 49.75%, revenue YoY +15.18%, recurring profit YoY +8.69%, and a very low debt ratio of 8.88%.",
+              "cites": [
+                "M:roe",
+                "M:roe_annualised",
+                "M:gross_margin",
+                "M:revenue_yoy",
+                "M:deduct_profit_yoy",
+                "M:debt_ratio"
+              ]
+            },
+            {
+              "text": "Valuation remains reasonable at PE 14.29 and PB 1.34, supported by annualised EPS of 0.34.",
+              "cites": [
+                "M:pe",
+                "M:pb",
+                "M:eps_annualised"
+              ]
+            },
+            {
+              "text": "Price is in a solid uptrend: close 4.82 sits above MA60 4.59, 120d return +6.40% vastly outperforms CSI300 -9.05%, and the stock is only about 4.2% below its 250-day high.",
+              "cites": [
+                "M:close",
+                "M:ma60",
+                "M:ret_120d",
+                "M:bench_ret_120d",
+                "M:dist_to_high_250"
+              ]
+            },
+            {
+              "text": "Short-term THS (同花顺) net fund flow is supportive, with 5-day inflow of 5,447万元 (0.19% of float cap).",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d"
+              ]
+            },
+            {
+              "text": "The company voluntarily disclosed Jan–Sep 2026 production data, indicating operational transparency.",
+              "cites": [
+                "A1"
+              ]
+            }
+          ],
+          "red_flags": [],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A1",
+              "kind": "announcement",
+              "date": "2026-10-10",
+              "title_or_text": "唐山港:唐山港集团股份有限公司关于公司2026年1-9月主要生产数据的自愿性披露公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/601000/AN202610091830269825.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:close",
+              "kind": "metric",
+              "name": "close",
+              "value": 4.82
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 8.8760507029
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 8.692788417725
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.9582504970178927
+            },
+            {
+              "id": "M:eps_annualised",
+              "kind": "metric",
+              "name": "eps_annualised",
+              "value": 0.3404
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 54472800.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.001907112205449484
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 49.7525572883
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 4.592833333333333
+            },
+            {
+              "id": "M:pb",
+              "kind": "metric",
+              "name": "pb",
+              "value": 1.34
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 14.294
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": 6.4017660044150215
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": 15.1831236839
+            },
+            {
+              "id": "M:roe",
+              "kind": "metric",
+              "name": "roe",
+              "value": 4.63
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 9.26
+            }
+          ]
+        },
+        "added_at": "2026-10-13T15:53:59",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "300832",
+        "name": "新产业",
+        "board": "chinext",
+        "industry": "医疗器械",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 15,
+        "score": 92.1617,
+        "sub_scores": {
+          "fundamental": 97.3061,
+          "trend": 95.5102,
+          "flow": 79.2427
+        },
+        "reasons": [
+          "ROE 9.3% (top 6%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 70.9%",
+          "revenue YoY +10.8%",
+          "recurring (扣非) profit YoY +30.4% (reported +12.5%)",
+          "PE 25.2 (valuation 49/100)",
+          "debt ratio 8.1% (low-leverage score)",
+          "close +5.8% vs MA60",
+          "120d return +14.7% vs CSI300 -9.1%",
+          "distance to 250d high -23.5%",
+          "20d volume 0.65x the 60d average",
+          "5-day THS net inflow +6274万 (0.18% of float cap)",
+          "northbound holding 4.11% (info only, not scored)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "failed",
+          "verdict": null,
+          "summary": null,
+          "reasons": [],
+          "red_flags": [],
+          "news_checked": false,
+          "note": "AI review failed: TimeoutError: LLM call timed out after 90s | TimeoutError: ",
+          "failure_kind": "timeout"
+        },
+        "added_at": "2026-10-13T15:53:59",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "603209",
+        "name": "兴通股份",
+        "board": "main_sh",
+        "industry": "航运港口",
+        "origin": "auto",
+        "change": "new",
+        "rank": 16,
+        "score": 92.1346,
+        "sub_scores": {
+          "fundamental": 91.4286,
+          "trend": 98.3946,
+          "flow": 84.5001
+        },
+        "reasons": [
+          "ROE 6.2% (top 28%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 31.1%",
+          "revenue YoY +29.4%",
+          "recurring (扣非) profit YoY +65.9% (reported +57.1%)",
+          "PE 17.3 (valuation 66/100)",
+          "debt ratio 39.8% (low-leverage score)",
+          "close +8.2% vs MA60",
+          "120d return +5.9% vs CSI300 -9.1%",
+          "distance to 250d high -15.1%",
+          "20d volume 1.06x the 60d average",
+          "5-day THS net inflow +605万 (0.12% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "兴通股份 is a main-board shipping-port name with strong operating momentum, positive relative strength, constructive THS net fund flow, and no supplied red flags. The pack shows 2026Q2 period ROE of 6.17% (12.34% annualised), gross margin 31.06%, revenue +29.36% YoY and recurring profit +65.87% YoY, with moderate leverage. Price is above MA20/MA60/MA120 and the stock has materially outperformed the 120-day benchmark. Recent corporate actions include buyback progress and employee-ownership-plan governance items.",
+          "reasons": [
+            {
+              "text": "Fundamentals are strong: gross margin 31.06%, debt ratio 39.84%, ROE 6.17% period and 12.34% annualised, PE 17.30, PB 1.44.",
+              "cites": [
+                "M:gross_margin",
+                "M:debt_ratio",
+                "M:roe",
+                "M:roe_annualised",
+                "M:pe",
+                "M:pb"
+              ]
+            },
+            {
+              "text": "Growth is robust: revenue +29.36% YoY, reported profit +57.11% YoY, recurring/deducted profit +65.87% YoY.",
+              "cites": [
+                "M:revenue_yoy",
+                "M:profit_yoy",
+                "M:deduct_profit_yoy"
+              ]
+            },
+            {
+              "text": "Trend and relative strength are positive: close 15.22 is about 8.2% above MA60 and above MA20/MA120; 120d return +5.90% versus benchmark -9.05%.",
+              "cites": [
+                "M:close",
+                "M:ma60",
+                "M:ma20",
+                "M:ma120",
+                "M:ret_120d",
+                "M:bench_ret_120d"
+              ]
+            },
+            {
+              "text": "THS net fund flow is constructive: 5-day THS net inflow +605.33万元 and flow ratio +0.12% of float cap, with 60d volume expansion 1.06x. This is THS net fund flow, not Eastmoney main-force, not northbound/institutional money.",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d",
+                "M:vol_expansion"
+              ]
+            },
+            {
+              "text": "Corporate-action support is visible: buyback progress, 2026 employee stock ownership plan, and shareholder-meeting/board resolutions are disclosed in the pack.",
+              "cites": [
+                "A2",
+                "A5",
+                "A10",
+                "A9",
+                "A3"
+              ]
+            }
+          ],
+          "red_flags": [],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A10",
+              "kind": "announcement",
+              "date": "2026-09-24",
+              "title_or_text": "兴通股份:兴通海运股份有限公司2026年员工持股计划",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/603209/AN202609231829806444.html"
+            },
+            {
+              "id": "A2",
+              "kind": "announcement",
+              "date": "2026-10-01",
+              "title_or_text": "兴通股份:兴通海运股份有限公司关于以集中竞价交易方式回购公司股份的进展公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/603209/AN202609301830044578.html"
+            },
+            {
+              "id": "A3",
+              "kind": "announcement",
+              "date": "2026-09-29",
+              "title_or_text": "兴通股份:兴通海运股份有限公司第三届董事会第十三次会议决议公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/603209/AN202609281829962412.html"
+            },
+            {
+              "id": "A5",
+              "kind": "announcement",
+              "date": "2026-09-29",
+              "title_or_text": "兴通股份:兴通海运股份有限公司关于回购注销2024年员工持股计划部分股份的公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/603209/AN202609281829962414.html"
+            },
+            {
+              "id": "A9",
+              "kind": "announcement",
+              "date": "2026-09-24",
+              "title_or_text": "兴通股份:兴通海运股份有限公司2026年第二次临时股东会决议公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/603209/AN202609231829806443.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:close",
+              "kind": "metric",
+              "name": "close",
+              "value": 15.22
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 39.8382814389
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 65.868605799432
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 6053300.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.0012371088664094561
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 31.0597441815
+            },
+            {
+              "id": "M:ma120",
+              "kind": "metric",
+              "name": "ma120",
+              "value": 13.892
+            },
+            {
+              "id": "M:ma20",
+              "kind": "metric",
+              "name": "ma20",
+              "value": 14.767500000000002
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 14.064999999999998
+            },
+            {
+              "id": "M:pb",
+              "kind": "metric",
+              "name": "pb",
+              "value": 1.442
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 17.295
+            },
+            {
+              "id": "M:profit_yoy",
+              "kind": "metric",
+              "name": "profit_yoy",
+              "value": 57.11
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": 5.900361814639576
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": 29.3579038665
+            },
+            {
+              "id": "M:roe",
+              "kind": "metric",
+              "name": "roe",
+              "value": 6.17
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 12.34
+            },
+            {
+              "id": "M:vol_expansion",
+              "kind": "metric",
+              "name": "vol_expansion",
+              "value": 1.0575044201386161
+            }
+          ]
+        },
+        "added_at": "2026-10-13T16:55:40",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "601900",
+        "name": "南方传媒",
+        "board": "main_sh",
+        "industry": "出版",
+        "origin": "auto",
+        "change": "new",
+        "rank": 17,
+        "score": 91.9406,
+        "sub_scores": {
+          "fundamental": 85.5782,
+          "trend": 99.4286,
+          "flow": 91.6372
+        },
+        "reasons": [
+          "ROE 5.2% (top 24%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 39.2%",
+          "revenue YoY -4.6%",
+          "recurring (扣非) profit YoY +25.4% (reported +5.3%)",
+          "PE 11.3 (valuation 88/100)",
+          "debt ratio 47.0% (low-leverage score)",
+          "close +10.9% vs MA60",
+          "120d return +5.9% vs CSI300 -9.1%",
+          "distance to 250d high -18.2%",
+          "20d volume 1.40x the 60d average",
+          "5-day THS net inflow +6717万 (0.57% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "南方传媒 (601900) has a high composite score of 91.94 driven by exceptional trend and flow sub-scores. The stock trades above all major moving averages, posted a 60-day return of +23.9% versus CSI300 -8.9%, and recently broke above the annual line. Valuation is inexpensive (PE 11.3, PB 1.33), gross margin is solid at 39.2%, and recurring profit grew +25.4% YoY. Offset: revenue declined 4.6% YoY. The pack reports no red flags; this fits the medium-term watchlist.",
+          "reasons": [
+            {
+              "text": "Strong uptrend: price is above MA20/MA60/MA120, 60-day return +23.9% vs CSI300 -8.9%, with multiple recent breakouts above the annual line.",
+              "cites": [
+                "M:close",
+                "M:ma20",
+                "M:ma60",
+                "M:ma120",
+                "M:ret_60d",
+                "M:rel_60d",
+                "N1",
+                "N2",
+                "N3",
+                "N4"
+              ]
+            },
+            {
+              "text": "5-day THS (同花顺) net fund flow is positive at +6717万元 (0.57% of float cap), confirming capital interest.",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d"
+              ]
+            },
+            {
+              "text": "Attractive valuation and profitability: PE 11.3, PB 1.33, gross margin 39.2%, and recurring profit YoY +25.4%.",
+              "cites": [
+                "M:pe",
+                "M:pb",
+                "M:gross_margin",
+                "M:deduct_profit_yoy"
+              ]
+            },
+            {
+              "text": "Volume is expanding, with 20-day volume at 1.40x the 60-day average, supporting the price move.",
+              "cites": [
+                "M:vol_expansion"
+              ]
+            }
+          ],
+          "red_flags": [],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "M:close",
+              "kind": "metric",
+              "name": "close",
+              "value": 13.32
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 25.44888811717
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 67166300.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.005717331062945333
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 39.1678355433
+            },
+            {
+              "id": "M:ma120",
+              "kind": "metric",
+              "name": "ma120",
+              "value": 11.726833333333335
+            },
+            {
+              "id": "M:ma20",
+              "kind": "metric",
+              "name": "ma20",
+              "value": 12.5185
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 12.007
+            },
+            {
+              "id": "M:pb",
+              "kind": "metric",
+              "name": "pb",
+              "value": 1.333
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 11.288
+            },
+            {
+              "id": "M:rel_60d",
+              "kind": "metric",
+              "name": "rel_60d",
+              "value": 32.845550405955706
+            },
+            {
+              "id": "M:ret_60d",
+              "kind": "metric",
+              "name": "ret_60d",
+              "value": 23.906976744186046
+            },
+            {
+              "id": "M:vol_expansion",
+              "kind": "metric",
+              "name": "vol_expansion",
+              "value": 1.4019066055670426
+            },
+            {
+              "id": "N1",
+              "kind": "news",
+              "date": "2026-10-09",
+              "title_or_text": "今日盘中突破年线个股",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202610093891086189.html"
+            },
+            {
+              "id": "N2",
+              "kind": "news",
+              "date": "2026-09-24",
+              "title_or_text": "今日盘中突破年线个股",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202609243883508246.html"
+            },
+            {
+              "id": "N3",
+              "kind": "news",
+              "date": "2026-09-22",
+              "title_or_text": "今日突破五日均线个股一览",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202609223881243712.html"
+            },
+            {
+              "id": "N4",
+              "kind": "news",
+              "date": "2026-09-15",
+              "title_or_text": "【盘中播报】61只个股突破年线",
+              "source": "证券时报网",
+              "url": "http://finance.eastmoney.com/a/202609153874488296.html"
+            }
+          ]
+        },
+        "added_at": "2026-10-13T16:55:40",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "002292",
+        "name": "奥飞娱乐",
+        "board": "main_sz",
+        "industry": "文娱用品",
+        "origin": "auto",
+        "change": "new",
+        "rank": 18,
+        "score": 91.4698,
+        "sub_scores": {
+          "fundamental": 81.7415,
+          "trend": 99.102,
+          "flow": 96.3498
+        },
+        "reasons": [
+          "ROE 5.8% (top 17%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 51.6%",
+          "revenue YoY +11.1%",
+          "recurring (扣非) profit YoY +215.8% (reported +370.7%)",
+          "PE 183.2 (valuation 24/100)",
+          "debt ratio 29.3% (low-leverage score)",
+          "close +10.7% vs MA60",
+          "120d return +16.2% vs CSI300 -9.1%",
+          "distance to 250d high -15.8%",
+          "20d volume 0.93x the 60d average",
+          "5-day THS net inflow +8341万 (0.89% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "Momentum stock with improving fundamentals and positive THS net fund flow. Earnings growth is strong, leverage is low, and the price is well above key moving averages with meaningful outperformance versus CSI300. Valuation is the main restraint (PE 183.2). No material red flags are present in the pack, and ongoing buyback plus employee-plan support are mildly positive.",
+          "reasons": [
+            {
+              "text": "Fundamentals improved: ROE 5.78% (annualised 11.56%), gross margin 51.6%, revenue YoY +11.1%, recurring profit YoY +215.8%, and low debt ratio 29.3%.",
+              "cites": [
+                "M:roe",
+                "M:roe_annualised",
+                "M:gross_margin",
+                "M:revenue_yoy",
+                "M:deduct_profit_yoy",
+                "M:debt_ratio"
+              ]
+            },
+            {
+              "text": "Price trend is strong: close 9.16 sits above MA60 8.28; 120d return 16.2% versus benchmark -9.1% (relative +25.3%), with the price still about 16% below the 250d high (dist_to_high_250 0.842).",
+              "cites": [
+                "M:close",
+                "M:ma60",
+                "M:ret_120d",
+                "M:bench_ret_120d",
+                "M:rel_120d",
+                "M:dist_to_high_250"
+              ]
+            },
+            {
+              "text": "THS (同花顺) net fund flow - not Eastmoney main-force, not northbound/institutional shows a 5-day net inflow of ¥83.4m (0.89% of float cap), alongside a 3-day net inflow of ¥139m.",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d",
+                "M:flow_3d"
+              ]
+            },
+            {
+              "text": "Corporate actions are supportive: buyback progress was disclosed and the first lock-up tranche of the 2025 employee stock ownership plan met unlocking conditions.",
+              "cites": [
+                "A1",
+                "A2"
+              ]
+            }
+          ],
+          "red_flags": [
+            {
+              "text": "Stretched valuation: PE 183.2 (valuation sub-score 24/100) leaves little margin of safety unless the strong recurring-profit growth persists.",
+              "cites": [
+                "M:pe"
+              ],
+              "type": "valuation"
+            }
+          ],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A1",
+              "kind": "announcement",
+              "date": "2026-10-10",
+              "title_or_text": "奥飞娱乐:关于回购股份的进展公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/002292/AN202610091830267925.html"
+            },
+            {
+              "id": "A2",
+              "kind": "announcement",
+              "date": "2026-09-24",
+              "title_or_text": "奥飞娱乐:关于2025年员工持股计划第一个锁定期届满暨解锁条件成就的提示性公告",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/002292/AN202609231829802319.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:close",
+              "kind": "metric",
+              "name": "close",
+              "value": 9.16
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 29.2591310153
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 215.766571521294
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.8419117647058824
+            },
+            {
+              "id": "M:flow_3d",
+              "kind": "metric",
+              "name": "flow_3d",
+              "value": 139000000.0
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 83413500.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.008946286547090962
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 51.5892884582
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 8.276333333333334
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 183.2
+            },
+            {
+              "id": "M:rel_120d",
+              "kind": "metric",
+              "name": "rel_120d",
+              "value": 25.29650851324473
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": 16.24365482233503
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": 11.1289680737
+            },
+            {
+              "id": "M:roe",
+              "kind": "metric",
+              "name": "roe",
+              "value": 5.78
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 11.56
+            }
+          ]
+        },
+        "added_at": "2026-10-13T16:55:40",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "000576",
+        "name": "甘化科工",
+        "board": "main_sz",
+        "industry": "地面兵装Ⅱ",
+        "origin": "auto",
+        "change": "new",
+        "rank": 19,
+        "score": 91.424,
+        "sub_scores": {
+          "fundamental": 96.9524,
+          "trend": 87.3469,
+          "flow": 88.2866
+        },
+        "reasons": [
+          "ROE 2.1% (top 43%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 34.2%",
+          "revenue YoY +117.4%",
+          "recurring (扣非) profit YoY +2186.1% (reported +5.4%)",
+          "PE 49.2 (valuation 77/100)",
+          "debt ratio 28.7% (low-leverage score)",
+          "close +10.7% vs MA60",
+          "120d return -14.5% vs CSI300 -9.1%",
+          "distance to 250d high -30.3%",
+          "20d volume 0.84x the 60d average",
+          "5-day THS net inflow +688万 (0.19% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "reviewed",
+          "verdict": "watch",
+          "summary": "Ganhua Science & Industry is a viable watchlist candidate because the latest report period shows very strong growth and margin expansion, leverage is low, and short-term trend/funding have improved. The main offsets are high valuation, low annualised ROE, and still-weak longer-term relative performance. The pack has no material regulatory, audit, penalty, or delisting red flag.",
+          "reasons": [
+            {
+              "text": "Growth and margin profile is strong for the 2026Q2 report period: revenue +117.4% YoY and recurring profit +2186.1%, with gross margin at 34.2%.",
+              "cites": [
+                "M:report_period",
+                "M:revenue_yoy",
+                "M:deduct_profit_yoy",
+                "M:gross_margin"
+              ]
+            },
+            {
+              "text": "Balance-sheet risk looks contained: debt ratio is 28.7%, though annualised ROE is only 4.28%.",
+              "cites": [
+                "M:debt_ratio",
+                "M:roe_annualised"
+              ]
+            },
+            {
+              "text": "Trend has repaired sharply: close is about 10.7% above MA60, 20-day return is +48.1%, and 60-day return is +28.6% versus benchmark -8.9%.",
+              "cites": [
+                "M:close",
+                "M:ma60",
+                "M:ret_20d",
+                "M:ret_60d",
+                "M:bench_ret_60d"
+              ]
+            },
+            {
+              "text": "Flow reads positive in the supplied THS (同花顺) net fund flow data — not Eastmoney main-force, not northbound/institutional: 5-day THS net inflow is +6.876 million yuan, about +0.19% of float cap, with 1-day and 3-day flows also positive.",
+              "cites": [
+                "M:flow_5d",
+                "M:flow_ratio_5d",
+                "M:flow_1d",
+                "M:flow_3d"
+              ]
+            },
+            {
+              "text": "The pack’s announcement coverage is limited to a routine investor-relations/调研 record dated 2026-09-15, with no additional supplied announcements.",
+              "cites": [
+                "A1"
+              ]
+            }
+          ],
+          "red_flags": [
+            {
+              "text": "Valuation and price extension remain a caution: PE is 49.2 and PB is 2.16, annualised ROE is only 4.28%, the stock is still 30.3% below its 250-day high, and 120-day return is -14.5% versus benchmark -9.1%.",
+              "cites": [
+                "M:pe",
+                "M:pb",
+                "M:roe_annualised",
+                "M:dist_to_high_250",
+                "M:ret_120d",
+                "M:bench_ret_120d"
+              ],
+              "type": "valuation_extension"
+            }
+          ],
+          "news_checked": true,
+          "note": null,
+          "evidence": [
+            {
+              "id": "A1",
+              "kind": "announcement",
+              "date": "2026-09-15",
+              "title_or_text": "000576甘化科工投资者关系管理信息20260915",
+              "source": "Eastmoney announcements",
+              "url": "https://data.eastmoney.com/notices/detail/000576/AN202609151829416852.html"
+            },
+            {
+              "id": "M:bench_ret_120d",
+              "kind": "metric",
+              "name": "bench_ret_120d",
+              "value": -9.052853690909702
+            },
+            {
+              "id": "M:bench_ret_60d",
+              "kind": "metric",
+              "name": "bench_ret_60d",
+              "value": -8.938573661769656
+            },
+            {
+              "id": "M:close",
+              "kind": "metric",
+              "name": "close",
+              "value": 8.36
+            },
+            {
+              "id": "M:debt_ratio",
+              "kind": "metric",
+              "name": "debt_ratio",
+              "value": 28.6525724208
+            },
+            {
+              "id": "M:deduct_profit_yoy",
+              "kind": "metric",
+              "name": "deduct_profit_yoy",
+              "value": 2186.14358981779
+            },
+            {
+              "id": "M:dist_to_high_250",
+              "kind": "metric",
+              "name": "dist_to_high_250",
+              "value": 0.6972477064220183
+            },
+            {
+              "id": "M:flow_1d",
+              "kind": "metric",
+              "name": "flow_1d",
+              "value": 17745400.0
+            },
+            {
+              "id": "M:flow_3d",
+              "kind": "metric",
+              "name": "flow_3d",
+              "value": 15325700.0
+            },
+            {
+              "id": "M:flow_5d",
+              "kind": "metric",
+              "name": "flow_5d",
+              "value": 6876300.0
+            },
+            {
+              "id": "M:flow_ratio_5d",
+              "kind": "metric",
+              "name": "flow_ratio_5d",
+              "value": 0.0018960234860086586
+            },
+            {
+              "id": "M:gross_margin",
+              "kind": "metric",
+              "name": "gross_margin",
+              "value": 34.1881480893
+            },
+            {
+              "id": "M:ma60",
+              "kind": "metric",
+              "name": "ma60",
+              "value": 7.551166666666666
+            },
+            {
+              "id": "M:pb",
+              "kind": "metric",
+              "name": "pb",
+              "value": 2.164
+            },
+            {
+              "id": "M:pe",
+              "kind": "metric",
+              "name": "pe",
+              "value": 49.176
+            },
+            {
+              "id": "M:report_period",
+              "kind": "metric",
+              "name": "report_period",
+              "value": "2026Q2"
+            },
+            {
+              "id": "M:ret_120d",
+              "kind": "metric",
+              "name": "ret_120d",
+              "value": -14.519427402862984
+            },
+            {
+              "id": "M:ret_20d",
+              "kind": "metric",
+              "name": "ret_20d",
+              "value": 0.48076923076922906
+            },
+            {
+              "id": "M:ret_60d",
+              "kind": "metric",
+              "name": "ret_60d",
+              "value": 28.6153846153846
+            },
+            {
+              "id": "M:revenue_yoy",
+              "kind": "metric",
+              "name": "revenue_yoy",
+              "value": 117.4139587267
+            },
+            {
+              "id": "M:roe_annualised",
+              "kind": "metric",
+              "name": "roe_annualised",
+              "value": 4.28
+            }
+          ]
+        },
+        "added_at": "2026-10-13T16:55:40",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      },
+      {
+        "code": "600398",
+        "name": "海澜之家",
+        "board": "main_sh",
+        "industry": "服装家纺",
+        "origin": "auto",
+        "change": "kept",
+        "rank": 20,
+        "score": 91.2815,
+        "sub_scores": {
+          "fundamental": 91.7279,
+          "trend": 95.6735,
+          "flow": 84.4184
+        },
+        "reasons": [
+          "ROE 8.1% (top 14%) (period ROE ×2.00 to annualise — period-level metric)",
+          "gross margin 46.0%",
+          "revenue YoY +7.4%",
+          "recurring (扣非) profit YoY -23.2% (reported -5.9%)",
+          "PE 13.8 (valuation 85/100)",
+          "debt ratio 43.0% (low-leverage score)",
+          "close +4.3% vs MA60",
+          "120d return -0.8% vs CSI300 -9.1%",
+          "distance to 250d high -3.4%",
+          "20d volume 1.13x the 60d average",
+          "5-day THS net inflow +1.13亿 (0.38% of float cap)"
+        ],
+        "flags": [],
+        "ai": {
+          "status": "failed",
+          "verdict": null,
+          "summary": null,
+          "reasons": [],
+          "red_flags": [],
+          "news_checked": false,
+          "note": "AI review failed: TimeoutError: LLM call timed out after 90s | TimeoutError: ",
+          "failure_kind": "timeout"
+        },
+        "added_at": "2026-10-13T08:46:16",
+        "note": null,
+        "scores_available": true,
+        "unscored_reason": null
+      }
+    ],
+    "dropped": [
+      {
+        "code": "002039",
+        "name": "黔源电力",
+        "prev_rank": 20,
+        "reason": "rank fell to 29 (score 90.9)"
+      },
+      {
+        "code": "002818",
+        "name": "富森美",
+        "prev_rank": 1,
+        "reason": "rank fell to 211 (score 80.3)"
+      },
+      {
+        "code": "002948",
+        "name": "青岛银行",
+        "prev_rank": 8,
+        "reason": "rank fell to 41 (score 89.0)"
+      },
+      {
+        "code": "601098",
+        "name": "中南传媒",
+        "prev_rank": 19,
+        "reason": "rank fell to 27 (score 91.0)"
+      },
+      {
+        "code": "601128",
+        "name": "常熟银行",
+        "prev_rank": 6,
+        "reason": "rank fell to 351 (score 75.5)"
+      }
+    ],
+    "requalified": [],
+    "ai_demoted": []
+  }
+}

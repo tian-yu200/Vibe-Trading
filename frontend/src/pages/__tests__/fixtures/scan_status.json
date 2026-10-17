@@ -1,0 +1,11 @@
+{
+  "running": false,
+  "job_id": null,
+  "kind": null,
+  "stage": null,
+  "progress": 0.0,
+  "started_at": null,
+  "finished_at": null,
+  "result": null,
+  "error": null
+}

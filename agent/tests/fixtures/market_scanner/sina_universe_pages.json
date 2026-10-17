@@ -1,0 +1,14 @@
+{
+  "hs_a_page1": [
+    {"symbol": "sh600519", "code": "600519", "name": "贵州茅台", "trade": "1288.000", "pricechange": "5.00", "changepercent": "0.39", "volume": "3155600", "amount": "4051230000", "per": "19.616", "pb": "6.408", "mktcap": "161010510.2088", "nmc": "161010510.2088", "turnoverratio": "0.25243", "ticktime": "15:00:00"},
+    {"symbol": "sz000001", "code": "000001", "name": "平安银行", "trade": "9.67", "pricechange": "0.06", "changepercent": "0.62", "volume": "88000000", "amount": "850000000", "per": "4.1", "pb": "0.5", "mktcap": "187620000", "nmc": "187610000", "turnoverratio": "0.45", "ticktime": "15:00:00"},
+    {"symbol": "sz300750", "code": "300750", "name": "宁德时代", "trade": "262.00", "pricechange": "-1.20", "changepercent": "-0.46", "volume": "5200000", "amount": "1360000000", "per": "22.1", "pb": "4.4", "mktcap": "1150000000", "nmc": "1000000000", "turnoverratio": "0.30", "ticktime": "15:00:00"},
+    {"symbol": "sh688981", "code": "688981", "name": "中芯国际", "trade": "88.00", "pricechange": "0.00", "changepercent": "0.00", "volume": "0", "amount": "0", "per": "120.5", "pb": "3.1", "mktcap": "700000000", "nmc": "500000000", "turnoverratio": "0", "ticktime": "15:00:00"},
+    {"symbol": "sz000002", "code": "000002", "name": "*STExample退", "trade": "0.000", "pricechange": "0", "changepercent": "0", "volume": "0", "amount": "0", "per": "-", "pb": "-", "mktcap": "0", "nmc": "0", "turnoverratio": "0", "ticktime": "15:00:00"},
+    {"symbol": "sh601318", "code": "601318", "name": "ST Another", "trade": "50.00", "pricechange": "-1.00", "changepercent": "-1.96", "volume": "1000000", "amount": "50000000", "per": "8.0", "pb": "1.0", "mktcap": "90000000", "nmc": "80000000", "turnoverratio": "0.5", "ticktime": "15:00:00"}
+  ],
+  "hs_bjs_page1": [
+    {"symbol": "bj920002", "code": "920002", "name": "万达轴承", "trade": "48.97", "pricechange": "-1.03", "changepercent": "-2.06", "volume": "814800", "amount": "40080943", "per": "21.84", "pb": "3.12", "mktcap": "2184000000", "nmc": "1000000000", "turnoverratio": "4.11", "ticktime": "15:00:00"},
+    {"symbol": "bj430047", "code": "430047", "name": "诺思兰德", "trade": "10.50", "pricechange": "0.10", "changepercent": "0.96", "volume": "500000", "amount": "5250000", "per": "-8.5", "pb": "2.0", "mktcap": "500000000", "nmc": "300000000", "turnoverratio": "1.0", "ticktime": "15:00:00"}
+  ]
+}

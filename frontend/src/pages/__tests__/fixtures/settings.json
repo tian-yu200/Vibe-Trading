@@ -1,0 +1,37 @@
+{
+  "status": "ok",
+  "settings": {
+    "scan": {
+      "top_n": 20,
+      "min_total_mv": 3000000000.0,
+      "min_avg_amount_20d": 50000000.0,
+      "min_listing_days": 365,
+      "include_star": true,
+      "include_chinext": true,
+      "weights": {
+        "fundamental": 0.4,
+        "trend": 0.35,
+        "flow": 0.25
+      },
+      "max_per_industry": 3,
+      "min_kline_bars": 120,
+      "kline_bars": 260,
+      "kline_workers": 6,
+      "ai_enabled": true,
+      "ai_review_pool": 30,
+      "ai_language": "en",
+      "ai_model": null,
+      "ai_fallback_model": null,
+      "ai_quota_wait_max_s": 300.0,
+      "ai_time_budget_s": 1500.0,
+      "news_days": 30,
+      "min_coverage": 0.9
+    },
+    "schedule": {
+      "enabled": true,
+      "time": "18:00",
+      "timezone": "Asia/Shanghai",
+      "catch_up": true
+    }
+  }
+}
