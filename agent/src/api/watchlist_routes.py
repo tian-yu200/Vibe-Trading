@@ -65,15 +65,24 @@ def _service():
     try:
         return WatchlistService()
     except Exception as exc:  # noqa: BLE001
-        raise _map_service_errors(exc) from exc
+        raise _map_service_errors(exc, "watchlist service construction") from exc
 
 
 def _home_mismatch_detail(exc: BaseException) -> str:
     return str(exc) or "runtime home mismatch"
 
 
-def _map_service_errors(exc: BaseException) -> HTTPException:
-    """Map service-layer errors to HTTP statuses (F1/F2)."""
+def _map_service_errors(exc: BaseException, context: str | None = None) -> HTTPException:
+    """Map service-layer errors to HTTP statuses (F1/F2).
+
+    Bug C: a 500 that is mapped and never logged is undiagnosable afterwards
+    (two one-off 500s on /runs and /settings left no trace at all), so every
+    error this function turns into a 5xx leaves a log record. An
+    ``HTTPException`` is already mapped by a route and is not our error, so it
+    stays unlogged; a HomeMismatch is a configuration state, not a crash, so it
+    is a warning with no traceback.
+    """
+    where = f" ({context})" if context else ""
     if isinstance(exc, HTTPException):
         return exc  # already mapped (e.g. by _service)
     try:
@@ -81,7 +90,15 @@ def _map_service_errors(exc: BaseException) -> HTTPException:
     except ImportError:
         HomeMismatch = ()  # pi's module not present yet: no special mapping
     if HomeMismatch and isinstance(exc, HomeMismatch):
+        logger.warning("watchlist home mismatch, answering 503: %s%s", exc, where)
         return HTTPException(status_code=503, detail=_home_mismatch_detail(exc))
+    logger.error(
+        "watchlist service error, answering 500: %s: %s%s",
+        type(exc).__name__,
+        exc,
+        where,
+        exc_info=exc,
+    )
     return HTTPException(status_code=500, detail=str(exc)[:300])
 
 
@@ -123,6 +140,11 @@ def _scan_worker(
     finally:
         _SCAN_STATE["running"] = False
         _SCAN_STATE["finished_at"] = datetime.now(timezone.utc).isoformat()
+        # The route acquired this handle synchronously to answer 202 and the
+        # service only releases handles it acquired itself (own_handle), so
+        # this thread owns it: releasing here is what keeps scan.lock from
+        # outliving the job. Must run even when the service raised.
+        handle.release()
 
 
 def _review_worker(
@@ -146,6 +168,9 @@ def _review_worker(
     finally:
         _SCAN_STATE["running"] = False
         _SCAN_STATE["finished_at"] = datetime.now(timezone.utc).isoformat()
+        # Same ownership as _scan_worker: the route handed this thread the
+        # lock it took before answering 202, so this thread releases it.
+        handle.release()
 
 
 _SCHEDULER: Any = None
@@ -178,13 +203,17 @@ def _acquire_server_instance_lock(port: int | None = None) -> str:
     ``RuntimeError`` naming the current holder.
     """
     global _INSTANCE_ID
+    from src.watchlist.service import _pid_start_time
+
     path = _server_lock_path()
     path.parent.mkdir(parents=True, exist_ok=True)
+    our_pid = os.getpid()
     payload = json.dumps(
         {
-            "pid": os.getpid(),
+            "pid": our_pid,
             "started_at": datetime.now(timezone.utc).isoformat(),
             "port": port,
+            "proc_start": _pid_start_time(our_pid),
         }
     )
     try:
@@ -204,11 +233,39 @@ def _acquire_server_instance_lock(port: int | None = None) -> str:
         alive = False
         if pid > 0:
             try:
-                from src.watchlist.service import _pid_alive
+                from src.watchlist.service import _pid_alive, _pid_start_time
 
                 alive = _pid_alive(pid)
             except Exception:  # noqa: BLE001
                 alive = False
+        # ...and so is a holder whose pid was RECYCLED: the process alive
+        # today under that pid is not the one that took the lock. The
+        # creation time recorded at acquire time is the identity check.
+        # ``None`` (legacy lock written before proc_start, or an
+        # unreadable creation time) keeps the old pid-only judgement.
+        if alive:
+            recorded = holder.get("proc_start")
+            if recorded is not None:
+                try:
+                    recorded = float(recorded)
+                except (TypeError, ValueError):
+                    recorded = None
+            if recorded is not None:
+                try:
+                    from src.watchlist.service import _pid_start_time
+
+                    actual = _pid_start_time(pid)
+                except Exception:  # noqa: BLE001
+                    actual = None
+                # Match within 2 s: Windows creation times carry ~15 ms
+                # timer granularity and ctypes float conversion is not
+                # exact, so an equality test would be flaky. An UNREADABLE
+                # start time (``actual is None`` — OpenProcess/GetProcessTimes
+                # denied or failed for a live pid) is not evidence of staleness:
+                # the holder is alive, so it stays alive. Breaking the lock there
+                # would let a second server start.
+                if actual is not None and abs(actual - recorded) > 2.0:
+                    alive = False
         if alive:
             raise RuntimeError(
                 "another Vibe-Trading server is already running on this home "
@@ -231,16 +288,35 @@ def _acquire_server_instance_lock(port: int | None = None) -> str:
 
 
 def _release_server_instance_lock() -> None:
+    """Drop our instance lock — but only if it is still OURS.
+
+    Releasing on the pid alone could delete a *new* server's lock when our
+    pid was recycled between acquire and release, so ``proc_start`` is
+    compared too. A lock without ``proc_start`` (legacy) keeps the old
+    pid-only behaviour.
+    """
     path = _server_lock_path()
     try:
         holder = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return
-    if holder.get("pid") == os.getpid():
+    if not isinstance(holder, dict) or holder.get("pid") != os.getpid():
+        return
+    recorded = holder.get("proc_start")
+    if recorded is not None:
         try:
-            path.unlink()
-        except OSError:
-            pass
+            from src.watchlist.service import _pid_start_time
+
+            actual = _pid_start_time(os.getpid())
+            recorded = float(recorded)
+        except Exception:  # noqa: BLE001
+            actual = recorded = None
+        if actual is None or abs(actual - recorded) > 2.0:
+            return  # not ours any more (pid recycled after we wrote it)
+    try:
+        path.unlink()
+    except OSError:
+        pass
 
 
 def setup_watchlist_scheduler() -> Any:
@@ -506,6 +582,23 @@ def register_watchlist_routes(app: FastAPI) -> None:
             raise HTTPException(status_code=404, detail=f"unknown run {run_id}")
         return {"status": "ok", "run": run}
 
+    @app.get("/api/watchlist/sectors", dependencies=[Depends(require_auth)])
+    def get_sectors(
+        run_id: str | None = Query(default=None),
+        level: str = Query(default="l1", pattern="^(l1|l2)$"),
+        limit: int = Query(default=10, ge=1, le=50),
+    ):
+        """Top-N scored stocks per sector (rule score only, not AI-reviewed)."""
+        try:
+            ranking = _service().get_sector_ranking(run_id, level=level, limit=limit)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:  # noqa: BLE001
+            raise _map_service_errors(exc) from exc
+        if ranking is None:
+            raise HTTPException(status_code=404, detail=f"unknown run {run_id}")
+        return {"status": "ok", "ranking": ranking}
+
     @app.get("/api/watchlist/settings", dependencies=[Depends(require_auth)])
     def get_settings():
         return {"status": "ok", "settings": _service().get_settings()}
@@ -534,6 +627,9 @@ def register_watchlist_routes(app: FastAPI) -> None:
                 "last_fired_at": None,
                 "last_result": None,
                 "running": False,
+                # 60 = _SCHEDULE_DEFAULTS["warmup_wait_min"]; a stored 0 is a
+                # real 0, so this must stay a .get() default, not `or 60`.
+                "warmup_wait_min": settings.get("warmup_wait_min", 60),
             }
         try:
             stale = _service().staleness()

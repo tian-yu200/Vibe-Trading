@@ -591,6 +591,8 @@ def _cmd_schedule(args: argparse.Namespace, svc) -> int:
         from src.watchlist.scheduler import scheduler_log_path
 
         print(f"schedule log_path={scheduler_log_path()}")
+        # 60 = service _SCHEDULE_DEFAULTS; a stored 0 is a real 0.
+        print(f"warm-up wait: {settings.get('warmup_wait_min', 60)} min")
     return 0
 
 

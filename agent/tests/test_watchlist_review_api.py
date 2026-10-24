@@ -24,6 +24,21 @@ class ScanAlreadyRunning(RuntimeError):
     pass
 
 
+class FakeHandle:
+    """Stand-in for ``JobHandle`` (the review worker releases what it is given)."""
+
+    def __init__(self, kind: str, owner: str) -> None:
+        self.kind = kind
+        self.owner = owner
+        self.released = False
+
+    def check(self) -> None:
+        pass
+
+    def release(self) -> None:
+        self.released = True
+
+
 class FakeService:
     def __init__(self):
         self.runs = [
@@ -37,6 +52,7 @@ class FakeService:
         self.review_delay = 0.0
         self.review_error: Exception | None = None
         self.review_calls: list[str | None] = []
+        self.handles: list[FakeHandle] = []
 
     # -- scan ------------------------------------------------------------
     def run_scan(self, *, trigger, config_overrides=None, progress=None, llm=None, handle=None):
@@ -49,7 +65,9 @@ class FakeService:
 
     def acquire_job(self, kind, *, owner="api"):
         """F2: fake job lock — never contested in the API tests."""
-        return {"kind": kind, "owner": owner}
+        handle = FakeHandle(kind, owner)
+        self.handles.append(handle)
+        return handle
 
     # -- review ----------------------------------------------------------
     def rerun_ai_review(self, run_id=None, *, trigger, progress=None, llm=None, handle=None):
@@ -95,10 +113,12 @@ class FakeService:
 
 
 @pytest.fixture()
-def client():
+def client(monkeypatch):
     svc = FakeService()
     app = FastAPI()
-    watchlist_routes._service = lambda: svc  # type: ignore[assignment]
+    # Restored per test: a bare assignment leaked the fake into every later
+    # module's view of the routes.
+    monkeypatch.setattr(watchlist_routes, "_service", lambda: svc)
     watchlist_routes.register_watchlist_routes(app)
     watchlist_routes._reset_scan_state()
     with TestClient(app) as c:

@@ -549,6 +549,7 @@ def test_settings_defaults_and_env_override(
         "time": "18:00",
         "timezone": "Asia/Shanghai",
         "catch_up": True,
+        "warmup_wait_min": 60,  # phase (b): the warm-up wait became a setting
     }
 
     # update_settings persists

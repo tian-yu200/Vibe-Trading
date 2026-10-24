@@ -25,6 +25,11 @@ from src.market_scanner.sources.kline_cache import KlineCache
 # ---------------------------------------------------------------- helpers ---
 TRADE_DATE = dt.date(2026, 10, 15)
 NOW = dt.datetime(2026, 10, 15, 20, 0)
+#: The one clock test_assess_shortfall_counts injects as ``now_fn``. Every
+#: timestamp that test compares against it must be derived from it, never
+#: from the wall clock (a wall-clock-derived row silently ages past
+#: MAX_AGE_DAYS and the test starts failing on a real-world date).
+_FIXED_NOW = NOW.replace(hour=12)
 
 
 class _FakeCalendar:
@@ -71,11 +76,14 @@ def test_assess_shortfall_counts(tmp_path):
     # 2: stale (ends prev day but fetched 40 d ago)
     cache.put_frame(_code(2), _bars(_code(2), ["2026-10-13", "2026-10-14"]),
                     "tencent")
+    # Derived from the SAME fixed clock the test passes as now_fn (below), never
+    # from the wall clock: otherwise the row ages past MAX_AGE_DAYS on its own
+    # and this test starts failing on a real-world date (the 2026-10-24 bomb).
+    stale_at = (_FIXED_NOW - dt.timedelta(days=40)).isoformat(
+        timespec="seconds")
     with sqlite3.connect(str(tmp_path / "k.sqlite3")) as db:
-        stale = (dt.datetime.now() - dt.timedelta(days=40)).isoformat(
-            timespec="seconds")
         db.execute("UPDATE kline_meta SET fetched_at = ? WHERE code = ?",
-                   (stale, _code(2)))
+                   (stale_at, _code(2)))
     # 3: appendable (ends prev day, fresh)
     cache.put_frame(_code(3), _bars(_code(3), ["2026-10-13", "2026-10-14"]),
                     "tencent")
@@ -88,7 +96,7 @@ def test_assess_shortfall_counts(tmp_path):
     short = assess_shortfall(
         [_sym(i) for i in range(6)], TRADE_DATE, calendar=_FakeCalendar(),
         cache=cache, rate_per_sec=2.0,
-        now_fn=lambda: NOW.replace(hour=12))
+        now_fn=lambda: _FIXED_NOW)
     assert isinstance(short, Shortfall)
     assert short.missing == 1
     assert short.gap == 1
@@ -238,3 +246,159 @@ def test_warm_cache_transport_not_marked_known_missing(tmp_path):
     assert res.failed == 1 and res.filled == 0
     assert cache.known_missing() == {}
     assert res.stopped_unavailable is False
+
+
+# ------------------------------------------- FIX2 phase (e): intraday drop ---
+# 2026-10-19 10:00 Asia/Shanghai (trading hours), target = the previous
+# Friday. This is the exact shape of the live warm-up that failed 187/186.
+_MONDAY_1000 = dt.datetime(2026, 10, 19, 10, 0)
+_FRIDAY = dt.date(2026, 10, 16)
+_DAY = dt.date(2026, 10, 19)  # the forming (partial) Monday bar
+
+
+class _MondayCalendar:
+    """Calendar for a Monday-morning warm-up targeting the previous Friday."""
+
+    DAYS = {"2026-10-12", "2026-10-13", "2026-10-14", "2026-10-15",
+            "2026-10-16", "2026-10-19"}
+
+    def previous_trading_day(self, d):
+        order = sorted(self.DAYS)
+        return dt.date.fromisoformat(order[order.index(d.isoformat()) - 1])
+
+    def is_trading_day(self, d):
+        return d.isoformat() in self.DAYS
+
+    def latest_completed_trading_day(self, now):
+        # 10:00 Monday: Friday's session is the newest completed one.
+        return _FRIDAY
+
+
+def test_warm_cache_keeps_completed_bars_on_intraday_fetch(tmp_path):
+    """Regression (Q3): a fetch ending with today's partial bar still fills.
+
+    The frame is NOT dropped wholesale: the completed bars are stored, the
+    partial bar is not, ``filled`` counts and nothing is a failure.
+    """
+    cache = KlineCache(path=tmp_path / "k.sqlite3")
+    dates = ["2026-10-14", "2026-10-15", "2026-10-16", "2026-10-19"]
+
+    def fetch(url, params):
+        return _payload(params["param"].split(",")[0], dates)
+
+    res = warm_cache(
+        [_sym(0)], _FRIDAY, fetch=fetch, calendar=_MondayCalendar(),
+        cache=cache, now_fn=lambda: _MONDAY_1000,
+        limiter=KlineRateLimiter(rate_per_sec=100.0))
+
+    assert res.filled == 1 and res.failed == 0
+    assert res.intraday_dropped == 1           # today's bar was dropped
+    assert res.intraday_no_store == 0
+    assert res.stopped_unavailable is False
+    stored = cache.get_frame(_code(0))["bars"]
+    assert stored["date"].dt.date.max().isoformat() == "2026-10-16"
+    assert len(stored) == 3
+
+
+def test_warm_cache_intraday_drop_keeps_completed_bars(tmp_path):
+    """Q3 / scenario A: the completed bars survive, today's bar is dropped.
+
+    A fetch returning Friday's bars plus Monday's partial bar must store the
+    completed rows and count as filled, not failed.
+    """
+    cache = KlineCache(path=tmp_path / "k.sqlite3")
+    completed = ["2026-10-14", "2026-10-15", "2026-10-16"]
+
+    def fetch(url, params):
+        symbol = params["param"].split(",")[0]
+        return _payload(symbol, completed + ["2026-10-19"])
+
+    res = warm_cache(
+        [_sym(0)], _FRIDAY, fetch=fetch, calendar=_MondayCalendar(),
+        cache=cache, limiter=KlineRateLimiter(rate_per_sec=100.0))
+    assert res.filled == 1 and res.failed == 0
+    assert res.intraday_dropped == 1
+    assert res.intraday_no_store == 0
+    assert res.stopped_unavailable is False and res.error is None
+    frame = cache.get_frame(_code(0))["bars"]
+    stored = {d.date().isoformat() for d in frame["date"]}
+    assert stored == set(completed)
+    assert cache.get_frame(_code(0))["meta"]["last_date"] == "2026-10-16"
+
+
+def test_intraday_only_frame_is_not_an_error_and_notes_ok(tmp_path):
+    """Boss part (2): a pure intraday drop is tallied apart, never an error.
+
+    Before the fix this exact shape (187 attempted / 187 failed / 186
+    intraday) fed the limiter a pseudo error per symbol and tripped the F4
+    outage stop ("52% errors over the last 60 requests").
+    """
+    cache = KlineCache(path=tmp_path / "k2.sqlite3")
+
+    def fetch(url, params):
+        return _payload(params["param"].split(",")[0], ["2026-10-19"])
+
+    res = warm_cache(
+        [_sym(0)], _FRIDAY, fetch=fetch, calendar=_MondayCalendar(),
+        cache=cache, now_fn=lambda: _MONDAY_1000,
+        limiter=KlineRateLimiter(rate_per_sec=100.0),
+        stop_consecutive=1000, stop_min_elapsed_s=10 ** 9,
+    )
+    assert res.attempted == 1
+    assert res.filled == 0
+    assert res.failed == 0
+    assert res.intraday_no_store == 1
+    assert res.intraday_dropped == 1
+    assert res.stopped_unavailable is False
+    assert res.error is None
+    # Nothing is stored, and the symbol is not marked known-missing.
+    assert cache.get_frame(_code(0)) is None
+    assert cache.known_missing() == {}
+
+
+class _RecordingLimiter(KlineRateLimiter):
+    """Limiter that records every verdict it was fed (spy)."""
+
+    def __init__(self, *a, **kw):
+        super().__init__(*a, **kw)
+        self.verdicts: list[bool] = []
+        self.unavailable_marks: list[str] = []
+
+    def note_result(self, ok, **kw):
+        self.verdicts.append(bool(ok))
+        return super().note_result(ok, **kw)
+
+    def _mark_unavailable(self, reason):
+        self.unavailable_marks.append(reason)
+        super()._mark_unavailable(reason)
+
+
+def test_live_fingerprint_replay_has_zero_limiter_errors(tmp_path):
+    """2026-10-19 09:58 replay: 187 intraday-only symbols, 0 limiter errors.
+
+    The live run logged attempted 187 / failed 187 / intraday_dropped 186 /
+    "52% errors over the last 60 requests". With the fix the same traffic
+    must produce 0 errors seen by the limiter and no outage stop, so the
+    warm-up keeps working instead of aborting after 187 symbols.
+    """
+    cache = KlineCache(path=tmp_path / "k3.sqlite3")
+    codes = [_code(i) for i in range(187)]
+    limiter = _RecordingLimiter(rate_per_sec=1000.0)
+
+    def fetch(url, params):
+        symbol = params["param"].split(",")[0]
+        return _payload(symbol, [_DAY.isoformat()])
+
+    res = warm_cache([f"sh{c}" for c in codes], _FRIDAY,
+                     fetch=fetch, calendar=_MondayCalendar(), cache=cache,
+                     limiter=limiter, now_fn=lambda: _MONDAY_1000)
+    # Live fingerprint: every symbol attempted, none stored.
+    assert res.attempted == 187 and res.filled == 0
+    assert res.failed == 0 and res.requests == 187
+    assert res.intraday_dropped == 187 and res.intraday_no_store == 187
+    # The fix: the limiter never saw a single error.
+    assert limiter.verdicts and all(limiter.verdicts)
+    assert limiter.unavailable_marks == []
+    assert res.stopped_unavailable is False
+    assert res.error is None
+    assert cache.known_missing() == {}

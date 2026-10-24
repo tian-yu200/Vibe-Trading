@@ -50,7 +50,9 @@ class WatchlistStore:
     # -- connections --------------------------------------------------------
     def _connect(self) -> sqlite3.Connection:
         """One connection per operation — safe across threads."""
-        connection = sqlite3.connect(self.path)
+        # Same busy timeout as _transaction: a scheduled scan holding the write
+        # lock must not turn a read into an instant "database is locked" 500.
+        connection = sqlite3.connect(self.path, timeout=30.0)
         connection.row_factory = sqlite3.Row
         connection.execute("PRAGMA foreign_keys = ON")
         return connection
@@ -85,6 +87,12 @@ class WatchlistStore:
     def _init_schema(self) -> None:
         with self._connect() as db:
             current = db.execute("PRAGMA user_version").fetchone()[0]
+            if current == SCHEMA_VERSION:
+                # Already current: no script, no version write. Reading the DB
+                # through here used to rewrite it on every request (proven by
+                # mtime on the live DB). A DB above SCHEMA_VERSION keeps the old
+                # path: it is re-marked, not silently left alone.
+                return
             if current < SCHEMA_VERSION and current > 0:
                 if current < 2:
                     # v1 -> v2: scan_runs.seq (INTEGER, strict save order).
@@ -402,6 +410,14 @@ class WatchlistStore:
         if isinstance(payload, dict):
             return {**payload, **summary}
         return summary
+
+    def get_run_summary(self, run_id: str) -> dict[str, Any] | None:
+        """One run's summary columns (the payload is not decoded), or None."""
+        with self._connect() as db:
+            row = db.execute(
+                "SELECT * FROM scan_runs WHERE run_id = ?", (run_id,)
+            ).fetchone()
+        return self._run_summary(row) if row else None
 
     def list_runs(self, limit: int = 20) -> list[dict[str, Any]]:
         """Most recent run summaries."""

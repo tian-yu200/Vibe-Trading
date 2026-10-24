@@ -32,6 +32,7 @@ from typing import Any, Dict, List, Optional, Sequence
 from cli.intro import print_banner
 from cli.onboard import run_onboarding
 from cli.theme import Theme, get_console
+from src.config.paths import get_runtime_root_or_default
 
 
 def _register_live_slash_commands() -> None:
@@ -98,7 +99,7 @@ def _register_data_slash_commands() -> None:  # QVERIS-INTEGRATION
 _register_data_slash_commands()  # QVERIS-INTEGRATION
 # QVERIS-INTEGRATION
 _AGENT_DIR = Path(__file__).resolve().parents[1]
-_ENV_PATH = Path.home() / ".vibe-trading" / ".env"
+_ENV_PATH = get_runtime_root_or_default() / ".env"
 _PROJECT_ENV_PATH = _AGENT_DIR / ".env"
 _CWD_ENV_PATH = Path.cwd() / ".env"
 # Best-effort fallbacks used only when the probe genuinely fails (missing

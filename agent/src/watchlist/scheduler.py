@@ -75,6 +75,15 @@ _FIRE_INFLIGHT_FILENAME = "fire_inflight.json"
 # raise and catch the identical class. ``service`` never imports this module,
 # so there is no cycle.
 from src.watchlist.service import JobLockLost  # noqa: E402  (re-exported)
+# The one bound for schedule.warmup_wait_min, shared with the settings gate.
+from src.watchlist.service import _WARMUP_WAIT_MIN_MAX  # noqa: E402
+
+
+def _minutes(cap_s: float) -> int | float:
+    """Warm-up cap for status(): whole minutes as an int (the setting is an
+    int), anything else (a constructor cap in seconds) rounded to 2 places."""
+    minutes = round(cap_s / 60.0, 2)
+    return int(minutes) if float(minutes).is_integer() else minutes
 
 
 def _default_instance_id_fn() -> str | None:
@@ -222,7 +231,7 @@ class WatchlistScheduler:
         warmup_runner: Callable[..., Any] | None = None,
         shortfall_fn: Callable[..., Any] | None = None,
         warmup_check_s: float = _WARMUP_CHECK_S,
-        warmup_wait_cap_s: float = 30 * 60,
+        warmup_wait_cap_s: float | None = None,
         warmup_rate_per_sec: float = _WARMUP_RATE_PER_SEC,
         instance_id_fn: Callable[[], str | None] | None = None,
     ) -> None:
@@ -778,6 +787,188 @@ class WatchlistScheduler:
         except Exception:  # noqa: BLE001
             return 600.0
 
+    # -- F5e warm-up deadline (invariants I1-I3) --------------------------
+    def _warmup_deadline_cap_s(self) -> float:
+        """Warm-up cap (s) — THE single source for every warm-up deadline.
+
+        It is the same ceiling the fire waits for and the warm-up gives itself
+        (``schedule.warmup_wait_min``), so the warm-up always finishes before
+        the scan may start: a fire never has to wait out a warm-up that is
+        still running, and the two always agree.
+
+        An explicit ``warmup_wait_cap_s`` on the constructor wins (tests pin
+        it). Otherwise the setting is read fresh on every call, so a PUT takes
+        effect without restarting the scheduler; ``0`` means a 0 s cap, not
+        "unset". A missing key, an invalid value or a failed read fall back to
+        60 min — this never raises and never returns ``None``.
+        """
+        if self._warmup_wait_cap_s is not None:
+            return float(self._warmup_wait_cap_s)
+        value = self._settings().get("warmup_wait_min")
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, int)
+            or not 0 <= value <= _WARMUP_WAIT_MIN_MAX
+        ):
+            logger.warning(
+                "watchlist scheduler: ignoring invalid warmup_wait_min %r; "
+                "using 60 min",
+                value,
+            )
+            return 3600.0
+        return float(value * 60)
+
+    def _warmup_fire_at(self) -> _dt.datetime | None:
+        """Today's scheduled fire datetime (tz-aware), or None."""
+        schedule = self._settings()
+        hhmm = str(schedule.get("time", "18:00"))
+        fire = self._parse_hhmm(hhmm)
+        if fire is None:
+            return None
+        tz = self._tz(schedule.get("timezone"))
+        return _dt.datetime.combine(self._now(tz).date(), fire, tzinfo=tz)
+
+    def _warmup_lock_deadline(self) -> float | None:
+        """``time.monotonic()`` at which a NEW warm-up must stop (or None).
+
+        Implements the deadline invariants (boss decisions, FIX2 phase (e)):
+
+        - **I1** while today's scheduled run has not succeeded, a warm-up
+          never holds ``scan.lock`` past today's fire + cap;
+        - **I2** no warm-up STARTS after today's fire + cap until today's
+          run has succeeded (checked by the caller, see
+          :meth:`_warmup_start_allowed`);
+        - **I3** otherwise the deadline is the earlier of the next session
+          open (09:15) and the next fire + cap — always bounded.
+        """
+        tz = self._tz(self._settings().get("timezone"))
+        now = self._now(tz)
+        today = now.date()
+        # I1: while today's scheduled run has not succeeded, the deadline is
+        # today's fire + cap, so scan.lock is free before the scan may start.
+        if not self._has_scheduled_success_for(today):
+            fire_cap = self._warmup_fire_cap(now, self._calendar())
+            if fire_cap is not None:
+                return _time.monotonic() + max(
+                    0.0, (fire_cap - now).total_seconds())
+        # I3: after success (and on nights/weekends) stay bounded by the
+        # earlier of the next session open and the next fire + cap.
+        deadline = self._warmup_next_deadline(
+            now, self._calendar(), self._warmup_deadline_cap_s())
+        if deadline is None:
+            return None
+        return _time.monotonic() + max(
+            0.0, (deadline - now).total_seconds())
+
+    def _warmup_next_deadline(
+        self, now: _dt.datetime, cal, cap: float
+    ) -> _dt.datetime | None:
+        """Invariant I3: min(next session open, next fire + cap), or None.
+
+        ``None`` means "no bound known" — the caller then starts no warm-up
+        rather than run one unbounded.
+        """
+        schedule = self._settings()
+        hhmm = str(schedule.get("time", "18:00"))
+        fire = self._parse_hhmm(hhmm)
+        if fire is None:
+            return None
+        tz = now.tzinfo or self._tz(schedule.get("timezone"))
+        # Next fire + cap (never today's already-passed fire).
+        day = now.date()
+        if now.time() >= fire:
+            day += _dt.timedelta(days=1)
+        while not self._is_trading_day(day, cal):
+            day += _dt.timedelta(days=1)
+        fire_cap = _dt.datetime.combine(day, fire, tzinfo=tz) + _dt.timedelta(
+            seconds=cap)
+        # Next session open: 09:15 on the next trading day (today if the
+        # session has not opened yet).
+        open_day = now.date()
+        if now.time() >= _TRADING_BLOCK_START:
+            open_day += _dt.timedelta(days=1)
+        while not self._is_trading_day(open_day, cal):
+            open_day += _dt.timedelta(days=1)
+        session_open = _dt.datetime.combine(
+            open_day, _TRADING_BLOCK_START, tzinfo=tz)
+        if session_open > fire_cap:
+            return fire_cap
+        return session_open
+
+    def _warmup_start_allowed(self, now: _dt.datetime) -> bool:
+        """Q1/I2 gate: may a warm-up START now?
+
+        No warm-up starts 09:15-15:00 on a trading day, whatever the target
+        (Q1): a warm-up started mid-session would only ever see forming bars
+        and spend the rate budget on them. A warm-up already running at 09:15
+        may continue — it is stopped by the deadline instead.
+
+        And after today's fire + cap no warm-up starts until today's
+        scheduled run has succeeded (I2), so the retry is never blocked by a
+        fresh warm-up and scan.lock is always free for the scan.
+        """
+        cal = self._calendar()
+        if self._in_trading_block(now, cal):
+            return False
+        # F3 (fail closed): when no bounded deadline can be computed, no
+        # warm-up starts — _default_warmup_runner would otherwise hand
+        # ``deadline=None`` to warm_cache, which then runs unbounded.
+        if self._warmup_lock_deadline() is None:
+            return False
+        fire_cap = self._warmup_fire_cap(now, cal)
+        if fire_cap is not None and now >= fire_cap:
+            if not self._has_scheduled_success_for(now.date()):
+                return False
+        return True
+
+    def _warmup_fire_cap(
+        self, now: _dt.datetime, cal
+    ) -> _dt.datetime | None:
+        """Today's fire + cap (tz-aware, today's date), or None.
+
+        ``None`` when there is no scheduled run to protect today, so I1/I2
+        do not apply and the deadline falls back to I3 (always bounded):
+        - the fire time is unparseable, or it is not today's;
+        - **today is not a trading day** — on a weekend or a holiday no
+          scheduled run can succeed, so I2 would otherwise block EVERY
+          warm-up until the next trading day (and before the fire time the
+          deadline would point at a fire that does not exist today).
+        """
+        fire = self._warmup_fire_at()
+        if fire is None:
+            return None
+        if fire.date() != now.date():
+            return None
+        if not self._is_trading_day(now.date(), cal):
+            return None
+        return fire + _dt.timedelta(seconds=self._warmup_deadline_cap_s())
+
+    def _warmup_symbols(self, symbols: list[str]) -> list[str]:
+        """Q2: drop BSE codes the scan itself drops (shared predicate).
+
+        The scan's stage 2 removes every ``board == "bse"`` code
+        (``excluded:bse_unsupported``), so their K-lines are never read:
+        warming them would spend the rate budget on unusable data. One
+        shared predicate (:func:`is_bse_code`) keeps the two in lock-step.
+        """
+        try:
+            from src.market_scanner.exclusions import is_bse_code
+        except Exception:  # noqa: BLE001 — scanner import failed: no filter
+            logger.debug("watchlist scheduler: bse filter unavailable",
+                         exc_info=True)
+            return list(symbols)
+        kept: list[str] = []
+        for sym in symbols:
+            code = str(sym)[2:] if len(str(sym)) > 6 else str(sym)
+            try:
+                if is_bse_code(code):
+                    continue
+            except Exception:  # noqa: BLE001 — never drop on a bad row
+                logger.debug("watchlist scheduler: bse filter raised",
+                             exc_info=True)
+            kept.append(sym)
+        return kept
+
     def _universe_symbols(self) -> list[str]:
         """Prefixed symbols to warm; empty on any failure (offline-safe)."""
         if self._universe_fn is not None:
@@ -823,12 +1014,21 @@ class WatchlistScheduler:
         """
         if not self._auto_warmup_enabled():
             return False
+        # Q1 + I2: never START a warm-up during trading hours, and never
+        # after today's fire + cap while today's run has not succeeded.
+        try:
+            tz = self._tz(self._settings().get("timezone"))
+            if not self._warmup_start_allowed(self._now(tz)):
+                return False
+        except Exception:  # noqa: BLE001 — never block on a clock problem
+            logger.debug("watchlist scheduler: warmup gate failed",
+                         exc_info=True)
         with self._warmup_guard:
             if (self._warmup_thread is not None
                     and self._warmup_thread.is_alive()):
                 return True
         try:
-            symbols = self._universe_symbols()
+            symbols = self._warmup_symbols(self._universe_symbols())
             if not symbols:
                 return False
             shortfall_fn = self._shortfall_fn or self._default_shortfall
@@ -889,6 +1089,8 @@ class WatchlistScheduler:
         return warm_cache(
             symbols, trade_date,
             rate_per_sec=min(float(rate_per_sec or 1.0), 1.0),
+            deadline=self._warmup_lock_deadline(),
+            calendar=self._calendar(),
             progress=progress, lock_check=lock_check, stop=stop)
 
     def _warmup_body(self, symbols: list[str], trade_date: _dt.date,
@@ -973,7 +1175,7 @@ class WatchlistScheduler:
             fire = self._parse_hhmm(hhmm)
             fire_dt = (_dt.datetime.combine(trade_date, fire, tzinfo=tz)
                        if fire is not None else now)
-            deadline = fire_dt + _dt.timedelta(seconds=self._warmup_wait_cap_s)
+            deadline = fire_dt + _dt.timedelta(seconds=self._warmup_deadline_cap_s())
             wait_s = max(0.0, (deadline - now).total_seconds())
             t0 = _time.monotonic()
             if wait_s > 0:
@@ -991,7 +1193,7 @@ class WatchlistScheduler:
     # -- introspection -------------------------------------------------------
     def status(self) -> dict:
         """{enabled, time, timezone, next_run_at, attempts_today,
-        last_fired_at, last_result, running}."""
+        last_fired_at, last_result, running, warmup_wait_min}."""
         schedule = self._settings()
         enabled = bool(schedule.get("enabled"))
         hhmm = str(schedule.get("time", "18:00"))
@@ -1022,4 +1224,5 @@ class WatchlistScheduler:
             "last_fired_at": self._last_fired_at,
             "last_result": self._last_result,
             "running": self._running or self._service.is_scanning(),
+            "warmup_wait_min": _minutes(self._warmup_deadline_cap_s()),
         }

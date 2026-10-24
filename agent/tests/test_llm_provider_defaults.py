@@ -181,9 +181,10 @@ def test_credential_fallback_map_matches_provider_catalog() -> None:
 def test_env_example_default_matches_provider_registry():
     agent_root = Path(__file__).resolve().parents[1]
     assignments = dict(line.split("=", 1) for line in
-                       (agent_root / ".env.example").read_text().splitlines()
+                       (agent_root / ".env.example").read_text(encoding="utf-8").splitlines()
                        if line.startswith(("LANGCHAIN_PROVIDER=", "LANGCHAIN_MODEL_NAME=")))
-    providers = json.loads((agent_root / "src/providers/llm_providers.json").read_text())
+    providers = json.loads(
+        (agent_root / "src/providers/llm_providers.json").read_text(encoding="utf-8"))
     provider = next(p for p in providers if p["name"] == assignments["LANGCHAIN_PROVIDER"])
     assert assignments["LANGCHAIN_MODEL_NAME"] == provider["default_model"]
 

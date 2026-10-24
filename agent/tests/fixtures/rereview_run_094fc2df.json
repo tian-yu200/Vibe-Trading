@@ -1,0 +1,1047 @@
+{
+ "ai_pool": [
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "603259",
+   "flags": [],
+   "industry": "医疗服务",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "医疗服务",
+    "total_mv": 428862293566.46
+   },
+   "reasons": [],
+   "score": 95.9321,
+   "sub_scores": {
+    "flow": 95.8828,
+    "fundamental": 98.6652,
+    "trend": 92.8439
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "star",
+   "code": "688018",
+   "flags": [],
+   "industry": "半导体",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "半导体",
+    "total_mv": 33132566202.96
+   },
+   "reasons": [],
+   "score": 94.5012,
+   "sub_scores": {
+    "flow": 99.4436,
+    "fundamental": 93.5113,
+    "trend": 92.1023
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "chinext",
+   "code": "301087",
+   "flags": [],
+   "industry": "医疗器械",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "医疗器械",
+    "total_mv": 12358643830.0
+   },
+   "reasons": [],
+   "score": 93.6978,
+   "sub_scores": {
+    "flow": 91.2834,
+    "fundamental": 93.5855,
+    "trend": 95.5506
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "601000",
+   "flags": [],
+   "industry": "航运港口",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "航运港口",
+    "total_mv": 27911123771.94
+   },
+   "reasons": [],
+   "score": 93.1331,
+   "sub_scores": {
+    "flow": 79.6736,
+    "fundamental": 97.2562,
+    "trend": 98.0349
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "chinext",
+   "code": "300012",
+   "flags": [],
+   "industry": "专业服务",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "专业服务",
+    "total_mv": 25141453517.16
+   },
+   "reasons": [],
+   "score": 92.5989,
+   "sub_scores": {
+    "flow": 96.1424,
+    "fundamental": 88.3204,
+    "trend": 94.9574
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "chinext",
+   "code": "300031",
+   "flags": [],
+   "industry": "游戏Ⅱ",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "游戏Ⅱ",
+    "total_mv": 10451917507.2
+   },
+   "reasons": [],
+   "score": 92.2395,
+   "sub_scores": {
+    "flow": 99.6291,
+    "fundamental": 81.8687,
+    "trend": 98.8135
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "603345",
+   "flags": [],
+   "industry": "食品加工",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "食品加工",
+    "total_mv": 26979739045.4
+   },
+   "reasons": [],
+   "score": 91.503,
+   "sub_scores": {
+    "flow": 94.8071,
+    "fundamental": 92.0282,
+    "trend": 88.5428
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sz",
+   "code": "002832",
+   "flags": [],
+   "industry": "服装家纺",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "服装家纺",
+    "total_mv": 15294949851.2
+   },
+   "reasons": [],
+   "score": 91.3236,
+   "sub_scores": {
+    "flow": 78.8205,
+    "fundamental": 93.1034,
+    "trend": 98.2202
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "neutral"
+   },
+   "board": "chinext",
+   "code": "300832",
+   "flags": [],
+   "industry": "医疗器械",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "医疗器械",
+    "total_mv": 42114526876.0
+   },
+   "reasons": [],
+   "score": 91.2655,
+   "sub_scores": {
+    "flow": 92.3961,
+    "fundamental": 84.2788,
+    "trend": 98.4427
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "star",
+   "code": "688617",
+   "flags": [],
+   "industry": "医疗器械",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "医疗器械",
+    "total_mv": 36497540296.56
+   },
+   "reasons": [],
+   "score": 91.1354,
+   "sub_scores": {
+    "flow": 78.5608,
+    "fundamental": 92.3248,
+    "trend": 98.7579
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "star",
+   "code": "688235",
+   "flags": [],
+   "industry": "化学制药",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "化学制药",
+    "total_mv": 408242887410.7
+   },
+   "reasons": [],
+   "score": 91.0265,
+   "sub_scores": {
+    "flow": 94.4362,
+    "fundamental": 89.2844,
+    "trend": 90.5821
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600267",
+   "flags": [],
+   "industry": "化学制药",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "化学制药",
+    "total_mv": 16122516831.36
+   },
+   "reasons": [],
+   "score": 90.2408,
+   "sub_scores": {
+    "flow": 97.7745,
+    "fundamental": 87.7642,
+    "trend": 87.69
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600018",
+   "flags": [],
+   "industry": "航运港口",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "航运港口",
+    "total_mv": 126177385931.68
+   },
+   "reasons": [],
+   "score": 89.9845,
+   "sub_scores": {
+    "flow": 72.8487,
+    "fundamental": 93.0664,
+    "trend": 98.7023
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600519",
+   "flags": [],
+   "industry": "白酒Ⅱ",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "白酒Ⅱ",
+    "total_mv": 1648220090102.5
+   },
+   "reasons": [],
+   "score": 89.8166,
+   "sub_scores": {
+    "flow": 81.5653,
+    "fundamental": 90.508,
+    "trend": 94.9203
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600323",
+   "flags": [],
+   "industry": "环境治理",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "环境治理",
+    "total_mv": 24982236553.440002
+   },
+   "reasons": [],
+   "score": 89.7423,
+   "sub_scores": {
+    "flow": 79.4881,
+    "fundamental": 90.8417,
+    "trend": 95.8102
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "603893",
+   "flags": [],
+   "industry": "半导体",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "半导体",
+    "total_mv": 83324480400.0
+   },
+   "reasons": [],
+   "score": 89.4858,
+   "sub_scores": {
+    "flow": 92.8783,
+    "fundamental": 94.5495,
+    "trend": 81.2755
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "neutral"
+   },
+   "board": "chinext",
+   "code": "301047",
+   "flags": [],
+   "industry": "生物制品",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "生物制品",
+    "total_mv": 12642922963.48
+   },
+   "reasons": [],
+   "score": 89.3863,
+   "sub_scores": {
+    "flow": 99.1469,
+    "fundamental": 89.2473,
+    "trend": 82.5732
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "star",
+   "code": "688099",
+   "flags": [],
+   "industry": "半导体",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "半导体",
+    "total_mv": 39969873927.9
+   },
+   "reasons": [],
+   "score": 89.3157,
+   "sub_scores": {
+    "flow": 97.5148,
+    "fundamental": 82.7586,
+    "trend": 90.9529
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "601298",
+   "flags": [],
+   "industry": "航运港口",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "航运港口",
+    "total_mv": 61470717000.0
+   },
+   "reasons": [],
+   "score": 89.2681,
+   "sub_scores": {
+    "flow": 73.8131,
+    "fundamental": 91.954,
+    "trend": 97.2377
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600558",
+   "flags": [],
+   "industry": "通用设备",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "通用设备",
+    "total_mv": 4730377459.37
+   },
+   "reasons": [],
+   "score": 89.2045,
+   "sub_scores": {
+    "flow": 98.6276,
+    "fundamental": 75.7508,
+    "trend": 97.8495
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "neutral"
+   },
+   "board": "main_sh",
+   "code": "600598",
+   "flags": [],
+   "industry": "种植业",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "种植业",
+    "total_mv": 24460875547.84
+   },
+   "reasons": [],
+   "score": 89.1483,
+   "sub_scores": {
+    "flow": 92.2107,
+    "fundamental": 82.8328,
+    "trend": 94.1787
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "star",
+   "code": "688111",
+   "flags": [],
+   "industry": "软件开发",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "软件开发",
+    "total_mv": 109915502482.8
+   },
+   "reasons": [],
+   "score": 88.9795,
+   "sub_scores": {
+    "flow": 91.135,
+    "fundamental": 98.591,
+    "trend": 76.4553
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "chinext",
+   "code": "300307",
+   "flags": [],
+   "industry": "专用设备",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "专用设备",
+    "total_mv": 5964125631.2
+   },
+   "reasons": [],
+   "score": 88.9486,
+   "sub_scores": {
+    "flow": 97.589,
+    "fundamental": 78.68,
+    "trend": 94.5124
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sz",
+   "code": "000999",
+   "flags": [],
+   "industry": "中药Ⅱ",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "中药Ⅱ",
+    "total_mv": 41605446450.0
+   },
+   "reasons": [],
+   "score": 88.7884,
+   "sub_scores": {
+    "flow": 69.1766,
+    "fundamental": 95.2911,
+    "trend": 95.3652
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600033",
+   "flags": [],
+   "industry": "铁路公路",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "铁路公路",
+    "total_mv": 9934728000.0
+   },
+   "reasons": [],
+   "score": 88.7647,
+   "sub_scores": {
+    "flow": 74.3323,
+    "fundamental": 92.1394,
+    "trend": 95.2169
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600285",
+   "flags": [],
+   "industry": "中药Ⅱ",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "中药Ⅱ",
+    "total_mv": 11637209772.72
+   },
+   "reasons": [],
+   "score": 88.373,
+   "sub_scores": {
+    "flow": 88.316,
+    "fundamental": 88.8765,
+    "trend": 87.8383
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600329",
+   "flags": [],
+   "industry": "中药Ⅱ",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "中药Ⅱ",
+    "total_mv": 31727887467.2
+   },
+   "reasons": [],
+   "score": 88.2276,
+   "sub_scores": {
+    "flow": 79.3769,
+    "fundamental": 85.2429,
+    "trend": 97.9607
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "chinext",
+   "code": "300628",
+   "flags": [],
+   "industry": "通信设备",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "通信设备",
+    "total_mv": 47154701991.94
+   },
+   "reasons": [],
+   "score": 88.1617,
+   "sub_scores": {
+    "flow": 88.5015,
+    "fundamental": 97.9978,
+    "trend": 76.6778
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "star",
+   "code": "688188",
+   "flags": [],
+   "industry": "计算机设备",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "计算机设备",
+    "total_mv": 38426558249.25
+   },
+   "reasons": [],
+   "score": 88.1525,
+   "sub_scores": {
+    "flow": 88.7611,
+    "fundamental": 94.4383,
+    "trend": 80.5339
+   }
+  },
+  {
+   "ai": {
+    "reason": null,
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sz",
+   "code": "002803",
+   "flags": [],
+   "industry": "互联网电商",
+   "metrics": {
+    "avg_amount_20d": null,
+    "industry": "互联网电商",
+    "total_mv": 8576781439.24
+   },
+   "reasons": [],
+   "score": 87.8732,
+   "sub_scores": {
+    "flow": 95.6973,
+    "fundamental": 87.3934,
+    "trend": 82.8328
+   }
+  }
+ ],
+ "config": {
+  "include_chinext": true,
+  "include_star": true,
+  "kline_bars": 260,
+  "max_per_industry": 3,
+  "min_avg_amount_20d": 50000000.0,
+  "min_kline_bars": 120,
+  "min_total_mv": 3000000000.0,
+  "top_n": 20
+ },
+ "coverage": {
+  "flow_neutral": 1,
+  "flow_real": 2697,
+  "fundamentals_coverage": 1.0,
+  "insufficient": 21,
+  "insufficient_by_key": {
+   "insufficient_data:trend": 21
+  },
+  "kline_full_history": 2698,
+  "min_coverage": 0.9,
+  "passed_exclusions": 2719,
+  "scored": 2698,
+  "trend_coverage": 0.9923,
+  "trend_scored": 2698
+ },
+ "funnel": [
+  {
+   "count": 5576,
+   "note": null,
+   "removed": 0,
+   "stage": "universe"
+  },
+  {
+   "count": 5224,
+   "note": null,
+   "removed": 352,
+   "stage": "excluded:bse_unsupported"
+  },
+  {
+   "count": 5028,
+   "note": null,
+   "removed": 196,
+   "stage": "excluded:st"
+  },
+  {
+   "count": 5027,
+   "note": null,
+   "removed": 1,
+   "stage": "excluded:delisting"
+  },
+  {
+   "count": 5025,
+   "note": null,
+   "removed": 2,
+   "stage": "excluded:suspended"
+  },
+  {
+   "count": 4978,
+   "note": "kline_fallback: 2184 stocks' age proven by >= 250 bars (list_date unknown)",
+   "removed": 47,
+   "stage": "excluded:new_listing"
+  },
+  {
+   "count": 4978,
+   "note": null,
+   "removed": 0,
+   "stage": "excluded:board_disabled"
+  },
+  {
+   "count": 4123,
+   "note": null,
+   "removed": 855,
+   "stage": "excluded:micro_cap"
+  },
+  {
+   "count": 3598,
+   "note": "snapshot_fallback: 6 decided via Sina snapshot day amount (no 20d history)",
+   "removed": 525,
+   "stage": "excluded:illiquid"
+  },
+  {
+   "count": 3598,
+   "note": null,
+   "removed": 0,
+   "stage": "insufficient_data:liquidity"
+  },
+  {
+   "count": 3598,
+   "note": null,
+   "removed": 0,
+   "stage": "insufficient_data:fundamentals"
+  },
+  {
+   "count": 2719,
+   "note": null,
+   "removed": 879,
+   "stage": "excluded:shrinking"
+  },
+  {
+   "count": 2698,
+   "note": null,
+   "removed": 21,
+   "stage": "insufficient_data:trend"
+  },
+  {
+   "count": 2698,
+   "note": null,
+   "removed": 0,
+   "stage": "scored"
+  },
+  {
+   "count": 20,
+   "note": "top_n=20, max_per_industry=3",
+   "removed": 2678,
+   "stage": "finalists"
+  },
+  {
+   "count": 0,
+   "note": null,
+   "removed": 0,
+   "stage": "ai_demoted"
+  },
+  {
+   "count": 20,
+   "note": null,
+   "removed": 0,
+   "stage": "watchlist"
+  }
+ ],
+ "picks": [
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "603259",
+   "industry": "医疗服务",
+   "rule_rank": 1,
+   "score": 95.9321
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "star",
+   "code": "688018",
+   "industry": "半导体",
+   "rule_rank": 2,
+   "score": 94.5012
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "chinext",
+   "code": "301087",
+   "industry": "医疗器械",
+   "rule_rank": 3,
+   "score": 93.6978
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "601000",
+   "industry": "航运港口",
+   "rule_rank": 4,
+   "score": 93.1331
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "chinext",
+   "code": "300012",
+   "industry": "专业服务",
+   "rule_rank": 5,
+   "score": 92.5989
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "chinext",
+   "code": "300031",
+   "industry": "游戏Ⅱ",
+   "rule_rank": 6,
+   "score": 92.2395
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "603345",
+   "industry": "食品加工",
+   "rule_rank": 7,
+   "score": 91.503
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sz",
+   "code": "002832",
+   "industry": "服装家纺",
+   "rule_rank": 8,
+   "score": 91.3236
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "star",
+   "code": "688617",
+   "industry": "医疗器械",
+   "rule_rank": 10,
+   "score": 91.1354
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "star",
+   "code": "688235",
+   "industry": "化学制药",
+   "rule_rank": 11,
+   "score": 91.0265
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600267",
+   "industry": "化学制药",
+   "rule_rank": 13,
+   "score": 90.2408
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600018",
+   "industry": "航运港口",
+   "rule_rank": 14,
+   "score": 89.9845
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600519",
+   "industry": "白酒Ⅱ",
+   "rule_rank": 15,
+   "score": 89.8166
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600323",
+   "industry": "环境治理",
+   "rule_rank": 16,
+   "score": 89.7423
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "603893",
+   "industry": "半导体",
+   "rule_rank": 18,
+   "score": 89.4858
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "star",
+   "code": "688099",
+   "industry": "半导体",
+   "rule_rank": 20,
+   "score": 89.3157
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "601298",
+   "industry": "航运港口",
+   "rule_rank": 21,
+   "score": 89.2681
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "main_sh",
+   "code": "600558",
+   "industry": "通用设备",
+   "rule_rank": 22,
+   "score": 89.2045
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "star",
+   "code": "688111",
+   "industry": "软件开发",
+   "rule_rank": 24,
+   "score": 88.9795
+  },
+  {
+   "ai": {
+    "status": "reviewed",
+    "verdict": "watch"
+   },
+   "board": "chinext",
+   "code": "300307",
+   "industry": "专用设备",
+   "rule_rank": 25,
+   "score": 88.9486
+  }
+ ],
+ "run_id": "094fc2df948b42df8dea3c32bb5c79ab",
+ "trade_date": "2026-10-22"
+}

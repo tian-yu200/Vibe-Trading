@@ -39,8 +39,27 @@ _POLL_INTERVAL = 2
 # Project .env locations, mirroring Vibe-Trading's own loader
 # (src/providers/llm.py ``_ENV_CANDIDATES``): first existing file wins.
 # tap_forward.py lives at agent/src/trading/ -> parents[2] is the agent dir.
+# Deliberate duplicate of ``src.config.paths.get_runtime_root_or_default()``:
+# this module is import-standalone (stdlib only), so it must resolve the home
+# without depending on the ``src`` package being importable.
+def _runtime_home_root() -> Path:
+    """Return the runtime home owning the user ``.env``.
+
+    Same resolution as ``src/providers/llm.py``: ``VIBE_TRADING_HOME``, then
+    the ``agent/.vibe_home`` pin, then ``Path.home()/.vibe-trading``. The
+    import and the call are both guarded so a missing ``src`` package or a
+    rejected override cannot break this module.
+    """
+    try:
+        from src.config.paths import get_runtime_root
+
+        return get_runtime_root()
+    except Exception:  # noqa: BLE001 — stdlib-only fallback path, never break import
+        return Path.home() / ".vibe-trading"
+
+
 _ENV_CANDIDATES = (
-    Path.home() / ".vibe-trading" / ".env",
+    _runtime_home_root() / ".env",
     Path(__file__).resolve().parents[2] / ".env",  # agent/.env
     Path.cwd() / ".env",
 )

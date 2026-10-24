@@ -18,6 +18,7 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
 
 from src.config.accessor import get_env_value, reset_env_config
+from src.config.paths import display_path
 
 # Agent root (agent/) — resolved from this file's location (agent/src/api/).
 _AGENT_DIR = Path(__file__).resolve().parent.parent.parent
@@ -570,7 +571,7 @@ def _persist_settings_updates(updates: Dict[str, str]) -> Dict[str, str]:
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail=(
                 "Unable to save settings; check ownership and permissions for "
-                "~/.vibe-trading/.env"
+                f"{display_path(target)}"
             ),
         ) from exc
     return _read_settings_env_values()

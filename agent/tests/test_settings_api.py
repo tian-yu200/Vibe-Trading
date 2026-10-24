@@ -10,6 +10,7 @@ from fastapi.testclient import TestClient
 
 import api_server
 from src.api import settings_routes
+from src.config.paths import display_path
 from tests.module_os_helpers import patch_module_os
 
 
@@ -352,7 +353,7 @@ def test_settings_write_migrates_legacy_env_to_canonical_path(
 
 
 def test_settings_write_permission_error_is_actionable(
-    client: TestClient, monkeypatch: pytest.MonkeyPatch,
+    client: TestClient, monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
 ) -> None:
     monkeypatch.setattr(
         api_server,
@@ -373,7 +374,7 @@ def test_settings_write_permission_error_is_actionable(
     assert response.status_code == 503
     assert response.json()["detail"] == (
         "Unable to save settings; check ownership and permissions for "
-        "~/.vibe-trading/.env"
+        + display_path(tmp_path / ".env")
     )
 
 

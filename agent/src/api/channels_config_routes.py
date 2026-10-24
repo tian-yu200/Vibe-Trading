@@ -44,7 +44,7 @@ from src.channels.registry import (
     load_channel_class,
 )
 from src.config import writer as _config_writer
-from src.config.paths import get_config_path, get_workspace_path
+from src.config.paths import display_path, get_config_path, get_workspace_path
 
 logger = logging.getLogger(__name__)
 
@@ -217,16 +217,14 @@ def _fresh_entry(name: str) -> dict[str, Any]:
 
 
 def _display_config_path(path: Path) -> str:
-    """Return a display-only config path: home-relative when possible.
+    """Return a display-only config path that never shows the OS login name.
 
-    The absolute path discloses the local username and directory layout to any
-    read-authorized caller; the UI only needs to show the operator which file
-    to edit by hand.
+    Delegates to :func:`src.config.paths.display_path`: ``~/`` only when the
+    home really contains the login name. A server whose USERPROFILE is pinned
+    to a project directory shows the real file (no username in it) instead of
+    a ``~/.vibe-trading/...`` that reads like the OS profile location.
     """
-    try:
-        return "~/" + path.relative_to(Path.home()).as_posix()
-    except ValueError:
-        return path.name
+    return display_path(path)
 
 
 def _scrub_detail(name: str, text: Any, section: dict[str, Any]) -> str:

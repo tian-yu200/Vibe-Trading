@@ -126,7 +126,12 @@ def test_warmup_only_today_bar_is_missing_without_block(tmp_path):
         ["sh600001"], dt.date(2026, 10, 14), fetch=fetch,
         calendar=_IntradayCalendar(), cache=cache, limiter=_limiter(),
         now_fn=lambda: dt.datetime(2026, 10, 15, 10, 30))
-    assert res.filled == 0 and res.failed == 1
+
+    assert res.filled == 0
+    # FIX2 (e) part (2): a pure intraday drop is NOT an error.
+    assert res.failed == 0
+    assert res.intraday_dropped == 1 and res.intraday_no_store == 1
+    assert res.stopped_unavailable is False and res.error is None
     assert cache.known_missing() == {}
     assert cache.get_frame("600001") is None
 

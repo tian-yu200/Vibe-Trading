@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import {
@@ -19,6 +19,8 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { ConfirmDialog } from "@/components/common/ConfirmDialog";
+import { StatusPill, boardTag, subScore } from "@/components/watchlist/badges";
+import { SectorRanking } from "@/components/watchlist/SectorRanking";
 import {
   api,
   ApiError,
@@ -44,31 +46,6 @@ const hintClass = "text-xs text-muted-foreground";
 
 const SCAN_POLL_MS = 2_000;
 
-/** Board → short tag. Unknown boards fall back to the raw value. */
-function boardTag(board?: string | null): { label: string; tone: string } {
-  switch (board) {
-    case "main_sh":
-    case "SH":
-      return { label: "Main SH", tone: "bg-muted text-muted-foreground" };
-    case "main_sz":
-    case "SZ":
-      return { label: "Main SZ", tone: "bg-muted text-muted-foreground" };
-    case "star":
-    case "科创板":
-      return { label: "STAR", tone: "bg-primary/10 text-primary" };
-    case "chinext":
-    case "创业板":
-      return { label: "ChiNext", tone: "bg-warning/10 text-warning" };
-    default:
-      return { label: board ?? "—", tone: "bg-muted text-muted-foreground" };
-  }
-}
-
-function subScore(value: number | null | undefined): string {
-  if (value == null || !Number.isFinite(value)) return "—";
-  return value.toFixed(1);
-}
-
 /** "review failed: quota (resets HH:MM)" → { isQuota, time }. */
 function parseAiNote(note?: string | null): { isQuota: boolean; time: string | null } {
   if (!note) return { isQuota: false, time: null };
@@ -93,29 +70,6 @@ function formatDateTime(value: string | null | undefined, locale: string): strin
 function formatSeconds(value: number | null | undefined): string {
   if (value == null || !Number.isFinite(value)) return "—";
   return `${value.toFixed(1)}s`;
-}
-
-function StatusPill({
-  label,
-  tone,
-}: {
-  label: string;
-  tone: "success" | "danger" | "warning" | "neutral" | "primary";
-}) {
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded px-2 py-0.5 text-xs font-medium",
-        tone === "success" && "bg-success/10 text-success",
-        tone === "danger" && "bg-danger/10 text-danger",
-        tone === "warning" && "bg-warning/10 text-warning",
-        tone === "primary" && "bg-primary/10 text-primary",
-        tone === "neutral" && "bg-muted text-muted-foreground",
-      )}
-    >
-      {label}
-    </span>
-  );
 }
 
 function changeBadge(change: WatchlistItem["change"], t: TFunction): ReactNode {
@@ -1081,6 +1035,7 @@ export function Watchlist() {
   }
 
   const items = view?.items ?? [];
+  const watchingCodes = useMemo(() => new Set((view?.items ?? []).map((i) => i.code)), [view]);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-6">
@@ -1214,6 +1169,13 @@ export function Watchlist() {
               <ul className="divide-y">{items.map((item) => renderItemRow(item))}</ul>
             )}
           </section>
+
+          <SectorRanking
+            latestRunId={latestRun?.run_id ?? null}
+            watchingCodes={watchingCodes}
+            onAdded={refreshView}
+            disabled={homeMismatch != null}
+          />
 
           {droppedSection()}
           {requalifiedSection()}

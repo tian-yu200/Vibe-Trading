@@ -52,8 +52,11 @@ from rich.text import Text
 from cli.theme import get_console
 from src.config.accessor import get_env_config, reset_env_config
 from src.config.paths import (
-    get_runs_dir,
+    display_path,
+    get_config_path,
     get_runtime_root,
+    get_runtime_root_or_default,
+    get_runs_dir,
     get_sessions_dir,
     get_swarm_runs_dir,
     get_uploads_dir,
@@ -1931,7 +1934,7 @@ def _show_settings() -> None:
             console.print(panel)
     else:
         console.print(Columns(panels, expand=True, equal=True))
-    console.print("[dim]Edit configuration in ~/.vibe-trading/.env, or run vibe-trading init.[/dim]")
+    console.print(f"[dim]Edit configuration in {display_path(_INIT_ENV_PATH)}, or run vibe-trading init.[/dim]")
 
 
 def _handle_slash_command(input_str: str, *, max_iter: int) -> None:
@@ -3269,6 +3272,19 @@ def cmd_channels_pairing(channel: str, command: str) -> int:
     return EXIT_SUCCESS
 
 
+def _agent_config_display() -> str:
+    """Display form of the active agent config file, for hints (never raises).
+
+    The file lives under the runtime root, which on the server is not
+    ``~/.vibe-trading``; a hard-coded ``~/.vibe-trading/agent.json`` pointed
+    the operator at the wrong file.
+    """
+    try:
+        return display_path(get_config_path())
+    except Exception:  # noqa: BLE001 — a hint must never break the command
+        return "agent.json"
+
+
 def cmd_channels_login(channel_name: str, *, force: bool = False) -> int:
     """Run a channel adapter's interactive login hook when available."""
     import asyncio
@@ -3281,11 +3297,11 @@ def cmd_channels_login(channel_name: str, *, force: bool = False) -> int:
     section = dict(config.get(channel_name, {})) if isinstance(config.get(channel_name), dict) else {}
     if channel_name == "websocket":
         console.print("[green]WebSocket channel does not require interactive login.[/green]")
-        console.print("[dim]Configure channels.websocket in ~/.vibe-trading/agent.json, then run `vibe-trading channels start`.[/dim]")
+        console.print(f"[dim]Configure channels.websocket in {_agent_config_display()}, then run `vibe-trading channels start`.[/dim]")
         return EXIT_SUCCESS
     if not section:
         console.print(f"[red]No config found for channel '{channel_name}'.[/red]")
-        console.print("[dim]Add it under channels.<name> in ~/.vibe-trading/agent.json, then retry.[/dim]")
+        console.print(f"[dim]Add it under channels.<name> in {_agent_config_display()}, then retry.[/dim]")
         return EXIT_USAGE_ERROR
     section["enabled"] = True
     manager = ChannelManager({channel_name: section}, MessageBus())
@@ -3503,7 +3519,7 @@ def _print_missing_live_channel_config(key: str) -> None:
 
     console.print(
         f"[red]No live channel configured for '{key}'.[/red] "
-        "Add the broker's mcpServers entry to ~/.vibe-trading/agent.json first."
+        f"Add the broker's mcpServers entry to {_agent_config_display()} first."
     )
 
 
@@ -5457,7 +5473,9 @@ def _build_parser() -> argparse.ArgumentParser:
         "update", help="Check for and install the latest vibe-trading-ai release from PyPI"
     )
 
-    subparsers.add_parser("init", help="Interactive setup: create ~/.vibe-trading/.env")
+    subparsers.add_parser(
+        "init", help=f"Interactive setup: create {display_path(_INIT_ENV_PATH)}"
+    )
 
     # Cross-platform frontend setup. See cmd_setup() for details.
     setup_parser = subparsers.add_parser(
@@ -5704,7 +5722,7 @@ def _handle_prompt_command(
     return cmd_run(resolved_prompt, max_iter, json_mode=json_mode, no_rich=no_rich)
 
 
-_INIT_ENV_PATH = Path.home() / ".vibe-trading" / ".env"
+_INIT_ENV_PATH = get_runtime_root_or_default() / ".env"
 
 _PROVIDER_CHOICES: list[dict[str, str | None]] = [
     {
@@ -6103,7 +6121,7 @@ def cmd_memory_forget(name: str, *, yes: bool = False, memory_dir: Optional[Path
 
 
 def cmd_init() -> int:
-    """Interactive setup: create ~/.vibe-trading/.env."""
+    """Interactive setup: create the runtime-home ``.env`` (``_INIT_ENV_PATH``)."""
     console.print(Panel("[bold cyan]Vibe-Trading setup[/bold cyan]\n[dim]Configure the default LLM provider and data tokens.[/dim]", border_style="cyan"))
 
     if _INIT_ENV_PATH.exists():

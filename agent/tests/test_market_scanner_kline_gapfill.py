@@ -38,9 +38,12 @@ def _cache(tmp_path: Path, code: str, frame: pd.DataFrame,
     cache = KlineCache(path=tmp_path / "k.sqlite3")
     cache.put_frame(code, frame, "tencent")
     if fetched_days_ago:
-        import datetime as _dt
         import sqlite3
-        stale = (_dt.datetime.now() - _dt.timedelta(
+        # Derived from the SAME fixed clock the tests pass as now_fn
+        # (AFTER_CLOSE), never from the wall clock: a wall-clock-derived row
+        # silently ages past MAX_AGE_DAYS and the stale test stops being
+        # stale on a real-world date (the date-bomb pattern, T2c).
+        stale = (AFTER_CLOSE - dt.timedelta(
             days=fetched_days_ago)).isoformat(timespec="seconds")
         with sqlite3.connect(str(tmp_path / "k.sqlite3")) as db:
             db.execute("UPDATE kline_meta SET fetched_at = ? WHERE code = ?",

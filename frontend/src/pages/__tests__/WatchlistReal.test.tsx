@@ -18,6 +18,7 @@ const { api, toast } = vi.hoisted(() => ({
     getWatchlistSettings: vi.fn(),
     updateWatchlistSettings: vi.fn(),
     getWatchlistSchedule: vi.fn(),
+    getWatchlistSectors: vi.fn(),
   },
   toast: { error: vi.fn(), success: vi.fn() },
 }));
@@ -61,6 +62,10 @@ function mockAll(view: unknown) {
     timezone: "Asia/Shanghai",
   });
   api.listWatchlistRuns.mockResolvedValue({ status: "ok", runs: [] });
+  api.getWatchlistSectors.mockResolvedValue({
+    status: "ok",
+    ranking: { run: null, level: "l1", limit: 10, scored_total: 0, picks_count: 0, sectors: [] },
+  });
 }
 
 function itemRowTestIds(): string[] {

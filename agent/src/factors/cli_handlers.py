@@ -65,8 +65,14 @@ except Exception:  # pragma: no cover — rich is a project dep, fallback only
     TextColumn = None  # type: ignore[assignment]
     TimeElapsedColumn = None  # type: ignore[assignment]
 
+from src.config.paths import display_path, get_runtime_root_or_default
 from src.factors.compare_runner import SORT_KEYS as _COMPARE_SORT_KEYS, compare_alphas
 from src.factors.registry import Registry, RegistryError
+
+# Where the runtime home expects a token, as spelled in the fix hints. Resolved
+# (not hard-coded) and rendered through ``display_path`` so it names the file the
+# loader actually reads without ever showing the OS username.
+_RUNTIME_ENV_HINT = display_path(get_runtime_root_or_default() / ".env")
 
 
 # Resolve repo root once: this file lives at
@@ -159,7 +165,7 @@ def _handle_exception(args: argparse.Namespace, prefix: str, exc: BaseException)
         _err("")
         _err("How to fix:")
         _err("  1. Register for a free token at https://tushare.pro/register")
-        _err("  2. Add 'TUSHARE_TOKEN=<your_token>' to agent/.env  (or ~/.vibe-trading/.env)")
+        _err(f"  2. Add 'TUSHARE_TOKEN=<your_token>' to agent/.env  (or {_RUNTIME_ENV_HINT})")
         _err("  3. Re-run this command")
     return 1
 
@@ -663,7 +669,7 @@ def cmd_alpha_bench(args: argparse.Namespace) -> int:
                 _err("")
                 _err("How to fix:")
                 _err("  1. Register for a free token at https://tushare.pro/register")
-                _err("  2. Add 'TUSHARE_TOKEN=<your_token>' to agent/.env  (or ~/.vibe-trading/.env)")
+                _err(f"  2. Add 'TUSHARE_TOKEN=<your_token>' to agent/.env  (or {_RUNTIME_ENV_HINT})")
                 _err("  3. Re-run this command")
             return 1
 

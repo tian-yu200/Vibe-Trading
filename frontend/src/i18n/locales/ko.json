@@ -2127,6 +2127,19 @@
     "runHistoryTitle": "실행 기록",
     "asOf": "As of",
     "colAsOf": "As of",
-    "intradayBanner": "장중 데이터 - 종가 스냅샷이 아닙니다"
+    "intradayBanner": "장중 데이터 - 종가 스냅샷이 아닙니다",
+    "sectorTitle": "By sector: top {{n}}",
+    "sectorLevelAria": "Sector level",
+    "sectorLevelL1": "Sectors",
+    "sectorLevelL2": "Industries",
+    "sectorRunAria": "Scan to show",
+    "sectorRunLatest": "Latest scan",
+    "sectorNote": "Ranked by rule score only, not AI-reviewed. Shenwan classification · {{scored}} scored stocks · trade date {{date}}.",
+    "sectorPickerAria": "Choose a sector",
+    "sectorMarketRank": "#{{rank}} overall",
+    "sectorInPicks": "Top {{n}}",
+    "sectorWatching": "Watching",
+    "sectorAddAria": "Add {{name}} ({{code}}) to the watchlist",
+    "sectorEmpty": "This scan has no scored stocks."
   }
 }

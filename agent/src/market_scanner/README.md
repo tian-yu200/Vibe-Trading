@@ -179,7 +179,11 @@ running; runs in a background thread), `GET /api/watchlist/scan/status`
 (`{running, job_id, stage, progress, started_at, finished_at, result, error}`),
 `GET /api/watchlist/runs?limit=`, `GET /api/watchlist/runs/{run_id}`,
 `GET|PUT /api/watchlist/settings`, `GET /api/watchlist/schedule`
-(scheduler status merged with staleness).
+(scheduler status merged with staleness),
+`GET /api/watchlist/sectors?run_id=&level=l1|l2&limit=10` (read-only sector
+view: the top `limit` scored stocks per Shenwan level-1 sector, or per
+level-2 industry, of one run, default the latest successful one; rule score
+only, not AI-reviewed; level-2 -> level-1 map in `sectors.py`).
 
 ## Scheduler
 - An asyncio task started from the API-server lifespan: fires the scan at

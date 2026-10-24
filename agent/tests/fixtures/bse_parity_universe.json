@@ -1,0 +1,292 @@
+[
+ {
+  "code": "600000",
+  "board": "main_sh",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "600001",
+  "board": "main_sh",
+  "exchange": "SH",
+  "flags": [
+   "st"
+  ]
+ },
+ {
+  "code": "600519",
+  "board": "main_sh",
+  "exchange": "SH",
+  "flags": [
+   "delisting"
+  ]
+ },
+ {
+  "code": "601000",
+  "board": "main_sh",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "603000",
+  "board": "main_sh",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "605000",
+  "board": "main_sh",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "600020",
+  "board": "main_sh",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "600997",
+  "board": "main_sh",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "000001",
+  "board": "main_sz",
+  "exchange": "SZ",
+  "flags": []
+ },
+ {
+  "code": "000002",
+  "board": "main_sz",
+  "exchange": "SZ",
+  "flags": [
+   "suspended"
+  ]
+ },
+ {
+  "code": "001000",
+  "board": "main_sz",
+  "exchange": "SZ",
+  "flags": []
+ },
+ {
+  "code": "002000",
+  "board": "main_sz",
+  "exchange": "SZ",
+  "flags": []
+ },
+ {
+  "code": "003000",
+  "board": "main_sz",
+  "exchange": "SZ",
+  "flags": []
+ },
+ {
+  "code": "000996",
+  "board": "main_sz",
+  "exchange": "SZ",
+  "flags": []
+ },
+ {
+  "code": "688000",
+  "board": "star",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "688001",
+  "board": "star",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "688998",
+  "board": "star",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "689000",
+  "board": "star",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "300001",
+  "board": "chinext",
+  "exchange": "SZ",
+  "flags": []
+ },
+ {
+  "code": "300002",
+  "board": "chinext",
+  "exchange": "SZ",
+  "flags": [
+   "st"
+  ]
+ },
+ {
+  "code": "300999",
+  "board": "chinext",
+  "exchange": "SZ",
+  "flags": []
+ },
+ {
+  "code": "301000",
+  "board": "chinext",
+  "exchange": "SZ",
+  "flags": []
+ },
+ {
+  "code": "302000",
+  "board": "chinext",
+  "exchange": "SZ",
+  "flags": []
+ },
+ {
+  "code": "400001",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "800001",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "800888",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "830799",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "832000",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "920002",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "920819",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "920999",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "430047",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "430300",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "920103",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "430103",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "920003",
+  "board": "main_sh",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "600004",
+  "board": "",
+  "exchange": "",
+  "flags": []
+ },
+ {
+  "code": "600005",
+  "board": null,
+  "exchange": "",
+  "flags": []
+ },
+ {
+  "code": "600006",
+  "board": " ",
+  "exchange": "",
+  "flags": []
+ },
+ {
+  "code": "600007",
+  "board": "unknown",
+  "exchange": "",
+  "flags": []
+ },
+ {
+  "code": "700001",
+  "board": "unknown",
+  "exchange": "",
+  "flags": []
+ },
+ {
+  "code": "700002",
+  "board": "",
+  "exchange": "",
+  "flags": []
+ },
+ {
+  "code": "801234",
+  "board": "bse",
+  "exchange": "BJ",
+  "flags": []
+ },
+ {
+  "code": "600zz6",
+  "board": "main_sh",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "000zzz",
+  "board": "",
+  "exchange": "",
+  "flags": []
+ },
+ {
+  "code": 600008,
+  "board": "main_sh",
+  "exchange": "SH",
+  "flags": []
+ },
+ {
+  "code": "600009",
+  "board": "BSE",
+  "exchange": "BJ",
+  "flags": []
+ }
+]

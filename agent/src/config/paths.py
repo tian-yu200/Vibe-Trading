@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import getpass
 import os
 from pathlib import Path
 
@@ -84,6 +85,75 @@ def get_runtime_root(config_path: Path | None = None) -> Path:
     if pinned is not None:
         return pinned
     return Path.home() / ".vibe-trading"
+
+
+def get_runtime_root_or_default() -> Path:
+    """Return the runtime root, or the default home root when resolution fails.
+
+    :func:`get_runtime_root` rejects a malformed override (UNC
+    ``VIBE_TRADING_HOME``, relative home pin) with ``ValueError``. Modules that
+    bake a ``.env`` path into a constant at import must not break over that, so
+    they use this total variant and land on ``~/.vibe-trading`` instead; a
+    caller that wants the misconfiguration to surface keeps using the strict
+    function.
+    """
+    try:
+        return get_runtime_root()
+    except Exception:  # noqa: BLE001 — a rejected override must never break an import
+        return Path.home() / ".vibe-trading"
+
+
+def _login_name() -> str | None:
+    """Return the OS login name, or ``None`` when it cannot be determined.
+
+    ``USERNAME`` first (what Windows sets for every shell, including the
+    service one), then :func:`getpass.getuser`, which can raise on an
+    environment with no resolvable user. ``None`` is the fail-closed signal for
+    :func:`display_path`.
+    """
+    name = os.environ.get("USERNAME", "").strip()
+    if name:
+        return name
+    try:
+        return (getpass.getuser() or "").strip() or None
+    except Exception:  # noqa: BLE001 — unresolvable user: callers fail closed
+        return None
+
+
+def display_path(path: Path | str) -> str:
+    """Return a display form of *path* that never shows the OS login name.
+
+    The ``~/`` collapse is only safe when the absolute form would be the leak,
+    i.e. the path sits under ``Path.home()`` **and** that home actually contains
+    the login name. The live server pins ``USERPROFILE`` to a project directory
+    whose name has no user in it; collapsing there would print the runtime-home
+    ``.env`` as ``~/.vibe-trading/.env``, which reads exactly like the old OS
+    profile location — the very confusion phase (a) removes. So a pinned home
+    shows its absolute path (``E:/vibe-trading/home/.vibe-trading/.env``), which
+    carries no username either.
+
+    Any absolute form still carrying the login name as a directory segment gets
+    that segment replaced with ``<user>``. If the login name cannot be resolved,
+    the home-relative form wins when the path is under home (the shorter,
+    username-free rendering) and the absolute form otherwise.
+    """
+    target = Path(path)
+    home = Path.home()
+    login = _login_name()
+    try:
+        relative = target.relative_to(home)
+    except ValueError:
+        relative = None
+    if relative is not None and (login is None or login.lower() in str(home).lower()):
+        return f"~/{relative.as_posix()}"
+    rendered = target.as_posix()
+    if login:
+        needle = login.lower()
+        rendered = "/".join(
+            "<user>" if part.lower() == needle else part
+            for part in rendered.split("/")
+        )
+    return rendered
 
 
 def get_sessions_dir() -> Path:

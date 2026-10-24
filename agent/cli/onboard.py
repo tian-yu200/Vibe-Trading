@@ -1,11 +1,12 @@
 """First-launch onboarding wizard.
 
-Triggered automatically when ``~/.vibe-trading/.env`` does not exist. Five
+Triggered automatically when the runtime-home ``.env`` (the file
+``src.config.paths.get_runtime_root_or_default()`` resolves) does not exist. Five
 back-steppable steps (provider → model → key → timeout → optional Tushare),
 matching §3.2 of the 2026-05-19 UI/UX design proposal.
 
-Each step persists immediately to ``~/.vibe-trading/.env.partial`` and the
-file is atomically renamed to ``.env`` only on completion, so a crash mid-
+Each step persists immediately to ``.env.partial`` in that same runtime home and
+the file is atomically renamed to ``.env`` only on completion, so a crash mid-
 wizard never leaves a corrupt ``.env`` behind. API key entry is masked.
 
 Prefers ``questionary`` when available; otherwise drives prompt_toolkit
@@ -24,6 +25,7 @@ from rich.console import Console
 from rich.text import Text
 
 from cli.theme import Theme, get_console
+from src.config.paths import display_path, get_runtime_root_or_default
 
 # Sentinels for back-navigation / cancel returned by selectors.
 BACK = object()
@@ -116,9 +118,19 @@ TIMEOUT_CHOICES: Final[tuple[tuple[str, str], ...]] = (
 # ---------------------------------------------------------------------------
 
 
-def _env_dir() -> Path: return Path.home() / ".vibe-trading"
-def _env_path() -> Path: return _env_dir() / ".env"
-def _partial_path() -> Path: return _env_dir() / ".env.partial"
+# Resolved per call, so the wizard drafts and finalizes in the same runtime home
+# the loaders read (never a hard-coded profile path).
+def _env_dir() -> Path:
+    """Return the runtime home the loaders read."""
+    return get_runtime_root_or_default()
+
+
+def _env_path() -> Path:
+    return _env_dir() / ".env"
+
+
+def _partial_path() -> Path:
+    return _env_dir() / ".env.partial"
 
 
 def _render_env(values: dict[str, str]) -> str:
@@ -393,7 +405,7 @@ def _intro_header(console: Console) -> None:
     console.print()
     console.print(Text("  Vibe-Trading setup", style=Theme.primary))
     console.print(Text(
-        "  We didn't find a config at ~/.vibe-trading/.env.\n"
+        f"  We didn't find a config at {display_path(_env_path())}.\n"
         "  Let's set up in under a minute.",
         style=Theme.muted,
     ))
@@ -472,7 +484,7 @@ def run_onboarding(*, console: Console | None = None) -> Path | None:
         while True:
             key = _prompt_secret(
                 f"Paste your {provider.label} API key "
-                "(saved to ~/.vibe-trading/.env, never logged)",
+                f"(saved to {display_path(_env_path())}, never logged)",
                 console=cons,
             )
             if key is BACK or key is CANCEL:

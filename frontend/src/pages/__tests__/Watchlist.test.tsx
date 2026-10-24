@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 import { Watchlist } from "../Watchlist";
@@ -18,6 +18,7 @@ const { api, toast } = vi.hoisted(() => ({
     getWatchlistSettings: vi.fn(),
     updateWatchlistSettings: vi.fn(),
     getWatchlistSchedule: vi.fn(),
+    getWatchlistSectors: vi.fn(),
   },
   toast: { error: vi.fn(), success: vi.fn() },
 }));
@@ -113,7 +114,10 @@ function mockAll(view = makeView()) {
     timezone: "Asia/Shanghai",
   });
   api.listWatchlistRuns.mockResolvedValue({ status: "ok", runs: [] });
+  api.getWatchlistSectors.mockResolvedValue({ status: "ok", ranking: EMPTY_SECTORS });
 }
+
+const EMPTY_SECTORS = { run: null, level: "l1", limit: 10, scored_total: 0, picks_count: 0, sectors: [] };
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -588,5 +592,63 @@ describe("Watchlist page", () => {
 
     await screen.findByTestId("watchlist-home-mismatch");
     expect(screen.getByTestId("watchlist-rerun-review")).toBeDisabled();
+  });
+});
+describe("Watchlist page: by-sector section", () => {
+  function bankRow(code: string, name: string, rank: number, score: number, inPicks: boolean) {
+    return {
+      code,
+      name,
+      board: "main_sh",
+      industry: "银行Ⅱ",
+      sector: "银行",
+      score,
+      sub_scores: { fundamental: score, trend: score, flow: score },
+      sector_rank: rank,
+      market_rank: rank,
+      in_picks: inPicks,
+      watching: inPicks,
+    };
+  }
+
+  function bankRanking() {
+    return {
+      run: { run_id: "run-1", trade_date: "2026-10-12", status: "ok", finished_at: null, ai_status: "reviewed", intraday: false },
+      level: "l1",
+      limit: 10,
+      scored_total: 2,
+      picks_count: 1,
+      sectors: [
+        {
+          name: "银行",
+          count: 2,
+          leader_score: 82.5,
+          top: [bankRow("600001", "Example Co", 1, 82.5, true), bankRow("600036", "Other Bank", 2, 70, false)],
+        },
+      ],
+    };
+  }
+
+  it("sits under the watchlist and badges the stocks already on it", async () => {
+    api.getWatchlistSectors.mockResolvedValue({ status: "ok", ranking: bankRanking() });
+    render(<Watchlist />);
+    const section = await screen.findByTestId("watchlist-sectors");
+    const list = screen.getByRole("region", { name: "Watchlist" });
+    expect(list.compareDocumentPosition(section) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+
+    const onList = await within(section).findByTestId("watchlist-sector-row-600001");
+    expect(onList).toHaveTextContent("Watching");
+    expect(within(section).getByTestId("watchlist-sector-add-600036")).toBeEnabled();
+  });
+
+  it("reloads the page's watchlist after adding from a sector", async () => {
+    api.getWatchlistSectors.mockResolvedValue({ status: "ok", ranking: bankRanking() });
+    api.addWatchlistItem.mockResolvedValue({ status: "ok", item: { code: "600036" } });
+    const user = userEvent.setup();
+    render(<Watchlist />);
+    await user.click(await screen.findByTestId("watchlist-sector-add-600036"));
+
+    await waitFor(() => expect(api.getWatchlist).toHaveBeenCalledTimes(2));
+    expect(api.addWatchlistItem).toHaveBeenCalledWith("600036", null);
   });
 });

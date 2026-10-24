@@ -1337,6 +1337,106 @@ def _packs_from_rows(
     return packs
 
 
+def _funnel_scored_count(funnel: list[dict[str, Any]]) -> int | None:
+    """The ``scored`` stage count in a stored funnel, or None when absent."""
+    for entry in funnel or []:
+        if entry.get("stage") == STAGE_SCORED:
+            try:
+                return int(entry.get("count") or 0)
+            except (TypeError, ValueError):
+                return None
+    return None
+
+
+def _scores_scored_count(scores: Any) -> int | None:
+    """Rows in ``run["scores"]`` that carry a score and no exclusion reason.
+
+    This is the same population the scan counted as ``scored`` (excluded and
+    insufficient-data rows keep an ``exclusion_reason``), so it recovers the
+    real count for runs whose funnel was already damaged by an old re-review.
+    """
+    if not isinstance(scores, (list, tuple)):
+        return None
+    count = 0
+    for row in scores:
+        if not isinstance(row, dict):
+            continue
+        if row.get("score") is None:
+            continue
+        if row.get("exclusion_reason"):
+            continue
+        count += 1
+    return count
+
+
+def _resolved_scored_count(
+    run: dict[str, Any], pool_size: int
+) -> int:
+    """The real ``scored`` count for a rebuilt funnel, most reliable first.
+
+    Order (RELFIX T2):
+    1. ``run["coverage"]["scored"]`` when it is an int >= the pool size;
+    2. the rows in ``run["scores"]`` with a score and no exclusion reason;
+    3. the stored funnel's own ``scored`` count;
+    4. the pool size (old runs with none of the above).
+    """
+    coverage = run.get("coverage")
+    if isinstance(coverage, dict):
+        value = coverage.get("scored")
+        if isinstance(value, int) and not isinstance(value, bool):
+            if value >= pool_size:
+                return value
+    by_scores = _scores_scored_count(run.get("scores"))
+    if by_scores:
+        return max(by_scores, pool_size)
+    by_funnel = _funnel_scored_count(run.get("funnel") or [])
+    if by_funnel:
+        return max(by_funnel, pool_size)
+    return pool_size
+
+
+def _strip_stored_scored_tail(
+    funnel: list[dict[str, Any]], funnel_tail: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    """Drop the stored funnel from its first STAGE_SCORED entry onward.
+
+    The old code cut ``[:-len(funnel_tail)]``, which assumed the stored tail
+    had exactly the same stages as the rebuilt one. Older runs may carry a
+    different tail (e.g. no ``requalified``), so that cut could leave a stale
+    ``scored`` entry behind. Without any STAGE_SCORED the previous behaviour
+    is kept (cut by tail length).
+    """
+    stored = list(funnel or [])
+    for index, entry in enumerate(stored):
+        if entry.get("stage") == STAGE_SCORED:
+            return stored[:index]
+    if funnel_tail:
+        return stored[: -len(funnel_tail)]
+    return stored
+
+
+def _recount_scored_tail(
+    funnel_tail: list[dict[str, Any]], scored: int, finalists_count: int
+) -> list[dict[str, Any]]:
+    """Rewrite the rebuilt tail so ``scored`` is the real count.
+
+    ``_select_picks`` builds the tail from the review pool only, so its
+    ``scored`` entry carries the pool size. The funnel keeps the real scored
+    count and ``finalists`` must report ``scored - finalists`` as removed.
+    """
+    out: list[dict[str, Any]] = []
+    for entry in funnel_tail or []:
+        new_entry = dict(entry)
+        stage = new_entry.get("stage")
+        if stage == STAGE_SCORED:
+            new_entry["count"] = scored
+            new_entry["removed"] = 0
+        elif stage == STAGE_FINALISTS:
+            new_entry["removed"] = max(0, scored - finalists_count)
+        out.append(new_entry)
+    return out
+
+
 def _rebuild_ai_run(
     run: dict[str, Any],
     pool_rows: list[dict[str, Any]],
@@ -1407,7 +1507,14 @@ def _rebuild_ai_run(
         ai_results=ai_results,
         finalists_count=min(config.top_n, len(pool_codes)),
     )
-    funnel = list(run.get("funnel") or [])[: -len(funnel_tail)] if funnel_tail else list(run.get("funnel") or [])
+    # RELFIX T2: the stored funnel is cut from its first 'scored' entry, not
+    # by tail length (an older run's tail may differ), and the rebuilt tail
+    # carries the REAL scored count instead of the review-pool size.
+    pool_size = len(pool_codes)
+    scored_count = _resolved_scored_count(run, pool_size)
+    finalists_count = min(config.top_n, pool_size)
+    funnel_tail = _recount_scored_tail(funnel_tail, scored_count, finalists_count)
+    funnel = _strip_stored_scored_tail(run.get("funnel") or [], funnel_tail)
     funnel = funnel + funnel_tail
     funnel = _make_funnel_consistent(funnel)
     updated = dict(run)

@@ -2127,6 +2127,19 @@
     "scheduleLastFired": "上次触发 {{when}}",
     "scheduleLastResult": "上次结果：{{result}}",
     "runHistoryTitle": "扫描历史",
-    "asOf": "数据时点"
+    "asOf": "数据时点",
+    "sectorTitle": "按行业：前 {{n}} 名",
+    "sectorLevelAria": "行业层级",
+    "sectorLevelL1": "一级行业",
+    "sectorLevelL2": "二级行业",
+    "sectorRunAria": "选择扫描",
+    "sectorRunLatest": "最新扫描",
+    "sectorNote": "仅按规则评分排序，未经 AI 复核。申万行业分类 · 共 {{scored}} 只打分股票 · 交易日 {{date}}。",
+    "sectorPickerAria": "选择行业",
+    "sectorMarketRank": "全市场第 {{rank}}",
+    "sectorInPicks": "前 {{n}} 名单",
+    "sectorWatching": "已自选",
+    "sectorAddAria": "将 {{name}}（{{code}}）加入自选",
+    "sectorEmpty": "该次扫描没有打分股票。"
   }
 }

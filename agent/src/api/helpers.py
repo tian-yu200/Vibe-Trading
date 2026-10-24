@@ -12,7 +12,13 @@ from fastapi import HTTPException, Request, status
 from fastapi.responses import FileResponse
 
 from src.api._compat import host_attr as _host_attr
-from src.config.paths import get_runs_dir, get_sessions_dir, get_uploads_dir
+from src.config.paths import (
+    display_path,
+    get_runtime_root_or_default,
+    get_runs_dir,
+    get_sessions_dir,
+    get_uploads_dir,
+)
 
 
 # ============================================================================
@@ -28,7 +34,7 @@ RUNS_DIR = get_runs_dir()
 SESSIONS_DIR = get_sessions_dir()
 UPLOADS_DIR = get_uploads_dir()
 AGENT_DIR = _AGENT_DIR
-ENV_PATH = Path.home() / ".vibe-trading" / ".env"
+ENV_PATH = get_runtime_root_or_default() / ".env"
 LEGACY_ENV_PATH = AGENT_DIR / ".env"
 ENV_EXAMPLE_PATH = AGENT_DIR / ".env.example"
 
@@ -181,9 +187,14 @@ def _read_env_values(path: Path) -> Dict[str, str]:
 
 
 def _project_relative_path(path: Path) -> str:
-    """Return a project-relative display path without leaking an absolute path."""
+    """Return a display path that never contains the OS username.
+
+    The runtime-home slot goes through ``display_path`` so the UI names the file
+    the settings API really reads and writes, instead of a hard-coded
+    ``~/.vibe-trading/.env``; everything else stays project-relative.
+    """
     if path == ENV_PATH:
-        return "~/.vibe-trading/.env"
+        return display_path(ENV_PATH)
     try:
         return path.resolve().relative_to(AGENT_DIR.parent.resolve()).as_posix()
     except ValueError:

@@ -25,6 +25,27 @@ class ScanAlreadyRunning(RuntimeError):
     pass
 
 
+class FakeHandle:
+    """Stand-in for ``JobHandle``.
+
+    The route acquires the job lock before answering 202 and the background
+    worker releases it, so the fake has to carry a ``release()``; a bare dict
+    (what this used to return) described the pre-fix contract where nobody
+    released an API-acquired handle.
+    """
+
+    def __init__(self, kind: str, owner: str) -> None:
+        self.kind = kind
+        self.owner = owner
+        self.released = False
+
+    def check(self) -> None:
+        pass
+
+    def release(self) -> None:
+        self.released = True
+
+
 class FakeService:
     def __init__(self):
         self.items = []
@@ -48,13 +69,16 @@ class FakeService:
         self.scan_error = None
         self.scan_delay = 0.0
         self.scan_gate = None
+        self.handles: list[FakeHandle] = []
         self.watchlist = {"picks": [], "dropped": [], "pinned": []}
         self.stale = {"is_stale": False}
 
     # -- scan ------------------------------------------------------------
     def acquire_job(self, kind, *, owner="api"):
         """F2: fake job lock — never contested in the API tests."""
-        return {"kind": kind, "owner": owner}
+        handle = FakeHandle(kind, owner)
+        self.handles.append(handle)
+        return handle
 
     def run_scan(self, *, trigger, config_overrides=None, progress=None, llm=None, handle=None):
         if self.scan_gate is not None:
@@ -116,11 +140,12 @@ class FakeService:
 
 
 @pytest.fixture()
-def client():
+def client(monkeypatch):
     svc = FakeService()
     app = FastAPI()
-    # Patch _service to return our fake.
-    watchlist_routes._service = lambda: svc  # type: ignore[assignment]
+    # Patch _service to return our fake. Restored per test: a bare assignment
+    # used to leak the fake into every later module's view of the routes.
+    monkeypatch.setattr(watchlist_routes, "_service", lambda: svc)
     watchlist_routes.register_watchlist_routes(app)
     # reset shared scan state between tests
     watchlist_routes._reset_scan_state()

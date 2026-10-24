@@ -2127,6 +2127,19 @@
     "runHistoryTitle": "Histórico de execuções",
     "asOf": "As of",
     "colAsOf": "As of",
-    "intradayBanner": "Dados intradiários - não é um snapshot de fechamento"
+    "intradayBanner": "Dados intradiários - não é um snapshot de fechamento",
+    "sectorTitle": "By sector: top {{n}}",
+    "sectorLevelAria": "Sector level",
+    "sectorLevelL1": "Sectors",
+    "sectorLevelL2": "Industries",
+    "sectorRunAria": "Scan to show",
+    "sectorRunLatest": "Latest scan",
+    "sectorNote": "Ranked by rule score only, not AI-reviewed. Shenwan classification · {{scored}} scored stocks · trade date {{date}}.",
+    "sectorPickerAria": "Choose a sector",
+    "sectorMarketRank": "#{{rank}} overall",
+    "sectorInPicks": "Top {{n}}",
+    "sectorWatching": "Watching",
+    "sectorAddAria": "Add {{name}} ({{code}}) to the watchlist",
+    "sectorEmpty": "This scan has no scored stocks."
   }
 }

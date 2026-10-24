@@ -579,6 +579,55 @@ export interface WatchlistRunSummary {
   counts?: Record<string, number>;
 }
 
+/** Sector grain of `GET /api/watchlist/sectors`: Shenwan level-1 sectors or level-2 industries. */
+export type WatchlistSectorLevel = "l1" | "l2";
+
+/** One scored stock inside a sector list (rule score only, never AI-reviewed). */
+export interface WatchlistSectorStock {
+  code: string;
+  name?: string | null;
+  board?: string | null;
+  /** Shenwan level-2 industry label as stored by the scan. */
+  industry: string;
+  /** Shenwan level-1 sector ("其他" when the label is not in the map). */
+  sector: string;
+  score: number;
+  sub_scores?: WatchlistSubScores | null;
+  /** 1-based rank inside this sector (or industry, at level l2). */
+  sector_rank: number;
+  /** 1-based rank across every scored stock; equals a pick's rule rank. */
+  market_rank: number;
+  /** In this run's top picks. */
+  in_picks: boolean;
+  /** On the current watchlist (active, any origin) when the view was built. */
+  watching: boolean;
+}
+
+/** One sector with its scored-stock count and its top N. */
+export interface WatchlistSector {
+  name: string;
+  count: number;
+  leader_score: number;
+  top: WatchlistSectorStock[];
+}
+
+/** Response body `ranking` of `GET /api/watchlist/sectors`. */
+export interface WatchlistSectorRanking {
+  run: {
+    run_id: string;
+    trade_date?: string | null;
+    status?: "ok" | "partial" | "failed" | null;
+    finished_at?: string | null;
+    ai_status?: string | null;
+    intraday?: boolean | null;
+  } | null;
+  level: WatchlistSectorLevel;
+  limit: number;
+  scored_total: number;
+  picks_count: number;
+  sectors: WatchlistSector[];
+}
+
 /** A single schedule slot inside settings (`get_settings()["schedule"]`). */
 export interface WatchlistScheduleSettings {
   enabled: boolean;
@@ -871,6 +920,17 @@ export const api = {
       body: JSON.stringify(patch),
     }),
   getWatchlistSchedule: () => request<WatchlistScheduleStatus>("/api/watchlist/schedule"),
+  /** Top N per sector for one run (default: latest successful run, level l1, N=10). */
+  getWatchlistSectors: (params?: { runId?: string; level?: WatchlistSectorLevel; limit?: number }) => {
+    const q = new URLSearchParams();
+    if (params?.runId) q.set("run_id", params.runId);
+    if (params?.level) q.set("level", params.level);
+    if (params?.limit !== undefined) q.set("limit", String(params.limit));
+    const qs = q.toString();
+    return request<{ status: string; ranking: WatchlistSectorRanking }>(
+      `/api/watchlist/sectors${qs ? `?${qs}` : ""}`,
+    );
+  },
 
   // Connector runtime channel — privileged surface actions (NOT agent tools).
   // commit is the ONLY action that writes a mandate; halt trips the kill switch.

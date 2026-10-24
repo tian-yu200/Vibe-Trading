@@ -14,6 +14,11 @@ import uuid
 from typing import Any, Callable
 
 from src.market_scanner.config import ScanConfig
+from src.market_scanner.sectors import (
+    OTHER_SECTOR,
+    UNCLASSIFIED_INDUSTRY,
+    sector_of,
+)
 from src.watchlist.store import WatchlistStore
 
 logger = logging.getLogger(__name__)
@@ -24,8 +29,30 @@ _SCHEDULE_DEFAULTS = {
     "time": "18:00",
     "timezone": "Asia/Shanghai",
     "catch_up": True,
+    # One ceiling for both the fire's wait for a warm-up and the warm-up's own
+    # deadline; ``0`` means a 0 s cap, not "unset".
+    "warmup_wait_min": 60,
 }
 _SCHEDULE_ENV = "VIBE_TRADING_WATCHLIST_SCHEDULE"
+_WARMUP_WAIT_MIN_MAX = 120
+#: Sector view: ``l1`` = Shenwan level-1 sectors, ``l2`` = level-2 industries.
+SECTOR_LEVELS = ("l1", "l2")
+SECTOR_LIMIT_MAX = 50
+
+
+def _validated_warmup_wait_min(value: Any) -> int:
+    """Gate for ``schedule.warmup_wait_min``: an int in 0..120, bool rejected."""
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise ValueError(
+            "schedule.warmup_wait_min must be an integer number of minutes "
+            f"between 0 and {_WARMUP_WAIT_MIN_MAX} (got {value!r})"
+        )
+    if not 0 <= value <= _WARMUP_WAIT_MIN_MAX:
+        raise ValueError(
+            "schedule.warmup_wait_min must be between 0 and "
+            f"{_WARMUP_WAIT_MIN_MAX} minutes (got {value})"
+        )
+    return value
 
 
 class ScanAlreadyRunning(RuntimeError):
@@ -129,6 +156,79 @@ def _pid_alive(pid: int) -> bool:
         return True
 
 
+def _pid_start_time(pid: int) -> float | None:
+    """Process creation time as a UNIX timestamp, or ``None`` (never raises).
+
+    The pid alone is a weak identity: when a holder dies its pid is handed
+    to an unrelated process soon enough, so "that pid is alive" does not
+    mean "that process still owns our lock". Comparing the creation time
+    recorded in the lock against the process that owns the pid today tells
+    the two apart, which is what stale-lock breaking needs.
+
+    Windows: ctypes ``OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION)`` +
+    ``GetProcessTimes`` (its ``lpCreationTime`` FILETIME, converted from the
+    1601 epoch with the 100 ns ticks). POSIX: ``/proc/<pid>/stat`` field 22
+    (``starttime``, in clock ticks since boot) folded over ``/proc/stat``
+    ``btime``. Anything else, or any failure, yields ``None`` so callers
+    fall back to pid-only judgement.
+    """
+    if pid <= 0:
+        return None
+    try:
+        if os.name == "nt":
+            import ctypes
+            from ctypes import wintypes
+
+            PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+            kernel32 = ctypes.windll.kernel32
+            handle = kernel32.OpenProcess(
+                PROCESS_QUERY_LIMITED_INFORMATION, False, wintypes.DWORD(pid)
+            )
+            if not handle:
+                return None
+            try:
+                creation = wintypes.FILETIME()
+                exit_time = wintypes.FILETIME()
+                kernel_time = wintypes.FILETIME()
+                user_time = wintypes.FILETIME()
+                if not kernel32.GetProcessTimes(
+                    handle,
+                    ctypes.byref(creation),
+                    ctypes.byref(exit_time),
+                    ctypes.byref(kernel_time),
+                    ctypes.byref(user_time),
+                ):
+                    return None
+                ticks = (creation.dwHighDateTime << 32) | creation.dwLowDateTime
+                if not ticks:
+                    return None
+                # FILETIME: 100 ns ticks since 1601-01-01 UTC -> unix seconds.
+                return ticks / 1e7 - 11644473600.0
+            finally:
+                kernel32.CloseHandle(handle)
+        stat_path = f"/proc/{pid}/stat"
+        if not os.path.exists(stat_path):
+            return None
+        with open(stat_path, "r", encoding="ascii", errors="replace") as fh:
+            data = fh.read()
+        close = data.rfind(")")
+        if close < 0:
+            return None
+        fields = data[close + 1 :].split()
+        start_ticks = int(fields[19])
+        boot_epoch = None
+        with open("/proc/stat", "r", encoding="ascii") as fh:
+            for line in fh:
+                if line.startswith("btime"):
+                    boot_epoch = float(line.split()[1])
+                    break
+        if boot_epoch is None:
+            return None
+        return boot_epoch + start_ticks / os.sysconf("SC_CLK_TCK")
+    except Exception:  # noqa: BLE001 — a probe must never break the caller
+        return None
+
+
 def _read_lock_file(path: Path) -> dict | None:
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
@@ -213,6 +313,18 @@ class CrossProcessScanLock:
 
     def is_locked_by_live_process(self) -> bool:
         if not self._path.exists():
+            return False
+        # Same age rule as _break_stale_lock (and therefore as acquire, which
+        # breaks an aged lock and takes it): a file older than the stale limit
+        # is NOT held even when its pid is alive. Without this the API's
+        # is_scanning() pre-check answered 409 forever for a lock the acquire
+        # path would happily have deleted (observed live: scan.lock outliving
+        # its job by 21 h).
+        try:
+            age = time.time() - self._path.stat().st_mtime
+        except OSError:
+            return False  # vanished between exists() and stat()
+        if age > _LOCK_STALE_S:
             return False
         info = _read_lock_file(self._path)
         if info is None:
@@ -395,13 +507,21 @@ class WatchlistService:
         return {"scan": scan, "schedule": schedule}
 
     def update_settings(self, patch: dict[str, Any]) -> dict[str, Any]:
-        """Apply a partial settings patch and return the new settings."""
+        """Apply a partial settings patch and return the new settings.
+
+        Raises:
+            ValueError: ``schedule.warmup_wait_min`` is not an int in 0..120.
+                The check runs before any write, so a rejected patch stores
+                nothing (the PUT route turns this into a 400).
+        """
+        schedule_patch = patch.get("schedule")
+        if isinstance(schedule_patch, dict) and "warmup_wait_min" in schedule_patch:
+            _validated_warmup_wait_min(schedule_patch["warmup_wait_min"])
         scan_patch = patch.get("scan")
         if scan_patch:
             current = ScanConfig.from_dict(self.store.get_setting("scan"))
             merged = {**current.to_dict(), **scan_patch}
             self.store.set_setting("scan", ScanConfig.from_dict(merged).to_dict())
-        schedule_patch = patch.get("schedule")
         if schedule_patch:
             merged = {
                 **_SCHEDULE_DEFAULTS,
@@ -1385,6 +1505,124 @@ class WatchlistService:
     def get_run(self, run_id: str) -> dict[str, Any] | None:
         """One run's summary or None."""
         return self.store.get_run(run_id)
+
+    # -- sector view ------------------------------------------------------------
+    def get_sector_ranking(
+        self,
+        run_id: str | None = None,
+        *,
+        level: str = "l1",
+        limit: int = 10,
+    ) -> dict[str, Any] | None:
+        """Top ``limit`` scored stocks per sector for one run.
+
+        Groups every scored stock of the run (``scan_scores`` rows without an
+        exclusion reason) by Shenwan level-1 sector (``level="l1"``) or by
+        its level-2 industry label (``level="l2"``). Order inside a sector
+        and the market-wide rank follow the pipeline's own ranking (score
+        desc, code asc), so ``market_rank`` equals a pick's ``rule_rank``.
+        Rule score only: the AI review covers the review pool, not these
+        lists. Read-only; the scan and the top-N picks are untouched.
+
+        Args:
+            run_id: The run to rank; default the latest successful run.
+            level: ``"l1"`` (31 sectors) or ``"l2"`` (industries).
+            limit: Stocks shown per sector, 1..SECTOR_LIMIT_MAX.
+
+        Returns:
+            The sector view, or None when ``run_id`` is unknown. With no
+            successful run yet, ``run`` is None and ``sectors`` is empty.
+
+        Raises:
+            ValueError: on an unknown level or a limit out of range.
+        """
+        if level not in SECTOR_LEVELS:
+            raise ValueError(
+                f"unknown sector level {level!r} (expected one of {SECTOR_LEVELS})"
+            )
+        if isinstance(limit, bool) or not isinstance(limit, int) or not (
+            1 <= limit <= SECTOR_LIMIT_MAX
+        ):
+            raise ValueError(
+                f"sector limit must be an integer 1..{SECTOR_LIMIT_MAX} (got {limit!r})"
+            )
+        if run_id is None:
+            run = self.store.last_successful_run()
+        else:
+            run = self.store.get_run_summary(run_id)
+            if run is None:
+                return None
+        view: dict[str, Any] = {
+            "run": None,
+            "level": level,
+            "limit": limit,
+            "scored_total": 0,
+            "picks_count": 0,
+            "sectors": [],
+        }
+        if run is None:
+            return view
+
+        scored = sorted(
+            (
+                row
+                for row in self.store.get_scores(run["run_id"]).values()
+                if row.get("score") is not None and row.get("exclusion_reason") is None
+            ),
+            key=lambda row: (-row["score"], row["code"]),
+        )
+        picks = {p["code"] for p in self.store.get_picks(run["run_id"])}
+        watching = set(self.store.active_codes())
+
+        groups: dict[str, dict[str, Any]] = {}
+        for market_rank, row in enumerate(scored, start=1):
+            industry = row.get("industry") or UNCLASSIFIED_INDUSTRY
+            sector = sector_of(industry)
+            key = sector if level == "l1" else industry
+            group = groups.setdefault(
+                key,
+                {"name": key, "count": 0, "leader_score": row["score"], "top": []},
+            )
+            group["count"] += 1
+            if len(group["top"]) >= limit:
+                continue
+            group["top"].append(
+                {
+                    "code": row["code"],
+                    "name": row.get("name"),
+                    "board": row.get("board"),
+                    "industry": industry,
+                    "sector": sector,
+                    "score": row["score"],
+                    "sub_scores": {
+                        "fundamental": row.get("fundamental"),
+                        "trend": row.get("trend"),
+                        "flow": row.get("flow"),
+                    },
+                    "sector_rank": group["count"],
+                    "market_rank": market_rank,
+                    "in_picks": row["code"] in picks,
+                    "watching": row["code"] in watching,
+                }
+            )
+
+        # Strongest leader first; the catch-all buckets always last.
+        catch_all = (OTHER_SECTOR, UNCLASSIFIED_INDUSTRY)
+        view["sectors"] = sorted(
+            groups.values(),
+            key=lambda g: (g["name"] in catch_all, -g["leader_score"], g["name"]),
+        )
+        view["run"] = {
+            "run_id": run["run_id"],
+            "trade_date": run.get("trade_date"),
+            "status": run.get("status"),
+            "finished_at": run.get("finished_at"),
+            "ai_status": run.get("ai_status"),
+            "intraday": bool(run.get("intraday")),
+        }
+        view["scored_total"] = len(scored)
+        view["picks_count"] = len(picks)
+        return view
 
     # -- staleness --------------------------------------------------------------
     def staleness(self) -> dict[str, Any]:

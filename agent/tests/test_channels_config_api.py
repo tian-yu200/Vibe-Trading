@@ -26,6 +26,7 @@ from src.api import channels_config_routes as routes
 from src.api import state as api_state
 from src.channels import email_probe
 from src.channels.dingtalk import DINGTALK_AVAILABLE, DingTalkChannel
+from src.config.paths import display_path
 
 CLIENT_ID = "ding-client-id-1234567890"
 STORED_SECRET = "stored-secret-abcdefghij"
@@ -195,7 +196,7 @@ def test_get_masks_secrets_and_reports_writable(tmp_path: Path, monkeypatch) -> 
 
     assert response.status_code == 200
     payload = response.json()
-    assert payload["config_path"] == path.name
+    assert payload["config_path"] == display_path(path)
     assert payload["writable"] is True
     assert payload["runtime_running"] is False
 
@@ -242,7 +243,7 @@ def test_get_reports_not_writable_for_yaml_config(tmp_path: Path, monkeypatch) -
     assert response.status_code == 200
     payload = response.json()
     assert payload["writable"] is False
-    assert payload["config_path"] == path.name
+    assert payload["config_path"] == display_path(path)
     assert payload["channels"]["dingtalk"]["values"]["client_id"] == CLIENT_ID
     assert STORED_SECRET not in response.text
 
@@ -325,11 +326,36 @@ def test_pristine_form_roundtrip_validates_for_typed_fields(
     assert "form-typed-secret-xyz987654321" not in response.text
 
 
-def test_display_config_path_relativizes_home() -> None:
-    home = Path.home()
+def _fake_login(monkeypatch, home: Path, login: str = "vtuser") -> None:
+    """Pin ``Path.home()`` and the login name. Both are invented, never real."""
+    monkeypatch.setattr(Path, "home", classmethod(lambda cls: home))
+    monkeypatch.setenv("USERNAME", login)
+
+
+def test_display_config_path_collapses_under_a_home_that_carries_the_login(
+    monkeypatch,
+) -> None:
+    home = Path("C:/Users/vtuser")
+    _fake_login(monkeypatch, home)
 
     assert routes._display_config_path(home / "sub" / "agent.json") == "~/sub/agent.json"
-    assert routes._display_config_path(Path("/not-under-home/agent.json")) == "agent.json"
+
+
+def test_display_config_path_shows_the_pinned_server_home(monkeypatch) -> None:
+    """The server pins USERPROFILE to a project dir: the real file, not ``~/``."""
+    home = Path("E:/vibe-trading/home")
+    _fake_login(monkeypatch, home)
+
+    rendered = routes._display_config_path(home / ".vibe-trading" / "agent.json")
+    assert rendered == "E:/vibe-trading/home/.vibe-trading/agent.json"
+
+
+def test_display_config_path_masks_the_login_outside_home(monkeypatch) -> None:
+    _fake_login(monkeypatch, Path("E:/vibe-trading/home"))
+
+    rendered = routes._display_config_path(Path("C:/Users/vtuser/.vibe-trading/agent.json"))
+    assert rendered == "C:/Users/<user>/.vibe-trading/agent.json"
+    assert "vtuser" not in rendered
 
 
 # --------------------------------------------------------------------------- #

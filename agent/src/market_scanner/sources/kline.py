@@ -1316,6 +1316,7 @@ class WarmResult:
     skipped_known_missing: int = 0
     requests: int = 0
     intraday_dropped: int = 0
+    intraday_no_store: int = 0
     duration_s: float = 0.0
     stopped_unavailable: bool = False
     aborted: bool = False
@@ -1331,6 +1332,7 @@ class WarmResult:
             "skipped_known_missing": self.skipped_known_missing,
             "requests": self.requests,
             "intraday_dropped": self.intraday_dropped,
+            "intraday_no_store": self.intraday_no_store,
             "duration_s": round(self.duration_s, 1),
             "stopped_unavailable": self.stopped_unavailable,
             "aborted": self.aborted,
@@ -1618,9 +1620,14 @@ def warm_cache(symbols: list[str], target_trade_date: _dt.date, *,
                     if full is None or len(full) == 0:
                         # Only today's partial bar came back: nothing
                         # storable, retried next run (no 24 h block).
-                        result.failed += 1
-                        limiter.note_result(
-                            False, elapsed_s=time.monotonic() - t_req)
+                        # F5e: this is a SUCCESS at the HTTP layer — the
+                        # request worked and the intraday guard dropped the
+                        # bar. Counting it as a failure (and feeding the
+                        # limiter a pseudo error) is what tripped the F4
+                        # outage stop on 2026-10-19 (187 failed / 186
+                        # intraday / "52% errors"). It is tallied apart and
+                        # never reaches the limiter.
+                        result.intraday_no_store += 1
                     else:
                         cache.put_frame(code, full, "tencent")
                         cache.clear_known_missing(sym)
@@ -1631,9 +1638,10 @@ def warm_cache(symbols: list[str], target_trade_date: _dt.date, *,
                 limiter.note_result(True, elapsed_s=time.monotonic() - t_req)
                 result.requests += 1
                 if full is None or len(full) == 0:
-                    result.failed += 1
-                    limiter.note_result(
-                        False, elapsed_s=time.monotonic() - t_req)
+                    # F5e: pure intraday drop — the request succeeded, only
+                    # the forming bar was dropped. Not an error: separate
+                    # counter, never the limiter, never known-missing.
+                    result.intraday_no_store += 1
                 else:
                     cache.put_frame(code, full, "tencent")
                     cache.clear_known_missing(sym)

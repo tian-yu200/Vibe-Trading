@@ -18,6 +18,7 @@ from urllib.parse import urlsplit
 from pydantic import PrivateAttr
 
 from src.config.accessor import get_env_config, reset_env_config
+from src.config.paths import get_runtime_root_or_default
 from src.providers.session_context import current_llm_session_id
 from src.providers.capabilities import (
     ProviderCapabilities,
@@ -842,9 +843,9 @@ else:
 
 AGENT_DIR = Path(__file__).resolve().parents[2]
 
-# .env search order: ~/.vibe-trading/.env → agent/.env → $CWD/.env
+# .env search order: <runtime home>/.env → agent/.env → $CWD/.env
 _ENV_CANDIDATES = [
-    Path.home() / ".vibe-trading" / ".env",
+    get_runtime_root_or_default() / ".env",
     AGENT_DIR / ".env",
     Path.cwd() / ".env",
 ]
@@ -853,7 +854,7 @@ _ENV_CANDIDATES = [
 # .env path (it leaks the OS username / home / CWD). The label names
 # which slot won - the entire P08 R1 signal - using compile-time
 # constants only.
-_ENV_LABELS = ("~/.vibe-trading/.env", "<AGENT_DIR>/.env", "<CWD>/.env")
+_ENV_LABELS = ("<RUNTIME_HOME>/.env", "<AGENT_DIR>/.env", "<CWD>/.env")
 
 # Kimi reasoning models (K-series: kimi-k2*, kimi-k3, …, and the
 # kimi-for-coding alias) reject any temperature other than 1 with

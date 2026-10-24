@@ -46,6 +46,35 @@ from .sources._common import resolve_board
 
 logger = logging.getLogger(__name__)
 
+#: Reason string for a BSE (北交所) listing, stage 2 of the funnel. Kept as a
+#: module constant because the same verdict is produced by :func:`is_bse_code`
+#: and by stage 2 of the scan funnel; both must stay in lock-step.
+BSE_UNSUPPORTED_REASON = "excluded:bse_unsupported: BSE (北交所) listing not supported yet"
+
+
+def is_bse_code(code: Any, board: Any = None,
+                   resolved: Any = None) -> bool:
+    """True for a BSE (北交所) listing, which the pipeline cannot price.
+
+    The single shared predicate for stage 2 of the exclusion funnel
+    (``excluded:bse_unsupported``) and for the warm-up's universe filter:
+    the scan drops BSE codes, so warming their K-lines would spend the rate
+    budget on data the scan never reads.
+
+    Args:
+        code: 6-digit code (prefix wins over ``board``).
+        board: Optional vendor-supplied board string (Sina carries none).
+        resolved: Optional already-resolved board (skips the second call,
+            used by :func:`_early_reason` which needs ``board`` later).
+
+    Returns:
+        True when :func:`resolve_board` reports ``"bse"``.
+    """
+    if resolved is None:
+        resolved = resolve_board(code, board)
+    return str(resolved) == "bse"
+
+
 #: Bars of K-line history that prove a stock has been listed for more than
 #: one trading year (~250 trading days), used as the ``new_listing`` age
 #: fallback when ``list_date`` is unknown.
@@ -356,8 +385,8 @@ def _early_reason(
 ) -> str | None:
     """Evaluate stages 2-8 against one universe row; None means pass."""
     board = resolve_board(code, _cell(row, "board"))
-    if str(board) == "bse":
-        return "excluded:bse_unsupported: BSE (北交所) listing not supported yet"
+    if is_bse_code(code, _cell(row, "board"), resolved=board):
+        return BSE_UNSUPPORTED_REASON
 
     if bool(_cell(row, "is_st")):
         return "excluded:st: ST / risk-warning designation"
